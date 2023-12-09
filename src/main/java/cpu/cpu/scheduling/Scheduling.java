@@ -17,12 +17,17 @@ import java.util.Vector;
 public abstract class Scheduling {
     protected List<Process> processes;
     protected List<Process> finishedProcesses;
-    protected int quantum;
-    protected int contextSwitching;
+    protected int quantum = 0;
+    protected int contextSwitching = 0;
     protected int CurrentTime;
     public Scheduling(Vector<Process> ps){
-        processes.addAll(ps);
         this.finishedProcesses = new LinkedList<>();
+        this.processes = new LinkedList<>();
+        for(Process p : ps){
+            p.setQuantum(quantum); processes.add(p);
+        }
+        processes.addAll(ps);
+        processes.sort(Comparator.comparingInt(Process::getArrivalTime));
     }
     List<Process> getProcesses(){
         return processes;

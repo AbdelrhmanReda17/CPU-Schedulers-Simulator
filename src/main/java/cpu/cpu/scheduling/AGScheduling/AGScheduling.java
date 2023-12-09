@@ -34,20 +34,18 @@ public class AGScheduling extends Scheduling {
     }
     private double GetMean(Vector<Process> processes) {
         double sum = 0.0, count = processes.size();
-        for (int i = 0; i < count; i++) {
-            sum += AGFactor.get(i);
+        for (Process ps : processes) {
+            sum += ps.getBurstTime();
         }
         return (double) (sum / count);
     }
-
     @Override
     public Vector<Process> execute() {
         while (doneProcesses < numberOfProcesses || !readyQueue.isEmpty()) {
-//            remakeReadyList();
+//       remakeReadyList();
         }
         return null;
     }
-
 //    private void remakeReadyList() {
 //        while (!processes.isEmpty()) {
 //            assert readyQueue.peek() != null;
