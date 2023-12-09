@@ -4,7 +4,7 @@ package cpu.cpu.scheduling;
 import cpu.cpu.scheduling.AGScheduling.AGScheduling;
 import cpu.cpu.scheduling.PriorityScheduling.PriorityScheduling;
 import cpu.cpu.scheduling.SJFScheduling.SJFScheduling;
-import cpu.cpu.scheduling.SRTFScheduling.STRFScheduling;
+import cpu.cpu.scheduling.SRTFScheduling.SRTFScheduling;
 
 import java.util.Vector;
 import cpu.cpu.simulator.Utilities.Process;
@@ -24,7 +24,7 @@ public class SchedulingFactory {
             case "Shortest- Job First(SJF)" -> new SJFScheduling(processes , contextSwitch , quantum);
             case "Priority Scheduling" -> new PriorityScheduling(processes , contextSwitch , quantum);
             case "AG Scheduling" -> new AGScheduling(processes , contextSwitch , quantum);
-            case "Shortest- Remaining Time First (SRTF)" -> new STRFScheduling(processes , contextSwitch , quantum);
+            case "Shortest- Remaining Time First (SRTF)" -> new SRTFScheduling(processes , contextSwitch , quantum);
             default -> null;
         };
     }
