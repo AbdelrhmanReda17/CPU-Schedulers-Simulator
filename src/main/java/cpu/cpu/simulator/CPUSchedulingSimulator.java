@@ -1,19 +1,21 @@
-package cpu.cpu.scheduling.simulator;
+package cpu.cpu.simulator;
 
+import cpu.cpu.scheduling.Scheduling;
+import cpu.cpu.scheduling.SchedulingFactory;
 import java.util.Vector;
-import cpu.cpu.scheduling.simulator.Utilities.Process;
+import cpu.cpu.simulator.Utilities.Process;
+
 import javax.swing.JFrame;
+
 
 public class CPUSchedulingSimulator extends javax.swing.JFrame {
     // Scheduling Parameter
     private static JFrame main;
-    private static Vector<Process> processes;
+    private static Scheduling scheduling;
 
     public CPUSchedulingSimulator() {
         initComponents();
     }
-
- 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -42,9 +44,9 @@ public class CPUSchedulingSimulator extends javax.swing.JFrame {
        main.setVisible(true);
     }//GEN-LAST:event_formWindowClosing
 
-    public static void StartGUI(JFrame frame ,String SchedulingName , Vector<Process> vp  ){
+    public static void StartGUI(JFrame frame ,String SchedulingName , Vector<Process> processes  ){
         main = frame;
-        processes = vp;
+        scheduling = SchedulingFactory.createScheduling(SchedulingName , processes);
         // Call the Factor with the Scheduling Name
         java.awt.EventQueue.invokeLater(() -> {
             new CPUSchedulingSimulator().setVisible(true);
