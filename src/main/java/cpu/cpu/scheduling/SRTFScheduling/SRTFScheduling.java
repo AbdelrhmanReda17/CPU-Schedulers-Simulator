@@ -35,22 +35,23 @@ public class SRTFScheduling extends Scheduling {
             shortestProcessPQ.addAll(getAllProcessesAtTime(currentTime));
 
             Time startTime = new Time(currentTime);
-            Time endTime = new Time(0);
             while (!shortestProcessPQ.isEmpty()) {
                 Process shortestProcess = shortestProcessPQ.poll();
                 shortestProcessPQ.addAll(getAllProcessesAtTime(currentTime));
 
                 if (!shortestProcessPQ.isEmpty()
-                        && shortestProcessPQ.peek().getRemainingTime() < shortestProcess.getRemainingTime()) {
+                        && shortestProcessPQ.peek().getRemainingTime() < shortestProcess.getRemainingTime()
+                        && shortestProcess.getAge() < shortestProcess.getMaxAge()) {
 
-                    saveDuration(shortestProcess, startTime, endTime, currentTime);
+                    shortestProcess.setAge(shortestProcess.getAge() + 1);
+                    saveDuration(shortestProcess, startTime, currentTime);
                     shortestProcessPQ.add(shortestProcess);
                     shortestProcess = shortestProcessPQ.poll();
                 }
 
                 shortestProcess.setRemainingTime(shortestProcess.getRemainingTime() - 1);
                 if (shortestProcess.getRemainingTime() <= 0) {
-                    saveDuration(shortestProcess, startTime, endTime, currentTime);
+                    saveDuration(shortestProcess, startTime, currentTime);
                     finishedProcesses.add(shortestProcess);
                 } else {
                     shortestProcessPQ.add(shortestProcess);
@@ -76,9 +77,8 @@ public class SRTFScheduling extends Scheduling {
         return foundProcesses;
     }
 
-    private void saveDuration(Process process, Time startTime, Time endTime, int currentTime) {
-        endTime = new Time(currentTime);
-        process.addDuration(new Duration(startTime, endTime));
+    private void saveDuration(Process process, Time startTime, int currentTime) {
+        process.addDuration(new Duration(startTime, new Time(currentTime)));
         startTime = new Time(currentTime);
     }
 }

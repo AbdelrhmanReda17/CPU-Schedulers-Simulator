@@ -113,8 +113,14 @@ public class Process {
     public int getAge() {
         return age;
     }
+    public void setAge(int age) {
+        this.age = age;
+    }
     public int getMaxAge() {
         return maxAge;
+    }
+    public void setMaxAge(int maxAge) {
+        this.maxAge = maxAge;
     }
     public int getTurnAroundTime() {
         return turnAroundTime;
