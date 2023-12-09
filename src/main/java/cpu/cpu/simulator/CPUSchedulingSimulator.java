@@ -51,9 +51,9 @@ public class CPUSchedulingSimulator extends javax.swing.JFrame {
        main.setVisible(true);
     }//GEN-LAST:event_formWindowClosing
 
-    public static void StartGUI(JFrame frame ,String SchedulingName , Vector<Process> processes){
+    public static void StartGUI(JFrame frame ,String SchedulingName , Vector<Process> processes , int ContextSwitchingTime , int QuantumTime){
         main = frame;
-        scheduling = SchedulingFactory.createScheduling(SchedulingName , processes);
+        scheduling = SchedulingFactory.createScheduling(SchedulingName , processes , ContextSwitchingTime , QuantumTime);
         // Call the Factor with the Scheduling Name
         java.awt.EventQueue.invokeLater(() -> {
             new CPUSchedulingSimulator().setVisible(true);

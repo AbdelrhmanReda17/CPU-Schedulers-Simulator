@@ -523,15 +523,11 @@ public class main extends javax.swing.JFrame {
             return;
         }
         this.setVisible(false);
-        CPUSchedulingSimulator.StartGUI( this ,(String) jSchedulingChooser.getSelectedItem() , processes);
-        if(isContextSwitching){
-            CPUSchedulingSimulator.getScheduling().setContextSwitching(Integer.parseInt(this.jContextField.getText()));
-        }else if (isQuantum){
-            CPUSchedulingSimulator.getScheduling().setQuantum(Integer.parseInt(this.jQuantumField.getText()));
-        }
+        CPUSchedulingSimulator.StartGUI( this ,(String) jSchedulingChooser.getSelectedItem() , processes ,
+                isContextSwitching ? Integer.parseInt(this.jContextField.getText()) : 0 ,
+                isQuantum ? Integer.parseInt(this.jQuantumField.getText()) : 0  );
         CPUSchedulingSimulator.StartLogic();
-    }//GEN-LAST:event_jStartSimulateActionPerformed
-
+    }
     private void jDeleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jDeleteButtonActionPerformed
         int  selectedRow = this.jProcessTable.getSelectedRow();
         if (selectedRow != -1) {

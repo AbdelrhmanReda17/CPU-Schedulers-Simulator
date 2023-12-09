@@ -14,8 +14,8 @@ import cpu.cpu.simulator.Utilities.Process;
  */
 public class STRFScheduling extends Scheduling {
 
-    public STRFScheduling(Vector<Process> ps) {
-        super(ps);
+    public STRFScheduling(Vector<Process> ps , int contextSwitch , int quantum){
+        super(ps , contextSwitch , quantum);
     }
 
     @Override

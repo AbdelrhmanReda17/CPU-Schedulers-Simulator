@@ -20,13 +20,15 @@ public abstract class Scheduling {
     public void print(){
         System.out.println(contextSwitching + " " + quantum );
     }
-    public Scheduling(Vector<Process> ps){
+    public Scheduling(Vector<Process> ps ,int contextSwitch , int quantum){
         this.finishedProcesses = new LinkedList<>();
         this.processes = new LinkedList<>();
+        this.quantum = quantum;
+        this.contextSwitching = contextSwitch;
         for(Process p : ps){
             p.setQuantum(new AbstractMap.SimpleEntry<>(quantum, 0));
             processes.add(p);
-            System.out.println(p);
+//            System.out.println(p);
         }
         processes.addAll(ps);
         processes.sort(Comparator.comparingInt(Process::getArrivalTime));

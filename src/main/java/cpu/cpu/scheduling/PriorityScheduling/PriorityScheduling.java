@@ -13,8 +13,8 @@ import java.util.Vector;
  * @author abdelrahman
  */
 public class PriorityScheduling extends Scheduling {
-    public PriorityScheduling(Vector<Process> ps){
-        super(ps);
+    public PriorityScheduling(Vector<Process> ps , int contextSwitch , int quantum){
+        super(ps , contextSwitch , quantum);
     }
 
     @Override

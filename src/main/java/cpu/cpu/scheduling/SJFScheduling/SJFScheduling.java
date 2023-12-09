@@ -14,8 +14,8 @@ import cpu.cpu.simulator.Utilities.Process;
  * @author abdelrahman
  */
 public class SJFScheduling extends Scheduling {
-    public SJFScheduling(Vector<Process> ps){
-        super(ps);
+    public SJFScheduling(Vector<Process> ps , int contextSwitch , int quantum){
+        super(ps , contextSwitch , quantum);
     }
     @Override
     public Vector<Process> execute() {

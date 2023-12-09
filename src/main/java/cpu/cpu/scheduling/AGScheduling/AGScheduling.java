@@ -19,8 +19,8 @@ public class AGScheduling extends Scheduling {
     private boolean isSwitching = false;
     private Process currentProcess;
     private int doneProcesses;
-    public AGScheduling(Vector<Process> processes) {
-        super(processes);
+    public AGScheduling(Vector<Process> processes , int contextSwitch , int quantum) {
+        super(processes , contextSwitch , quantum);
         this.numberOfProcesses = processes.size();
         this.doneProcesses = 0;
         this.currentTime = 0;
