@@ -15,8 +15,8 @@ import java.util.*;
 public class AGScheduling extends Scheduling {
     Queue<Process> readyQueue = new LinkedList<>();
     List<Process> processesAG = new LinkedList<>();
+    List<Process> deadList = new LinkedList<>();
     private final int numberOfProcesses;
-    private boolean isSwitching = false;
     private Process currentProcess;
     private int doneProcesses;
     public AGScheduling(Vector<Process> processes , int contextSwitch , int quantum) {
@@ -32,50 +32,45 @@ public class AGScheduling extends Scheduling {
         for (Process ps : processes) {
             sum += ps.getBurstTime();
         }
-        return (double) (sum / count);
+        return (double)(sum / count);
     }
     @Override
     public Vector<Process> execute() {
-        while (doneProcesses < numberOfProcesses || !readyQueue.isEmpty()) {
-            remakeReadyList();
-            if (currentProcess == null && !readyQueue.isEmpty()) {
-                currentProcess = readyQueue.poll();
-            }
-            if (currentProcess != null) {
-                executeProcess();
-            }
+        while(!processes.isEmpty() || !readyQueue.isEmpty()){
+
         }
-        return null;
     }
-    private void addProcessToReadyQueue(Process process) {
-        readyQueue.add(process);
-        process.setLastWaitTime(currentTime);
-    }
-    private void ceilAGFactor() {
-        for (Process process : processes) {
-            process.setAGFactor(Math.ceil( process.getAGFactor() * 0.5 ));
-        }
+    private boolean nonPreemptive(Process process) {
+
     }
 
-    private void executeProcess() {
-        int timeExecute = Math.min(currentProcess.getQuantum().getValue(), currentProcess.getBurstTime());
-        currentTime += timeExecute;
-        currentProcess.setBurstTime(currentProcess.getBurstTime() - timeExecute);
-        this.calculateWaitingTime(currentProcess);
-        if(currentProcess.getArrivalTime() > 0){
-                readyQueue.add(currentProcess);
-                currentProcess.setQuantum(Map.entry(currentProcess.getQuantum().getKey() +
-                        (int) Math.ceil(0.1 * GetMean(processes)) , currentProcess.getQuantum().getValue() + 1));
+//    private void addProcessToReadyQueue(Process process) {
+//        readyQueue.add(process);
+//        process.setLastWaitTime(currentTime);
+//    }
+//    private void ceilAGFactor() {
+//        for (Process process : processes) {
+//            process.setAGFactor(Math.ceil( process.getAGFactor() * 0.5 ));
+//        }
+//    }
+
+    private boolean executenonPreemptive(Process process) {
+        if(process.getQuantum().getKey() >= process.getRemainingTime()){
+            currentTime += process.getRemainingTime();
+            process.setRemainingTime(0);
+            process.setQuantum(Map.entry(0,0));
+            deadList.add(process);
+            processes.remove(process);
+            processesAG.remove(process);
+            return true;
         }else{
-            currentProcess.setQuantum(Map.entry(0,0));
-            doneProcesses++;
+            currentTime += (int) Math.ceil(process.getQuantum().getKey() / 2.0);
+            process.setRemainingTime(process.getRemainingTime() - process.getQuantum().getKey());
+            return false;
         }
     }
 
     private void remakeReadyList() {
-        if(!processes.isEmpty() && readyQueue.isEmpty()) {
-//            this.currentTime = this.processes.getFirst().getArrivalTime();
-        }
         while (!processes.isEmpty()) {
             assert readyQueue.peek() != null;
             if (!(readyQueue.peek().getArrivalTime() <= currentTime)) break;

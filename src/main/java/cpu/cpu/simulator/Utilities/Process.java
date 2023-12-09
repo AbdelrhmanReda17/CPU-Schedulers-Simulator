@@ -5,6 +5,8 @@
 package cpu.cpu.simulator.Utilities;
 
 import java.awt.*;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
@@ -22,6 +24,8 @@ public class Process {
     private Map.Entry<Integer , Integer> quantum ;
     private int lastWaitTime;
     private int finishTime;
+    private int turnAroundTime;
+    private List<Duration> durations;
     private int remainingTime;
     private double AGFactor;
     private int PriorityNumber;
@@ -33,6 +37,8 @@ public class Process {
         this.waitingTime = 0;
         this.lastWaitTime = 0;
         this.AGFactor = 0;
+        this.durations = new LinkedList<>();
+        this.turnAroundTime = 0;
         this.quantum = null;
         this.remainingTime = 0;
         this.finishTime = 0;
@@ -46,6 +52,8 @@ public class Process {
         this.finishTime = 0;
         this.waitingTime = 0;
         this.quantum = null;
+        this.durations = new LinkedList<>();
+        this.turnAroundTime = 0;
         this.remainingTime = 0;
         this.AGFactor = 0;
         this.lastWaitTime = 0;
@@ -63,6 +71,8 @@ public class Process {
         this.burstTime = burstTime;
         this.waitingTime = 0;
         this.lastWaitTime = 0;
+        this.durations = new LinkedList<>();
+        this.turnAroundTime = 0;
         this.remainingTime = burstTime;
         this.quantum = null;
         this.AGFactor = arrivalTime + burstTime ;
@@ -75,6 +85,27 @@ public class Process {
             this.AGFactor = this.AGFactor + 10 ;
         else
             this.AGFactor =this.AGFactor + priority;
+    }
+    public int getTurnAroundTime() {
+        return turnAroundTime;
+    }
+    public void setTurnAroundTime(int turnAroundTime) {
+        this.turnAroundTime = turnAroundTime;
+    }
+    public List<Duration> getDurations() {
+        return durations;
+    }
+    public void addDuration(Duration duration){
+        durations.add(duration);
+    }
+    public void setFinishTime(int finishTime) {
+        this.finishTime = finishTime;
+    }
+    public void setId(int id) {
+        this.id = id;
+    }
+    public void setDurations(List<Duration> durations) {
+        this.durations = durations;
     }
     public int getRemainingTime() {
         return remainingTime;

@@ -16,7 +16,6 @@ public class PriorityScheduling extends Scheduling {
     public PriorityScheduling(Vector<Process> ps , int contextSwitch , int quantum){
         super(ps , contextSwitch , quantum);
     }
-
     @Override
     public Vector<Process> execute() {
         return null;
