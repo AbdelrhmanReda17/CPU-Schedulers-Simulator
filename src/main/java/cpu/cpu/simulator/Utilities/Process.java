@@ -21,10 +21,12 @@ public class Process {
     private int arrivalTime;
     private int burstTime;
     private int waitingTime;
-    private Map.Entry<Integer , Integer> quantum ;
+    private int quantum ;
     private int lastWaitTime;
     private int finishTime;
     private int turnAroundTime;
+    private int age;
+    private int maxAge;
     private List<Duration> durations;
     private int remainingTime;
     private double AGFactor;
@@ -39,7 +41,9 @@ public class Process {
         this.AGFactor = 0;
         this.durations = new LinkedList<>();
         this.turnAroundTime = 0;
-        this.quantum = null;
+        this.age = 0;
+        this.maxAge = 3;
+        this.quantum = 0;
         this.remainingTime = 0;
         this.finishTime = 0;
         this.PriorityNumber = 0;
@@ -51,8 +55,10 @@ public class Process {
         this.burstTime = 0;
         this.finishTime = 0;
         this.waitingTime = 0;
-        this.quantum = null;
+        this.quantum = 0;
         this.durations = new LinkedList<>();
+        this.age = 0;
+        this.maxAge = 3;
         this.turnAroundTime = 0;
         this.remainingTime = 0;
         this.AGFactor = 0;
@@ -67,6 +73,8 @@ public class Process {
         this.waitingTime = process.waitingTime;
         this.quantum = process.quantum;
         this.durations = process.durations;
+        this.age = process.age;
+        this.maxAge = process.maxAge;
         this.turnAroundTime = process.turnAroundTime;
         this.remainingTime = process.remainingTime;
         this.AGFactor = process.AGFactor;
@@ -88,7 +96,9 @@ public class Process {
         this.durations = new LinkedList<>();
         this.turnAroundTime = 0;
         this.remainingTime = burstTime;
-        this.quantum = null;
+        this.age = 0;
+        this.maxAge = 3;
+        this.quantum = 0;
         this.AGFactor = arrivalTime + burstTime ;
         this.finishTime = 0;
         this.PriorityNumber = priority;
@@ -99,6 +109,12 @@ public class Process {
             this.AGFactor = this.AGFactor + 10 ;
         else
             this.AGFactor =this.AGFactor + priority;
+    }
+    public int getAge() {
+        return age;
+    }
+    public int getMaxAge() {
+        return maxAge;
     }
     public int getTurnAroundTime() {
         return turnAroundTime;
@@ -137,10 +153,10 @@ public class Process {
     public double getAGFactor() {
         return AGFactor;
     }
-    public Map.Entry<Integer , Integer> getQuantum() {
+    public int getQuantum() {
         return quantum;
     }
-    public void setQuantum(Map.Entry<Integer , Integer> quantum) {
+    public void setQuantum(int quantum) {
         this.quantum = quantum;
     }
     public void setAGFactor(double AGFactor) {
@@ -188,7 +204,6 @@ public class Process {
     public void setPriorityNumber(int priorityNumber) {
         PriorityNumber = priorityNumber;
     }
-
     @Override
     public String toString() {
         return "Process {" +
@@ -198,8 +213,7 @@ public class Process {
                 ", arrivalTime=" + arrivalTime +
                 ", burstTime=" + burstTime +
                 ", waitingTime=" + waitingTime +
-                ", quantum =" + quantum.getKey() +
-                ", numberOfQuantums=" + quantum.getValue() +
+                ", quantum =" + quantum +
                 ", lastWaitTime=" + lastWaitTime +
                 ", finishTime=" + finishTime +
                 ", remainingTime=" + remainingTime +

@@ -24,7 +24,7 @@ public abstract class Scheduling {
         this.contextSwitching = contextSwitch;
         for(Process p : ps){
             Process newProcess = new Process(p);
-            newProcess.setQuantum(new AbstractMap.SimpleEntry<>(quantum, 0));
+            newProcess.setQuantum(quantum);
             processes.add(newProcess);
         }
         processes.sort(Comparator.comparingInt(Process::getArrivalTime));
