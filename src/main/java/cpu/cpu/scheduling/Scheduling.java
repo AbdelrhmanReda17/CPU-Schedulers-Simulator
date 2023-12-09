@@ -5,6 +5,9 @@
 package cpu.cpu.scheduling;
 import cpu.cpu.simulator.Utilities.Process;
 
+import java.util.Comparator;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Vector;
 
 /**
@@ -12,14 +15,17 @@ import java.util.Vector;
  * @author abdelrahman
  */
 public abstract class Scheduling {
-    private Vector<Process> Processes;
-    private int quantum;
-    private int contextSwitching;
+    protected List<Process> processes;
+    protected List<Process> finishedProcesses;
+    protected int quantum;
+    protected int contextSwitching;
+    protected int CurrentTime;
     public Scheduling(Vector<Process> ps){
-        this.Processes=ps;
+        processes.addAll(ps);
+        this.finishedProcesses = new LinkedList<>();
     }
-    Vector<Process> getProcesses(){
-        return Processes;
+    List<Process> getProcesses(){
+        return processes;
     }
     public abstract Vector<Process> execute();
     public void simulate(){

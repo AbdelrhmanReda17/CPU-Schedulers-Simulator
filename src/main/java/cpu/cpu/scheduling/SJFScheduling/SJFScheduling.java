@@ -17,7 +17,6 @@ public class SJFScheduling extends Scheduling {
     public SJFScheduling(Vector<Process> ps){
         super(ps);
     }
-    
     @Override
     public Vector<Process> execute() {
         return null;

@@ -14,6 +14,7 @@ import cpu.cpu.simulator.Utilities.Process;
 
 public class main extends javax.swing.JFrame {
     private Vector<Process> processes;
+    private static int proccessId = 0;
     Color selectedColor;
     public main() {
         initComponents();
@@ -472,7 +473,7 @@ public class main extends javax.swing.JFrame {
                 "".equals(this.jPriorityField.getText()) ) {
             JOptionPane.showMessageDialog(rootPane, "All fields must be filled out!", "ERROR", JOptionPane.ERROR_MESSAGE);
         } else {
-            Process p = new Process(this.jNameField.getText() , selectedColor ,  Integer.parseInt(this.jArrivalField.getText()),
+            Process p = new Process(proccessId++ , this.jNameField.getText() , selectedColor ,  Integer.parseInt(this.jArrivalField.getText()),
                     Integer.parseInt(this.jBurstField.getText()), Integer.parseInt(this.jPriorityField.getText()));
             if (getProcess(p) != null) {
                 // More meaningful error message
