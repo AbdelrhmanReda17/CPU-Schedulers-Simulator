@@ -1,5 +1,8 @@
 package cpu.cpu.simulator;
 
+import cpu.cpu.scheduling.AGScheduling.AGScheduling;
+import cpu.cpu.scheduling.SJFScheduling.SJFScheduling;
+import cpu.cpu.scheduling.Scheduling;
 import cpu.cpu.scheduling.SchedulingFactory;
 import java.awt.*;
 import java.util.Objects;
@@ -11,11 +14,13 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 import cpu.cpu.simulator.Utilities.Process;
+import java.awt.event.ItemEvent;
 
 public class main extends javax.swing.JFrame {
     private Vector<Process> processes;
     private static int proccessId = 0;
     Color selectedColor;
+    private Scheduling scheduleStrategy;
     public main() {
         initComponents();
         this.setResizable(false);
@@ -84,6 +89,11 @@ public class main extends javax.swing.JFrame {
                 jSchedulingChooserItemStateChanged(evt);
             }
         });
+        jSchedulingChooser.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jSchedulingChooserActionPerformed(evt);
+            }
+        });
 
         jStartSimulate.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jStartSimulate.setText("Start Simulate");
@@ -101,8 +111,7 @@ public class main extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
                         .addGap(6, 6, 6)
-                        .addComponent(jStartSimulate, javax.swing.GroupLayout.PREFERRED_SIZE, 407, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, 0))
+                        .addComponent(jStartSimulate, javax.swing.GroupLayout.PREFERRED_SIZE, 407, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jSchedulingChooser, javax.swing.GroupLayout.PREFERRED_SIZE, 407, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -357,13 +366,10 @@ public class main extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                                    .addContainerGap()
-                                    .addComponent(jAddProcessButton, javax.swing.GroupLayout.PREFERRED_SIZE, 412, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                            .addContainerGap()
+                            .addComponent(jAddProcessButton, javax.swing.GroupLayout.PREFERRED_SIZE, 412, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 10, Short.MAX_VALUE))
         );
@@ -508,6 +514,8 @@ public class main extends javax.swing.JFrame {
         CPUSchedulingSimulator.StartGUI( this ,(String) jSchedulingChooser.getSelectedItem() , processes);
         CPUSchedulingSimulator.getScheduling().setContextSwitching(Integer.parseInt(Objects.equals(this.jContextField.getText(), "") ? "0" : this.jContextField.getText()   ) );
         CPUSchedulingSimulator.getScheduling().setQuantum(Integer.parseInt(Objects.equals(this.jQuantumField.getText(), "") ? "0" : this.jQuantumField.getText()));
+        
+        
     }//GEN-LAST:event_jStartSimulateActionPerformed
 
     private void jDeleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jDeleteButtonActionPerformed
@@ -528,24 +536,33 @@ public class main extends javax.swing.JFrame {
         ((DefaultTableModel) this.jProcessTable.getModel()).removeRow(selectedRow);
     }
     
+    
     private void jSchedulingChooserItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jSchedulingChooserItemStateChanged
-        if(evt.getItem().toString() == "Shortest- Job First(SJF)"){
-            this.jContextField.setEnabled(true);
-            this.jContextLabel.setEnabled(true);
-            this.jQuantumField.setEnabled(false);
-            this.jQuantumLabel.setEnabled(false);
-        }else if(evt.getItem().toString() == "AG Scheduling"){
-            this.jQuantumField.setEnabled(true);
-            this.jQuantumLabel.setEnabled(true);
-            this.jContextField.setEnabled(false);
-            this.jContextLabel.setEnabled(false);
-        }else{
-            this.jQuantumField.setEnabled(false);
-            this.jQuantumLabel.setEnabled(false);
-            this.jContextField.setEnabled(false);
-            this.jContextLabel.setEnabled(false);
+        if (evt.getStateChange() == ItemEvent.SELECTED) {
+            if(evt.getItem().toString() == "Shortest- Job First(SJF)"){
+                this.jContextField.setEnabled(true);
+                this.jContextLabel.setEnabled(true);
+                this.jQuantumField.setEnabled(false);
+                this.jQuantumLabel.setEnabled(false);
+
+            }else if(evt.getItem().toString() == "AG Scheduling"){
+                this.jQuantumField.setEnabled(true);
+                this.jQuantumLabel.setEnabled(true);
+                this.jContextField.setEnabled(false);
+                this.jContextLabel.setEnabled(false);
+            }else{
+                this.jQuantumField.setEnabled(false);
+                this.jQuantumLabel.setEnabled(false);
+                this.jContextField.setEnabled(false);
+                this.jContextLabel.setEnabled(false);
+
+            }
         }
     }//GEN-LAST:event_jSchedulingChooserItemStateChanged
+
+    private void jSchedulingChooserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jSchedulingChooserActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jSchedulingChooserActionPerformed
 
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(() -> {
