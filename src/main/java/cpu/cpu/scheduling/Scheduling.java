@@ -17,20 +17,16 @@ public abstract class Scheduling {
     protected int quantum = 0;
     protected int contextSwitching = 0;
     protected int currentTime;
-    public void print(){
-        System.out.println(contextSwitching + " " + quantum );
-    }
     public Scheduling(Vector<Process> ps ,int contextSwitch , int quantum){
         this.finishedProcesses = new LinkedList<>();
         this.processes = new LinkedList<>();
         this.quantum = quantum;
         this.contextSwitching = contextSwitch;
         for(Process p : ps){
-            p.setQuantum(new AbstractMap.SimpleEntry<>(quantum, 0));
-            processes.add(p);
-//            System.out.println(p);
+            Process newProcess = new Process(p);
+            newProcess.setQuantum(new AbstractMap.SimpleEntry<>(quantum, 0));
+            processes.add(newProcess);
         }
-        processes.addAll(ps);
         processes.sort(Comparator.comparingInt(Process::getArrivalTime));
     }
     List<Process> getProcesses(){

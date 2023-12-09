@@ -59,6 +59,20 @@ public class Process {
         this.lastWaitTime = 0;
         this.PriorityNumber = 0;
     }
+    public Process(Process process){
+        this.name = process.name;
+        this.color = process.color;
+        this.arrivalTime = process.arrivalTime;
+        this.burstTime = process.burstTime;
+        this.waitingTime = process.waitingTime;
+        this.quantum = process.quantum;
+        this.durations = process.durations;
+        this.turnAroundTime = process.turnAroundTime;
+        this.remainingTime = process.remainingTime;
+        this.AGFactor = process.AGFactor;
+        this.lastWaitTime = process.lastWaitTime;
+        this.PriorityNumber = process.PriorityNumber;
+    }
     private static int getRandomNumber(int min, int max) {
         Random random = new Random();
         return random.nextInt(max - min) + min;

@@ -506,7 +506,6 @@ public class main extends javax.swing.JFrame {
                 return;
             }else{
                 isContextSwitching = true;
-                System.out.println("Context Switching : " + this.jContextField.getText());
             }
         }
         if(Objects.equals((String) jSchedulingChooser.getSelectedItem(), "AG Scheduling") ){
@@ -515,7 +514,6 @@ public class main extends javax.swing.JFrame {
                 return;
             }else{
                 isQuantum = true;
-                System.out.println("Quantum : " + this.jQuantumField.getText());
             }
         }
         if(processes.isEmpty()){
