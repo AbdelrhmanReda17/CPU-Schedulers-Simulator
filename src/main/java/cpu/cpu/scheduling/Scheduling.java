@@ -29,7 +29,7 @@ public abstract class Scheduling {
         }
         processes.sort(Comparator.comparingInt(Process::getArrivalTime));
     }
-    List<Process> getProcesses(){
+    protected List<Process> getProcesses(){
         return processes;
     }
     public abstract List<Process> execute();

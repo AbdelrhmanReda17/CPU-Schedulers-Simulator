@@ -26,6 +26,16 @@ public class main extends javax.swing.JFrame {
         this.setResizable(false);
         this.setLocationRelativeTo(null);
         processes = new Vector<>();
+//        Process a=new Process(1,"a",Color.red,0,11,2);
+//        Process b=new Process(2,"b",Color.green,5,28,0);
+//        Process c=new Process(3,"c",Color.orange,12,2,3);
+//        Process d=new Process(4,"d",Color.pink,3,10,1);
+//        Process e=new Process(5,"e",Color.gray,9,16,4);
+//        processes.add(a);
+//        processes.add(b);
+//        processes.add(c);
+//        processes.add(d);
+//        processes.add(e);
     }
     public Process getProcess(Process newProcess) {
         for(Process p : processes) {

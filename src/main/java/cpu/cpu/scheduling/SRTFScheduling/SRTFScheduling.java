@@ -61,8 +61,13 @@ public class SRTFScheduling extends Scheduling {
         }
 
         for (int i = 0; i < finishedProcesses.size(); i++) {
-            System.out.println(finishedProcesses.get(i).getName() + " " + finishedProcesses.get(i).getDurations());
+            System.out.println(finishedProcesses.get(i).getName());
+            for (Duration dur:finishedProcesses.get(i).getDurations()) {
+                System.out.println(dur.getStartTime().getTime()+" "+dur.getEndTime().getTime());
+            }
+            System.out.println("-------------------");
         }
+
 
         return finishedProcesses;
     }

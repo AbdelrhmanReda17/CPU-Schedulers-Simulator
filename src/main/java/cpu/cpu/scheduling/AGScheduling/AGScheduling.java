@@ -21,7 +21,7 @@ public class AGScheduling extends Scheduling {
     private Process currentProcess;
     boolean isInterrupted = false;
     private final int numberOfProcesses;
-    private Process currentProcess;
+
     private int doneProcesses;
     public AGScheduling(Vector<Process> processes , int contextSwitch , int quantum) {
         super(processes , contextSwitch , quantum);
