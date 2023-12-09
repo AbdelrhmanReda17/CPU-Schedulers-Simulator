@@ -15,7 +15,6 @@ import java.util.*;
 public class AGScheduling extends Scheduling {
     Queue<Process> readyQueue = new LinkedList<>();
     List<Integer> AGFactor = new LinkedList<>();
-    List<Process> InReadyList = new LinkedList<Process>();
     private int numberOfProcesses;
     private int doneProcesses;
     Comparator<Process> processComparator = (p1, p2) -> {
@@ -30,7 +29,7 @@ public class AGScheduling extends Scheduling {
         this.numberOfProcesses = processes.size();
         this.doneProcesses = 0;
         for (Process process : processes) {
-            AGFactor.add(quantum);
+            process.setQuantum(quantum);
         }
     }
     private double GetMean(Vector<Process> processes) {

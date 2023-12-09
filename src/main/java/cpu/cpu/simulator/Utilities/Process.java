@@ -18,6 +18,7 @@ public class Process {
     private int arrivalTime;
     private int burstTime;
     private int waitingTime;
+    private int quantum;
     private int lastWaitTime;
     private final int finishTime;
     private double AGFactor;
@@ -30,6 +31,7 @@ public class Process {
         this.waitingTime = 0;
         this.lastWaitTime = 0;
         this.AGFactor = 0;
+        this.quantum = 0;
         this.finishTime = 0;
         this.PriorityNumber = 0;
     };
@@ -40,6 +42,7 @@ public class Process {
         this.burstTime = 0;
         this.finishTime = 0;
         this.waitingTime = 0;
+        this.quantum = 0;
         this.AGFactor = 0;
         this.lastWaitTime = 0;
         this.PriorityNumber = 0;
@@ -56,6 +59,7 @@ public class Process {
         this.burstTime = burstTime;
         this.waitingTime = 0;
         this.lastWaitTime = 0;
+        this.quantum = 0;
         this.AGFactor = arrivalTime + burstTime ;
         this.finishTime = 0;
         this.PriorityNumber = priority;
@@ -70,19 +74,21 @@ public class Process {
     public Color getColor() {
         return color;
     }
-
     public int getId() {
         return id;
     }
-
     public double getAGFactor() {
         return AGFactor;
     }
-
+    public int getQuantum() {
+        return quantum;
+    }
+    public void setQuantum(int quantum) {
+        this.quantum = quantum;
+    }
     public void setAGFactor(double AGFactor) {
         this.AGFactor = AGFactor;
     }
-
     public void setColor(Color color) {
         this.color = color;
     }
@@ -98,39 +104,30 @@ public class Process {
     public int getFinishTime() {
         return finishTime;
     }
-
     public void setName(String name) {
         this.name = name;
     }
-
     public int getArrivalTime() {
         return arrivalTime;
     }
-
     public void setArrivalTime(int arrivalTime) {
         this.arrivalTime = arrivalTime;
     }
-
     public int getBurstTime() {
         return burstTime;
     }
-
     public void setBurstTime(int burstTime) {
         this.burstTime = burstTime;
     }
-
     public int getWaitingTime() {
         return waitingTime;
     }
-
     public void setWaitingTime(int waitingTime) {
         this.waitingTime = waitingTime;
     }
-
     public int getPriorityNumber() {
         return PriorityNumber;
     }
-
     public void setPriorityNumber(int priorityNumber) {
         PriorityNumber = priorityNumber;
     }

@@ -24,11 +24,8 @@ public class main extends javax.swing.JFrame {
     public main() {
         initComponents();
         this.setResizable(false);
+        this.setLocationRelativeTo(null);
         processes = new Vector<>();
-        this.jContextField.setEnabled(false);
-        this.jContextLabel.setEnabled(false);
-        this.jQuantumField.setEnabled(false);
-        this.jQuantumLabel.setEnabled(false);
     }
     public Process getProcess(Process newProcess) {
         for(Process p : processes) {
@@ -310,6 +307,7 @@ public class main extends javax.swing.JFrame {
             }
         });
 
+        jContextField.setEnabled(false);
         jContextField.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 jFieldKeyTyped(evt);
@@ -318,10 +316,13 @@ public class main extends javax.swing.JFrame {
 
         jContextLabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jContextLabel.setText("Context Switch");
+        jContextLabel.setEnabled(false);
 
         jQuantumLabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jQuantumLabel.setText("Quantum");
+        jQuantumLabel.setEnabled(false);
 
+        jQuantumField.setEnabled(false);
         jQuantumField.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 jFieldKeyTyped(evt);
