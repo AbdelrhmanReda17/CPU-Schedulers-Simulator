@@ -7,6 +7,7 @@ import cpu.cpu.simulator.Utilities.Process;
 import cpu.cpu.scheduling.Scheduling;
 import java.util.Vector;
 import cpu.cpu.simulator.Utilities.Process;
+import java.util.List;
 
 
 /**
@@ -18,7 +19,7 @@ public class SJFScheduling extends Scheduling {
         super(ps , contextSwitch , quantum);
     }
     @Override
-    public Vector<Process> execute() {
+    public List<Process> execute() {
         return null;
     }
 }

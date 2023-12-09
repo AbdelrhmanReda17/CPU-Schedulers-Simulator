@@ -36,7 +36,7 @@ public abstract class Scheduling {
     List<Process> getProcesses(){
         return processes;
     }
-    public abstract Vector<Process> execute();
+    public abstract List<Process> execute();
     public void simulate(){
         execute();
     }

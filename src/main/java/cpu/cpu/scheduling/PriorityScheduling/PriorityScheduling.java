@@ -6,6 +6,8 @@ package cpu.cpu.scheduling.PriorityScheduling;
 import cpu.cpu.simulator.Utilities.Process;
 
 import cpu.cpu.scheduling.Scheduling;
+
+import java.util.List;
 import java.util.Vector;
 
 /**
@@ -17,7 +19,7 @@ public class PriorityScheduling extends Scheduling {
         super(ps , contextSwitch , quantum);
     }
     @Override
-    public Vector<Process> execute() {
+    public List<Process> execute() {
         return null;
     }
 

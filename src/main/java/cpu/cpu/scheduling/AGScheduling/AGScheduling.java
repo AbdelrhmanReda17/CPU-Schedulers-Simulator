@@ -3,9 +3,11 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Other/File.java to edit this template
  */
 package cpu.cpu.scheduling.AGScheduling;
+import cpu.cpu.simulator.Utilities.Duration;
 import cpu.cpu.simulator.Utilities.Process;
 import cpu.cpu.scheduling.Scheduling;
 
+import java.sql.Time;
 import java.util.*;
 
 /**
@@ -16,6 +18,7 @@ public class AGScheduling extends Scheduling {
     Queue<Process> readyQueue = new LinkedList<>();
     List<Process> processesAG = new LinkedList<>();
     List<Process> deadList = new LinkedList<>();
+    boolean isInterrupted = false;
     private final int numberOfProcesses;
     private Process currentProcess;
     private int doneProcesses;
@@ -24,7 +27,6 @@ public class AGScheduling extends Scheduling {
         this.numberOfProcesses = processes.size();
         this.doneProcesses = 0;
         this.currentTime = 0;
-        this.processesAG.addAll(processes);
         this.processesAG.sort(Comparator.comparingDouble(Process::getAGFactor));
     }
     private double GetMean(List<Process> processes) {
@@ -35,49 +37,66 @@ public class AGScheduling extends Scheduling {
         return (double)(sum / count);
     }
     @Override
-    public Vector<Process> execute() {
-        while(!processes.isEmpty() || !readyQueue.isEmpty()){
+    public List<Process> execute() {
+        if(!processes.isEmpty() && readyQueue.isEmpty()) {
+            this.currentTime = this.processes.getFirst().getArrivalTime();
+        }
 
+        while(doneProcesses != numberOfProcesses){
+            remakeReadyQueue();
+            if(isInterrupted){
+                currentProcess = processesAG.getFirst();
+                readyQueue.remove(currentProcess);
+                isInterrupted = false;
+            }else{
+                currentProcess = readyQueue.poll();
+                processesAG.remove(currentProcess);
+            }
+            currentProcess.setWaitingTime(currentProcess.getWaitingTime() +  currentTime - currentProcess.getLastWaitTime());
+            if(nonPreemptive(currentProcess)){
+                doneProcesses++;
+            }else{
+                remakeReadyQueue();
+
+            }
+        }
+        return null;
+    }
+
+    private boolean nonPreemptive(Process process) {
+        Time startTime = new Time(currentTime);
+        if(executeNonPreemptive(process)){
+            Time endTime = new Time((long) currentTime);
+            process.addDuration(new Duration(startTime , endTime));
+            isInterrupted = true;
+            return true;
+        }else{
+            currentTime += (int) Math.ceil(process.getQuantum().getKey() / 2.0);
+            return false;
         }
     }
-    private boolean nonPreemptive(Process process) {
 
-    }
-
-//    private void addProcessToReadyQueue(Process process) {
-//        readyQueue.add(process);
-//        process.setLastWaitTime(currentTime);
-//    }
-//    private void ceilAGFactor() {
-//        for (Process process : processes) {
-//            process.setAGFactor(Math.ceil( process.getAGFactor() * 0.5 ));
-//        }
-//    }
-
-    private boolean executenonPreemptive(Process process) {
+    private boolean executeNonPreemptive(Process process) {
         if(process.getQuantum().getKey() >= process.getRemainingTime()){
             currentTime += process.getRemainingTime();
             process.setRemainingTime(0);
-            process.setQuantum(Map.entry(0,0));
+            process.setQuantum(Map.entry(0,process.getQuantum().getValue()));
             deadList.add(process);
             processes.remove(process);
             processesAG.remove(process);
             return true;
         }else{
-            currentTime += (int) Math.ceil(process.getQuantum().getKey() / 2.0);
             process.setRemainingTime(process.getRemainingTime() - process.getQuantum().getKey());
             return false;
         }
     }
-
-    private void remakeReadyList() {
+    private void remakeReadyQueue() {
         while (!processes.isEmpty()) {
-            assert readyQueue.peek() != null;
-            if (!(readyQueue.peek().getArrivalTime() <= currentTime)) break;
-            Process topProcess = readyQueue.poll();
+            assert processes.getFirst() != null;
+            if (!(processes.getFirst().getArrivalTime() <= currentTime)) break;
+            Process topProcess = processes.getFirst();
+            readyQueue.add(topProcess);
+            processesAG.add(topProcess);
         }
-    }
-    private void calculateWaitingTime(Process process) {
-        process.setWaitingTime(process.getWaitingTime() +  currentTime - process.getLastWaitTime());
     }
 }

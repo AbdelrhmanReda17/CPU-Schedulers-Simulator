@@ -7,6 +7,7 @@ package cpu.cpu.scheduling.SRTFScheduling;
 import cpu.cpu.scheduling.Scheduling;
 import java.util.Vector;
 import cpu.cpu.simulator.Utilities.Process;
+import java.util.List;
 
 /**
  *
@@ -19,7 +20,7 @@ public class STRFScheduling extends Scheduling {
     }
 
     @Override
-    public Vector<Process> execute() {
+    public List<Process> execute() {
         return null;
     }
 }
