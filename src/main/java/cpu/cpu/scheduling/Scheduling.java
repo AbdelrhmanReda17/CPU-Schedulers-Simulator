@@ -5,10 +5,7 @@
 package cpu.cpu.scheduling;
 import cpu.cpu.simulator.Utilities.Process;
 
-import java.util.Comparator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Vector;
+import java.util.*;
 
 /**
  *
@@ -19,12 +16,17 @@ public abstract class Scheduling {
     protected List<Process> finishedProcesses;
     protected int quantum = 0;
     protected int contextSwitching = 0;
-    protected int CurrentTime;
+    protected int currentTime;
+    public void print(){
+        System.out.println(contextSwitching + " " + quantum );
+    }
     public Scheduling(Vector<Process> ps){
         this.finishedProcesses = new LinkedList<>();
         this.processes = new LinkedList<>();
         for(Process p : ps){
-            p.setQuantum(quantum); processes.add(p);
+            p.setQuantum(new AbstractMap.SimpleEntry<>(quantum, 0));
+            processes.add(p);
+            System.out.println(p);
         }
         processes.addAll(ps);
         processes.sort(Comparator.comparingInt(Process::getArrivalTime));

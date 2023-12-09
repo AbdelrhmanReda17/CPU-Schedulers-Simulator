@@ -498,14 +498,25 @@ public class main extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jAddProcessButtonActionPerformed
 
-    private void jStartSimulateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jStartSimulateActionPerformed
-        if(Objects.equals((String) jSchedulingChooser.getSelectedItem(), "Shortest- Job First(SJF)") && "".equals(this.jContextField.getText()) ){
-            JOptionPane.showMessageDialog(this, "Please enter Context Switching" , "ERROR", JOptionPane.ERROR_MESSAGE);
-            return;
+    private void jStartSimulateActionPerformed(java.awt.event.ActionEvent evt) {
+        boolean isContextSwitching = false , isQuantum = false;
+        if(Objects.equals((String) jSchedulingChooser.getSelectedItem(), "Shortest- Job First(SJF)") ){
+            if("".equals(this.jContextField.getText())){
+                JOptionPane.showMessageDialog(this, "Please enter Context Switching" , "ERROR", JOptionPane.ERROR_MESSAGE);
+                return;
+            }else{
+                isContextSwitching = true;
+                System.out.println("Context Switching : " + this.jContextField.getText());
+            }
         }
-        if(Objects.equals((String) jSchedulingChooser.getSelectedItem(), "AG Scheduling") && "".equals(this.jQuantumField.getText()) ){
-            JOptionPane.showMessageDialog(this, "Please enter Quantum", "ERROR", JOptionPane.ERROR_MESSAGE );
-            return;
+        if(Objects.equals((String) jSchedulingChooser.getSelectedItem(), "AG Scheduling") ){
+            if("".equals(this.jQuantumField.getText())){
+                JOptionPane.showMessageDialog(this, "Please enter Quantum", "ERROR", JOptionPane.ERROR_MESSAGE );
+                return;
+            }else{
+                isQuantum = true;
+                System.out.println("Quantum : " + this.jQuantumField.getText());
+            }
         }
         if(processes.isEmpty()){
             JOptionPane.showMessageDialog(this, "Please add processes", "ERROR", JOptionPane.ERROR_MESSAGE );
@@ -513,10 +524,12 @@ public class main extends javax.swing.JFrame {
         }
         this.setVisible(false);
         CPUSchedulingSimulator.StartGUI( this ,(String) jSchedulingChooser.getSelectedItem() , processes);
-        CPUSchedulingSimulator.getScheduling().setContextSwitching(Integer.parseInt(Objects.equals(this.jContextField.getText(), "") ? "0" : this.jContextField.getText()   ) );
-        CPUSchedulingSimulator.getScheduling().setQuantum(Integer.parseInt(Objects.equals(this.jQuantumField.getText(), "") ? "0" : this.jQuantumField.getText()));
-        
-        
+        if(isContextSwitching){
+            CPUSchedulingSimulator.getScheduling().setContextSwitching(Integer.parseInt(this.jContextField.getText()));
+        }else if (isQuantum){
+            CPUSchedulingSimulator.getScheduling().setQuantum(Integer.parseInt(this.jQuantumField.getText()));
+        }
+        CPUSchedulingSimulator.StartLogic();
     }//GEN-LAST:event_jStartSimulateActionPerformed
 
     private void jDeleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jDeleteButtonActionPerformed

@@ -44,7 +44,9 @@ public class CPUSchedulingSimulator extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    public static void StartLogic(){
+        scheduling.execute();
+    }
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
        main.setVisible(true);
     }//GEN-LAST:event_formWindowClosing

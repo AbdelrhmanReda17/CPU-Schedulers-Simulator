@@ -14,25 +14,20 @@ import java.util.*;
  */
 public class AGScheduling extends Scheduling {
     Queue<Process> readyQueue = new LinkedList<>();
-    List<Integer> AGFactor = new LinkedList<>();
-    private int numberOfProcesses;
+    List<Process> processesAG = new LinkedList<>();
+    private final int numberOfProcesses;
+    private boolean isSwitching = false;
+    private Process currentProcess;
     private int doneProcesses;
-    Comparator<Process> processComparator = (p1, p2) -> {
-        if (p1.getArrivalTime() < p2.getArrivalTime())
-            return -1;
-        if (p1.getArrivalTime() > p2.getArrivalTime())
-            return 1;
-        return 0;
-    };
     public AGScheduling(Vector<Process> processes) {
         super(processes);
         this.numberOfProcesses = processes.size();
         this.doneProcesses = 0;
-        for (Process process : processes) {
-            process.setQuantum(quantum);
-        }
+        this.currentTime = 0;
+        this.processesAG.addAll(processes);
+        this.processesAG.sort(Comparator.comparingDouble(Process::getAGFactor));
     }
-    private double GetMean(Vector<Process> processes) {
+    private double GetMean(List<Process> processes) {
         double sum = 0.0, count = processes.size();
         for (Process ps : processes) {
             sum += ps.getBurstTime();
@@ -42,24 +37,52 @@ public class AGScheduling extends Scheduling {
     @Override
     public Vector<Process> execute() {
         while (doneProcesses < numberOfProcesses || !readyQueue.isEmpty()) {
-//       remakeReadyList();
+            remakeReadyList();
+            if (currentProcess == null && !readyQueue.isEmpty()) {
+                currentProcess = readyQueue.poll();
+            }
+            if (currentProcess != null) {
+                executeProcess();
+            }
         }
         return null;
     }
-//    private void remakeReadyList() {
-//        while (!processes.isEmpty()) {
-//            assert readyQueue.peek() != null;
-//            if (!(readyQueue.peek().getArrivalTime() <= CurrentTime)) break;
-//            Process topProcess = readyQueue.poll();
-//            InReadyList.add(topProcess);
-//        }
-//    }
-    private void updateAGFactor() {
-        for (int i = 0; i < AGFactor.size(); i++) {
-            AGFactor.set(i, (int) (AGFactor.get(i) / 2));
+    private void addProcessToReadyQueue(Process process) {
+        readyQueue.add(process);
+        process.setLastWaitTime(currentTime);
+    }
+    private void ceilAGFactor() {
+        for (Process process : processes) {
+            process.setAGFactor(Math.ceil( process.getAGFactor() * 0.5 ));
+        }
+    }
+
+    private void executeProcess() {
+        int timeExecute = Math.min(currentProcess.getQuantum().getValue(), currentProcess.getBurstTime());
+        currentTime += timeExecute;
+        currentProcess.setBurstTime(currentProcess.getBurstTime() - timeExecute);
+        this.calculateWaitingTime(currentProcess);
+        if(currentProcess.getArrivalTime() > 0){
+                readyQueue.add(currentProcess);
+                currentProcess.setQuantum(Map.entry(currentProcess.getQuantum().getKey() +
+                        (int) Math.ceil(0.1 * GetMean(processes)) , currentProcess.getQuantum().getValue() + 1));
+        }else{
+            currentProcess.setQuantum(Map.entry(0,0));
+            doneProcesses++;
+        }
+    }
+
+    private void remakeReadyList() {
+        if(!processes.isEmpty() && readyQueue.isEmpty()) {
+//            this.currentTime = this.processes.getFirst().getArrivalTime();
+        }
+        while (!processes.isEmpty()) {
+            assert readyQueue.peek() != null;
+            if (!(readyQueue.peek().getArrivalTime() <= currentTime)) break;
+            Process topProcess = readyQueue.poll();
         }
     }
     private void calculateWaitingTime(Process process) {
-        process.setWaitingTime(process.getWaitingTime() +  CurrentTime - process.getLastWaitTime());
+        process.setWaitingTime(process.getWaitingTime() +  currentTime - process.getLastWaitTime());
     }
 }

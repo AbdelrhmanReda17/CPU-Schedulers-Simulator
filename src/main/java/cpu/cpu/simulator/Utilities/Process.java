@@ -5,6 +5,7 @@
 package cpu.cpu.simulator.Utilities;
 
 import java.awt.*;
+import java.util.Map;
 import java.util.Random;
 
 /**
@@ -18,9 +19,10 @@ public class Process {
     private int arrivalTime;
     private int burstTime;
     private int waitingTime;
-    private int quantum;
+    private Map.Entry<Integer , Integer> quantum ;
     private int lastWaitTime;
-    private final int finishTime;
+    private int finishTime;
+    private int remainingTime;
     private double AGFactor;
     private int PriorityNumber;
     public Process(){
@@ -31,7 +33,8 @@ public class Process {
         this.waitingTime = 0;
         this.lastWaitTime = 0;
         this.AGFactor = 0;
-        this.quantum = 0;
+        this.quantum = null;
+        this.remainingTime = 0;
         this.finishTime = 0;
         this.PriorityNumber = 0;
     };
@@ -42,7 +45,8 @@ public class Process {
         this.burstTime = 0;
         this.finishTime = 0;
         this.waitingTime = 0;
-        this.quantum = 0;
+        this.quantum = null;
+        this.remainingTime = 0;
         this.AGFactor = 0;
         this.lastWaitTime = 0;
         this.PriorityNumber = 0;
@@ -59,7 +63,8 @@ public class Process {
         this.burstTime = burstTime;
         this.waitingTime = 0;
         this.lastWaitTime = 0;
-        this.quantum = 0;
+        this.remainingTime = burstTime;
+        this.quantum = null;
         this.AGFactor = arrivalTime + burstTime ;
         this.finishTime = 0;
         this.PriorityNumber = priority;
@@ -71,6 +76,13 @@ public class Process {
         else
             this.AGFactor =this.AGFactor + priority;
     }
+    public int getRemainingTime() {
+        return remainingTime;
+    }
+
+    public void setRemainingTime(int remainingTime) {
+        this.remainingTime = remainingTime;
+    }
     public Color getColor() {
         return color;
     }
@@ -80,10 +92,10 @@ public class Process {
     public double getAGFactor() {
         return AGFactor;
     }
-    public int getQuantum() {
+    public Map.Entry<Integer , Integer> getQuantum() {
         return quantum;
     }
-    public void setQuantum(int quantum) {
+    public void setQuantum(Map.Entry<Integer , Integer> quantum) {
         this.quantum = quantum;
     }
     public void setAGFactor(double AGFactor) {
@@ -132,4 +144,22 @@ public class Process {
         PriorityNumber = priorityNumber;
     }
 
+    @Override
+    public String toString() {
+        return "Process {" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", color=" + color +
+                ", arrivalTime=" + arrivalTime +
+                ", burstTime=" + burstTime +
+                ", waitingTime=" + waitingTime +
+                ", quantum =" + quantum.getKey() +
+                ", numberOfQuantums=" + quantum.getValue() +
+                ", lastWaitTime=" + lastWaitTime +
+                ", finishTime=" + finishTime +
+                ", remainingTime=" + remainingTime +
+                ", AGFactor=" + AGFactor +
+                ", PriorityNumber=" + PriorityNumber +
+                '}';
+    }
 }
