@@ -2,6 +2,7 @@ package cpu.cpu.simulator;
 
 import cpu.cpu.scheduling.SchedulingFactory;
 import java.awt.*;
+import java.util.Objects;
 import java.util.Vector;
 import javax.swing.JColorChooser;
 import javax.swing.JLabel;
@@ -490,8 +491,22 @@ public class main extends javax.swing.JFrame {
     }//GEN-LAST:event_jAddProcessButtonActionPerformed
 
     private void jStartSimulateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jStartSimulateActionPerformed
+        if(Objects.equals((String) jSchedulingChooser.getSelectedItem(), "Shortest- Job First(SJF)") && "".equals(this.jContextField.getText()) ){
+            JOptionPane.showMessageDialog(this, "Please enter Context Switching" , "ERROR", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        if(Objects.equals((String) jSchedulingChooser.getSelectedItem(), "AG Scheduling") && "".equals(this.jQuantumField.getText()) ){
+            JOptionPane.showMessageDialog(this, "Please enter Quantum", "ERROR", JOptionPane.ERROR_MESSAGE );
+            return;
+        }
+        if(processes.isEmpty()){
+            JOptionPane.showMessageDialog(this, "Please add processes", "ERROR", JOptionPane.ERROR_MESSAGE );
+            return;
+        }
         this.setVisible(false);
         CPUSchedulingSimulator.StartGUI( this ,(String) jSchedulingChooser.getSelectedItem() , processes);
+        CPUSchedulingSimulator.getScheduling().setContextSwitching(Integer.parseInt(Objects.equals(this.jContextField.getText(), "") ? "0" : this.jContextField.getText()   ) );
+        CPUSchedulingSimulator.getScheduling().setQuantum(Integer.parseInt(Objects.equals(this.jQuantumField.getText(), "") ? "0" : this.jQuantumField.getText()));
     }//GEN-LAST:event_jStartSimulateActionPerformed
 
     private void jDeleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jDeleteButtonActionPerformed

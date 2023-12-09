@@ -13,6 +13,10 @@ public class CPUSchedulingSimulator extends javax.swing.JFrame {
     private static JFrame main;
     private static Scheduling scheduling;
 
+    public static Scheduling getScheduling() {
+        return scheduling;
+    }
+
     public CPUSchedulingSimulator() {
         initComponents();
     }
@@ -44,7 +48,7 @@ public class CPUSchedulingSimulator extends javax.swing.JFrame {
        main.setVisible(true);
     }//GEN-LAST:event_formWindowClosing
 
-    public static void StartGUI(JFrame frame ,String SchedulingName , Vector<Process> processes  ){
+    public static void StartGUI(JFrame frame ,String SchedulingName , Vector<Process> processes){
         main = frame;
         scheduling = SchedulingFactory.createScheduling(SchedulingName , processes);
         // Call the Factor with the Scheduling Name

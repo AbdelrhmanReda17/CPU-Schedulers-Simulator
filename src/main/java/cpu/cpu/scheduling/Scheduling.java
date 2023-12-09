@@ -12,7 +12,9 @@ import java.util.Vector;
  * @author abdelrahman
  */
 public abstract class Scheduling {
-    Vector<Process> Processes;
+    private Vector<Process> Processes;
+    private int quantum;
+    private int contextSwitching;
     public Scheduling(Vector<Process> ps){
         this.Processes=ps;
     }
@@ -22,5 +24,11 @@ public abstract class Scheduling {
     public abstract Vector<Process> execute();
     public void simulate(){
         execute();
+    }
+    public void setQuantum(int quantum){
+        this.quantum=quantum;
+    }
+    public void setContextSwitching(int contextSwitching){
+        this.contextSwitching=contextSwitching;
     }
 }
