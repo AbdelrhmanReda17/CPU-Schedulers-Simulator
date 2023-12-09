@@ -47,6 +47,7 @@ public class Process {
         this.remainingTime = 0;
         this.finishTime = 0;
         this.PriorityNumber = 0;
+        this.turnAroundTime = 0;
     };
     public Process(String name){
         this.name = name;
@@ -64,6 +65,7 @@ public class Process {
         this.AGFactor = 0;
         this.lastWaitTime = 0;
         this.PriorityNumber = 0;
+        this.turnAroundTime = 0;
     }
     public Process(Process process){
         this.name = process.name;
@@ -101,6 +103,7 @@ public class Process {
         this.quantum = 0;
         this.AGFactor = arrivalTime + burstTime ;
         this.finishTime = 0;
+        this.turnAroundTime = 0;
         this.PriorityNumber = priority;
         int randomNumber = getRandomNumber(0 , 20);
         if(randomNumber < 10)
