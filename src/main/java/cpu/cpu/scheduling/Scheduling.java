@@ -12,7 +12,7 @@ import java.util.*;
  * @author abdelrahman
  */
 public abstract class Scheduling {
-    StringBuilder stringBuilder;
+    protected StringBuilder stringBuilder;
     protected List<Process> processes;
     protected List<Process> finishedProcesses;
     protected int quantum = 0;
