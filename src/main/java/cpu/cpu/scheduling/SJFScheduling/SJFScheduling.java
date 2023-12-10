@@ -34,6 +34,7 @@ public class SJFScheduling extends Scheduling {
             Iterator<Process> iterator = processArrivalTimeSet.iterator();
             while(iterator.hasNext()) {
                 //search if there are processes arrived every unit time.
+
                 Process process = iterator.next();
                 if (process.getArrivalTime() <= currentTime) {
                     processQueue.add(process);
@@ -43,6 +44,7 @@ public class SJFScheduling extends Scheduling {
             if (!processQueue.isEmpty() || finishedProcesses.size() == processArrivalTimeSetSize - 1) {
                 if (currentlyRunningProcess == null ) {
                     //first process has started executing.
+
                     startTime = currentTime;
                     currentlyRunningProcess = processQueue.peek();
                     processQueue.poll();
@@ -53,10 +55,15 @@ public class SJFScheduling extends Scheduling {
 
                 if (currentlyRunningProcess.getRemainingTime() == 0) {
                     //a process has finished executing.
+
                     calculateFinishedProcessTiming(currentlyRunningProcess,processArrivalTimeSetSize,startTime);
+
                     //set the next Process start Time.
+
                     startTime = currentTime;
+
                     //pull the next Process to execute.
+
                     currentlyRunningProcess = processQueue.peek();
                     processQueue.poll();
                 }
@@ -64,11 +71,6 @@ public class SJFScheduling extends Scheduling {
                 currentTime++;
             }
         }
-
-        for (Process process : finishedProcesses) {
-            System.out.println(process);
-        }
-
     }
 
     private void calculateFinishedProcessTiming(Process currentlyRunningProcess,int processArrivalTimeSetSize,int startTime) {
@@ -77,14 +79,8 @@ public class SJFScheduling extends Scheduling {
         }
         currentlyRunningProcess.setFinishTime(currentTime);
         int endTime = currentTime;
-        int turnAroundTime = currentTime - currentlyRunningProcess.getArrivalTime();
-        currentlyRunningProcess.setTurnAroundTime(turnAroundTime);
-        int waitingTime = turnAroundTime - currentlyRunningProcess.getBurstTime();
-        currentlyRunningProcess.setWaitingTime(waitingTime);
         finishedProcesses.add(currentlyRunningProcess);
         Duration processDuration = new Duration(startTime,endTime);
         currentlyRunningProcess.addDuration(processDuration);
-        System.out.println(processDuration);
-
     }
 }
