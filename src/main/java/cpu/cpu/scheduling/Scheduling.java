@@ -25,8 +25,8 @@ public abstract class Scheduling {
     public Scheduling(Vector<Process> ps, int contextSwitch, int quantum) {
         this.finishedProcesses = new LinkedList<>();
         this.processes = new LinkedList<>();
-        schedulingData = new StringBuilder();
         this.quantum = quantum;
+        this.schedulingData = new StringBuilder();
         this.currentTime = 0;
         this.contextSwitching = contextSwitch;
         for (Process p : ps) {

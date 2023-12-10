@@ -17,6 +17,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>19</maven.compiler.source>
         <maven.compiler.target>19</maven.compiler.target>
-        <exec.mainClass>cpu.cpu.simulator.main</exec.mainClass>
+        <exec.mainClass>cpu.cpu.simulator.Main</exec.mainClass>
     </properties>
 </project>

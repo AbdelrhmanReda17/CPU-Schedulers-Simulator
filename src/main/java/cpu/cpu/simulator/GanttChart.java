@@ -5,7 +5,9 @@
 package cpu.cpu.simulator;
 
 import java.awt.*;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Vector;
 import javax.swing.JPanel;
 import org.jfree.chart.ChartFactory;
@@ -22,7 +24,7 @@ public class GanttChart extends JPanel {
         setLayout(new BorderLayout());
     }
 
-    public void setDataset(IntervalCategoryDataset dataset , Vector<Color> processesColor, String title, String x_label, String y_label) {
+    public void setDataset(IntervalCategoryDataset dataset , Vector<Color> processesColor, String title, String x_label, String y_label){
         removeAll();
         JFreeChart chart = ChartFactory.createGanttChart(title, y_label, x_label, dataset,true,true,true);
         CategoryPlot plot = chart.getCategoryPlot();
