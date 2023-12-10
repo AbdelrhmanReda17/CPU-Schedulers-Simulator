@@ -52,6 +52,7 @@ public class SRTFScheduling extends Scheduling {
                 }
 
                 shortestProcess.setRemainingTime(shortestProcess.getRemainingTime() - 1);
+                currentTime++;
                 if (shortestProcess.getRemainingTime() <= 0) {
                     saveDuration(shortestProcess, startTime, currentTime);
                     startTime = currentTime;
@@ -60,7 +61,6 @@ public class SRTFScheduling extends Scheduling {
                 } else {
                     shortestProcessPQ.add(shortestProcess);
                 }
-                currentTime++;
             }
         }
 
