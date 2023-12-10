@@ -7,9 +7,7 @@ package cpu.cpu.scheduling.PriorityScheduling;
 import cpu.cpu.scheduling.SchedulingType;
 import cpu.cpu.simulator.Utilities.Duration;
 import cpu.cpu.simulator.Utilities.Process;
-
 import cpu.cpu.scheduling.Scheduling;
-
 import java.util.*;
 
 /**
@@ -17,6 +15,7 @@ import java.util.*;
  * @author abdelrahman
  */
 public class PriorityScheduling extends Scheduling {
+    final int  agingThreshold = 8;
     private PriorityQueue<Process> queue;
 
     public PriorityScheduling(Vector<Process> ps, int contextSwitch, int quantum) {
@@ -34,10 +33,19 @@ public class PriorityScheduling extends Scheduling {
             while (!queue.isEmpty()) {
                 Process runningProcess = queue.poll();
                 int start = (currentTime);
+                int agingCounter=0;
                 while (runningProcess.getRemainingTime() > 0) {
                     getProcesses(currentTime);
+                    agingCounter++;
+                    if (agingCounter==agingThreshold) {
+                        for (Process process : queue) {
+                            process.setPriorityNumber(process.getPriorityNumber()-1);
+                        }
+                        agingCounter=0;
+                    }
                     currentTime++;
                     runningProcess.setRemainingTime(runningProcess.getRemainingTime() - 1);
+
                 }
                 int end = (currentTime);
                 runningProcess.addDuration(new Duration(start, end));

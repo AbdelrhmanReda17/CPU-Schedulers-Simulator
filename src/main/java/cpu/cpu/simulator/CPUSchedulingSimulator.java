@@ -4,7 +4,6 @@ import cpu.cpu.scheduling.Scheduling;
 import cpu.cpu.scheduling.SchedulingFactory;
 import cpu.cpu.simulator.Utilities.Duration;
 import cpu.cpu.simulator.Utilities.Process;
-
 import java.awt.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
