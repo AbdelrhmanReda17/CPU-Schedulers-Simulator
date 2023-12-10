@@ -5,9 +5,7 @@
 package cpu.cpu.simulator;
 
 import java.awt.*;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Vector;
 import javax.swing.JPanel;
 import org.jfree.chart.ChartFactory;

@@ -63,16 +63,6 @@ public class SRTFScheduling extends Scheduling {
                 }
             }
         }
-
-        for (int i = 0; i < finishedProcesses.size(); i++) {
-            System.out.println(finishedProcesses.get(i).getName());
-            System.out.println("Arrival time: " + finishedProcesses.get(i).getArrivalTime());
-            System.out.println("Finish time: " + finishedProcesses.get(i).getFinishTime());
-            for (Duration dur : finishedProcesses.get(i).getDurations()) {
-                System.out.println(dur.getStartTime() + " " + dur.getEndTime());
-            }
-            System.out.println("-------------------");
-        }
     }
 
     private List<Process> getAllProcessesAtTime(int currentTime) {
