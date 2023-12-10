@@ -1,9 +1,5 @@
 package cpu.cpu.simulator;
 
-import cpu.cpu.scheduling.AGScheduling.AGScheduling;
-import cpu.cpu.scheduling.SJFScheduling.SJFScheduling;
-import cpu.cpu.scheduling.Scheduling;
-import cpu.cpu.scheduling.SchedulingFactory;
 import java.awt.*;
 import java.util.Objects;
 import java.util.Vector;
@@ -16,20 +12,19 @@ import javax.swing.table.DefaultTableModel;
 import cpu.cpu.simulator.Utilities.Process;
 import java.awt.event.ItemEvent;
 
-public class main extends javax.swing.JFrame {
+public class Main extends javax.swing.JFrame {
     private Vector<Process> processes;
     private static int proccessId = 0;
     Color selectedColor;
-    private Scheduling scheduleStrategy;
-    public main() {
+    public Main() {
         initComponents();
         this.setResizable(false);
         this.setLocationRelativeTo(null);
         processes = new Vector<>();
-        Process p1 = new Process(0,"P1", Color.RED, 0, 17, 4);
-        Process p2 = new Process(1,"P2", Color.BLUE, 3, 6, 9);
-        Process p3 = new Process(2,"P3", Color.GREEN, 4, 10, 3);
-        Process p4 = new Process(3,"P4", Color.YELLOW, 29, 4, 2);
+        Process p1 = new Process(0,"P1", Color.RED, 0, 5, 4);
+        Process p2 = new Process(1,"P2", Color.BLUE, 2, 2, 9);
+        Process p3 = new Process(2,"P3", Color.GREEN, 4, 4, 3);
+        Process p4 = new Process(3,"P4", Color.YELLOW, 5, 1, 2);
         p1.setAGFactor(20);
         p2.setAGFactor(17);
         p3.setAGFactor(16);
@@ -60,7 +55,6 @@ public class main extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
@@ -421,11 +415,11 @@ public class main extends javax.swing.JFrame {
                 "Process Name", "Arrival Time", "Brust Time", "Priority Number"
             }
         ) {
-            Class[] types = new Class [] {
+            Class<Integer>[] types = new Class [] {
                 java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class
             };
 
-            public Class getColumnClass(int columnIndex) {
+            public Class<Integer> getColumnClass(int columnIndex) {
                 return types [columnIndex];
             }
         });
@@ -590,12 +584,12 @@ public class main extends javax.swing.JFrame {
     }//GEN-LAST:event_jSchedulingChooserItemStateChanged
 
     private void jSchedulingChooserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jSchedulingChooserActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_jSchedulingChooserActionPerformed
 
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(() -> {
-            new main().setVisible(true);
+            new Main().setVisible(true);
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables

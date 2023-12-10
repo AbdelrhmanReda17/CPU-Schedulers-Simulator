@@ -8,17 +8,13 @@ import java.awt.*;
 import java.text.SimpleDateFormat;
 import java.util.Vector;
 import javax.swing.JPanel;
-import javax.swing.Renderer;
-import org.jfree.chart.ChartFactory;  
-import org.jfree.chart.ChartPanel;  
-import org.jfree.chart.JFreeChart;  
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.DateAxis;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.renderer.category.BarRenderer;
-import org.jfree.chart.renderer.category.CategoryItemRenderer;
-import org.jfree.chart.renderer.category.LineAndShapeRenderer;
-import org.jfree.data.category.IntervalCategoryDataset;  
-import org.jfree.data.gantt.TaskSeriesCollection;
+import org.jfree.data.category.IntervalCategoryDataset;
 
 public class GanttChart extends JPanel {
 

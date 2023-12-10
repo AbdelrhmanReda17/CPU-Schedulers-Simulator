@@ -19,12 +19,12 @@ import cpu.cpu.simulator.Utilities.Process;
  * @author abdelrahman
  */
 public class SchedulingFactory {
-    public static Scheduling createScheduling(String name , Vector<Process> processes ,int contextSwitch , int quantum){
+    public static Scheduling createScheduling(String name, Vector<Process> processes, int contextSwitch, int quantum) {
         return switch (name) {
-            case "Shortest- Job First(SJF)" -> new SJFScheduling(processes , contextSwitch , quantum);
-            case "Priority Scheduling" -> new PriorityScheduling(processes , contextSwitch , quantum);
-            case "AG Scheduling" -> new AGScheduling(processes , contextSwitch , quantum);
-            case "Shortest- Remaining Time First (SRTF)" -> new SRTFScheduling(processes , contextSwitch , quantum);
+            case "Shortest- Job First(SJF)" -> new SJFScheduling(processes, contextSwitch, quantum);
+            case "Priority Scheduling" -> new PriorityScheduling(processes, contextSwitch, quantum);
+            case "AG Scheduling" -> new AGScheduling(processes, contextSwitch, quantum);
+            case "Shortest- Remaining Time First (SRTF)" -> new SRTFScheduling(processes, contextSwitch, quantum);
             default -> null;
         };
     }

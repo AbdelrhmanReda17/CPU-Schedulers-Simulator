@@ -10,8 +10,6 @@ import cpu.cpu.scheduling.Scheduling;
 
 import java.util.*;
 
-import cpu.cpu.simulator.Utilities.Process;
-
 
 /**
  *

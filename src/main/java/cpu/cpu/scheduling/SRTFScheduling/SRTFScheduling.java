@@ -6,7 +6,6 @@ package cpu.cpu.scheduling.SRTFScheduling;
 
 import cpu.cpu.scheduling.Scheduling;
 
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -57,6 +56,7 @@ public class SRTFScheduling extends Scheduling {
                     saveDuration(shortestProcess, startTime, currentTime);
                     startTime = currentTime;
                     finishedProcesses.add(shortestProcess);
+                    shortestProcess.setFinishTime(currentTime);
                 } else {
                     shortestProcessPQ.add(shortestProcess);
                 }
@@ -66,8 +66,10 @@ public class SRTFScheduling extends Scheduling {
 
         for (int i = 0; i < finishedProcesses.size(); i++) {
             System.out.println(finishedProcesses.get(i).getName());
-            for (Duration dur:finishedProcesses.get(i).getDurations()) {
-                System.out.println(dur.getStartTime()+" "+dur.getEndTime());
+            System.out.println("Arrival time: " + finishedProcesses.get(i).getArrivalTime());
+            System.out.println("Finish time: " + finishedProcesses.get(i).getFinishTime());
+            for (Duration dur : finishedProcesses.get(i).getDurations()) {
+                System.out.println(dur.getStartTime() + " " + dur.getEndTime());
             }
             System.out.println("-------------------");
         }
