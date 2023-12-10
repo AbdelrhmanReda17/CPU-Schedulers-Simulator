@@ -156,7 +156,6 @@ public class CPUSchedulingSimulator extends javax.swing.JFrame {
         TaskSeries series = new TaskSeries(process.getName());
         Date startTime = new Date(fixedTime.getTime() + process.getArrivalTime());
         Date endTime = new Date(fixedTime.getTime() + process.getFinishTime());
-        System.out.println("Start Time: " + process.getArrivalTime() + " End Time: " + process.getFinishTime());
         Task task = new Task(
                 process.getName(),
                 startTime,

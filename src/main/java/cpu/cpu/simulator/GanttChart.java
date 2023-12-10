@@ -34,6 +34,8 @@ public class GanttChart extends JPanel {
             br.setSeriesPaint(i , processesColor.get(i));
         }
         DateAxis axis = (DateAxis) plot.getRangeAxis();
+        axis.setLowerMargin(0);
+        axis.setUpperMargin(0.15);
         axis.setDateFormatOverride(new SimpleDateFormat("S"));
         ChartPanel panel = new ChartPanel(chart);
         add(panel);
