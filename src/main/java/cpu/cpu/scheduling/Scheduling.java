@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Other/File.java to edit this template
  */
 package cpu.cpu.scheduling;
+import cpu.cpu.simulator.Utilities.Duration;
 import cpu.cpu.simulator.Utilities.Process;
 
 import java.util.*;
@@ -29,6 +30,7 @@ public abstract class Scheduling {
         this.contextSwitching = contextSwitch;
         for(Process p : ps){
             Process newProcess = new Process(p);
+            newProcess.setDurations(new LinkedList<>());
             newProcess.setQuantum(quantum);
             processes.add(newProcess);
         }

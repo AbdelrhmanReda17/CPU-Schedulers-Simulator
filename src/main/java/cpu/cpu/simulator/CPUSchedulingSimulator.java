@@ -167,7 +167,6 @@ public class CPUSchedulingSimulator extends javax.swing.JFrame {
                 ));
         }
         series.add(task);
-        System.out.println(series.getTasks().size());
         return series;
     }
 
