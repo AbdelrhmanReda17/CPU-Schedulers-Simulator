@@ -2,25 +2,16 @@ package cpu.cpu.simulator;
 
 import cpu.cpu.scheduling.Scheduling;
 import cpu.cpu.scheduling.SchedulingFactory;
-import java.util.Vector;
 import cpu.cpu.simulator.Utilities.Process;
-import java.awt.BorderLayout;
-
-import javax.swing.JFrame;
-
-import java.time.LocalDate;  
-import java.time.ZoneOffset;  
-import java.util.Date;  
+import java.time.LocalDate;
+import java.time.ZoneOffset;
+import java.util.Date;
+import java.util.Vector;
 import javax.swing.JFrame;  
-import javax.swing.SwingUtilities;  
-import javax.swing.WindowConstants;  
-import org.jfree.chart.ChartFactory;  
-import org.jfree.chart.ChartPanel;  
-import org.jfree.chart.JFreeChart;  
-import org.jfree.data.category.IntervalCategoryDataset;  
-import org.jfree.data.gantt.Task;  
-import org.jfree.data.gantt.TaskSeries;  
-import org.jfree.data.gantt.TaskSeriesCollection;  
+import org.jfree.data.category.IntervalCategoryDataset;
+import org.jfree.data.gantt.Task;
+import org.jfree.data.gantt.TaskSeries;
+import org.jfree.data.gantt.TaskSeriesCollection;
 public class CPUSchedulingSimulator extends javax.swing.JFrame {
     // Scheduling Parameter
     private static JFrame main;
@@ -35,11 +26,11 @@ public class CPUSchedulingSimulator extends javax.swing.JFrame {
         GanttChart chart = new GanttChart();
          
     
-
+    IntervalCategoryDataset dataset=getCategoryDataset();
     String title = "Gantt Chart Example";
     String x_label = "Software Development Phases";
     String y_label = "Timeline";
-    chart.setDataset( title, x_label, y_label);
+    chart.setDataset( dataset,title, x_label, y_label);
     this.chartPanel.add(chart);
        
     }
@@ -92,6 +83,60 @@ public class CPUSchedulingSimulator extends javax.swing.JFrame {
             new CPUSchedulingSimulator().setVisible(true);
         });
     }
+    private IntervalCategoryDataset getCategoryDataset() {  
+  
+        TaskSeries series1 = new TaskSeries("Estimated Date"); series1.add(new Task("Requirement",  
+        Date.from(LocalDate.of(2017,7,3).atStartOfDay().toInstant(ZoneOffset.UTC)),  
+        Date.from(LocalDate.of(2017, 7,7).atStartOfDay().toInstant(ZoneOffset.UTC))  
+                 ));  
+
+         series1.add(new Task("Design",Date.from(LocalDate.of(2017, 7,10).atStartOfDay().toInstant(ZoneOffset.UTC)),  
+         Date.from(LocalDate.of(2017, 7, 14).atStartOfDay().toInstant(ZoneOffset.UTC))  
+                 ));  
+
+         series1.add(new Task("Coding",Date.from(LocalDate.of(2017, 7,17).atStartOfDay().toInstant(ZoneOffset.UTC)),  
+         Date.from(LocalDate.of(2017, 7, 21).atStartOfDay().toInstant(ZoneOffset.UTC))  
+                 ));  
+
+         series1.add(new Task("Testing", Date.from(LocalDate.of(2017, 7,24).atStartOfDay().toInstant(ZoneOffset.UTC)),  
+         Date.from(LocalDate.of(2017, 7, 28).atStartOfDay().toInstant(ZoneOffset.UTC))  
+                 ));  
+
+         series1.add(new Task("Deployment", Date.from(LocalDate.of(2017, 07,31).atStartOfDay().toInstant(ZoneOffset.UTC)),  
+         Date.from(LocalDate.of(2017, 8, 4).atStartOfDay().toInstant(ZoneOffset.UTC))  
+                 ));  
+
+
+        TaskSeries series2 = new TaskSeries("Actual Date");  
+        series2.add(new Task("Requirement",Date.from(LocalDate.of(2017, 7,3).atStartOfDay().toInstant(ZoneOffset.UTC)),  
+        Date.from(LocalDate.of(2017, 7, 05).atStartOfDay().toInstant(ZoneOffset.UTC))  
+                 ));  
+
+         series2.add(new Task("Design",  
+         Date.from(LocalDate.of(2017, 7, 6).atStartOfDay().toInstant(ZoneOffset.UTC)),  
+         Date.from(LocalDate.of(2017, 7, 17).atStartOfDay().toInstant(ZoneOffset.UTC))  
+                 ));  
+
+         series2.add(new Task("Coding",  
+         Date.from(LocalDate.of(2017, 7, 18).atStartOfDay().toInstant(ZoneOffset.UTC)),  
+         Date.from(LocalDate.of(2017, 7, 27).atStartOfDay().toInstant(ZoneOffset.UTC))  
+                 ));  
+
+         series2.add(new Task("Testing",  
+         Date.from(LocalDate.of(2017, 7, 28).atStartOfDay().toInstant(ZoneOffset.UTC)),  
+         Date.from(LocalDate.of(2017, 8, 1).atStartOfDay().toInstant(ZoneOffset.UTC))  
+                 ));  
+
+         series2.add(new Task("Deployment",  
+         Date.from(LocalDate.of(2017, 8, 2).atStartOfDay().toInstant(ZoneOffset.UTC)),  
+         Date.from(LocalDate.of(2017, 8, 4).atStartOfDay().toInstant(ZoneOffset.UTC))  
+                 ));  
+
+         TaskSeriesCollection dataset = new TaskSeriesCollection();  
+         dataset.add(series1);dataset.add(series2);  
+         return dataset;  
+    }
+
    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel chartPanel;
