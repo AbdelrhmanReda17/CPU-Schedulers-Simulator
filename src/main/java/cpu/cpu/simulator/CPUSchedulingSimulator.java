@@ -85,7 +85,7 @@ public class CPUSchedulingSimulator extends javax.swing.JFrame {
     }
     private IntervalCategoryDataset getCategoryDataset() {  
   
-        TaskSeries series1 = new TaskSeries("Estimated Date"); series1.add(new Task("Requirement",  
+        TaskSeries series1 = new TaskSeries("Estimated Date"); series1.add(new Task("Requirement",
         Date.from(LocalDate.of(2017,7,3).atStartOfDay().toInstant(ZoneOffset.UTC)),  
         Date.from(LocalDate.of(2017, 7,7).atStartOfDay().toInstant(ZoneOffset.UTC))  
                  ));  

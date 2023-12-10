@@ -24,7 +24,7 @@ public class PriorityScheduling extends Scheduling {
 
     }
     @Override
-    public List<Process> execute() {
+    public void execute() {
         while(!processes.isEmpty()){
             currentTime=processes.get(0).getArrivalTime();
             getProcesses(currentTime);
@@ -52,7 +52,6 @@ public class PriorityScheduling extends Scheduling {
 //            System.out.println("---------");
 //
 //        }
-        return finishedProcesses;
 
     }
     public void getProcesses(int timer){

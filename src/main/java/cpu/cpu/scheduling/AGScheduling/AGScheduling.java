@@ -70,7 +70,7 @@ public class AGScheduling extends Scheduling {
     }
 
     @Override
-    public List<Process> execute() {
+    public void execute() {
         while(finishedProcesses.size() < numberOfProcesses){
             remakeProcessesQueue();
             if(processesQueue.isEmpty() && !AllProcesses.isEmpty() && readyQueue.isEmpty()) {currentTime++; continue;}
@@ -90,7 +90,6 @@ public class AGScheduling extends Scheduling {
         for(Process process : finishedProcesses){
             System.out.println(process);
         }
-        return finishedProcesses;
     }
 
     private boolean runPreemptive(Process currentProcess){

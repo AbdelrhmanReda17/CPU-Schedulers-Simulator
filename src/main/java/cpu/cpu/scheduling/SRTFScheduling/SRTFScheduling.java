@@ -29,7 +29,7 @@ public class SRTFScheduling extends Scheduling {
     }
 
     @Override
-    public List<Process> execute() {
+    public void execute() {
         while (!processes.isEmpty()) {
             int currentTime = processes.get(0).getArrivalTime();
             shortestProcessPQ.addAll(getAllProcessesAtTime(currentTime));
@@ -67,9 +67,6 @@ public class SRTFScheduling extends Scheduling {
             }
             System.out.println("-------------------");
         }
-
-
-        return finishedProcesses;
     }
 
     private List<Process> getAllProcessesAtTime(int currentTime) {

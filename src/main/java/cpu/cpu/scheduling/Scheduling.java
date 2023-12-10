@@ -12,6 +12,7 @@ import java.util.*;
  * @author abdelrahman
  */
 public abstract class Scheduling {
+    StringBuilder stringBuilder;
     protected List<Process> processes;
     protected List<Process> finishedProcesses;
     protected int quantum = 0;
@@ -20,6 +21,7 @@ public abstract class Scheduling {
     public Scheduling(Vector<Process> ps ,int contextSwitch , int quantum){
         this.finishedProcesses = new LinkedList<>();
         this.processes = new LinkedList<>();
+        stringBuilder = new StringBuilder();
         this.quantum = quantum;
         this.currentTime = 0;
         this.contextSwitching = contextSwitch;
@@ -33,7 +35,7 @@ public abstract class Scheduling {
     protected List<Process> getProcesses(){
         return processes;
     }
-    public abstract List<Process> execute();
+    public abstract void execute();
     public void simulate(){
         execute();
     }
