@@ -26,14 +26,10 @@ public class main extends javax.swing.JFrame {
         this.setResizable(false);
         this.setLocationRelativeTo(null);
         processes = new Vector<>();
-        Process p1 = new Process(0,"P1", Color.RED, 0, 17, 4);
+        Process p1 = new Process(0,"P1", Color.RED, 3, 17, 4);
         Process p2 = new Process(1,"P2", Color.BLUE, 3, 6, 9);
-        Process p3 = new Process(2,"P3", Color.GREEN, 4, 10, 3);
-        Process p4 = new Process(3,"P4", Color.YELLOW, 29, 4, 2);
-        p1.setAGFactor(20);
-        p2.setAGFactor(17);
-        p3.setAGFactor(16);
-        p4.setAGFactor(43);
+        Process p3 = new Process(2,"P3", Color.GREEN, 3, 10, 3);
+        Process p4 = new Process(3,"P4", Color.YELLOW, 3, 4, 2);
         processes.add(p1);
         processes.add(p2);
         processes.add(p3);
