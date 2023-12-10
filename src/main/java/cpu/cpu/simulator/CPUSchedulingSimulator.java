@@ -23,16 +23,15 @@ public class CPUSchedulingSimulator extends javax.swing.JFrame {
 
     public CPUSchedulingSimulator() {
         initComponents();
+        this.setResizable(false);
+        this.setLocationRelativeTo(null);
         GanttChart chart = new GanttChart();
-         
-    
-    IntervalCategoryDataset dataset=getCategoryDataset();
-    String title = "Gantt Chart Example";
-    String x_label = "Software Development Phases";
-    String y_label = "Timeline";
-    chart.setDataset( dataset,title, x_label, y_label);
-    this.chartPanel.add(chart);
-       
+        IntervalCategoryDataset dataset=getCategoryDataset();
+        String title = "Gantt Chart Example";
+        String x_label = "Software Development Phases";
+        String y_label = "Timeline";
+        chart.setDataset( dataset,title, x_label, y_label);
+        this.chartPanel.add(chart);
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -67,8 +66,8 @@ public class CPUSchedulingSimulator extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
     public  void StartLogic(){
-        scheduling.execute();
-         this.setLocationRelativeTo(null);
+        scheduling.simulate();
+        this.setLocationRelativeTo(null);
     }
     
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing

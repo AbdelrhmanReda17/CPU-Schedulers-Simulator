@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Other/File.java to edit this template
  */
 package cpu.cpu.scheduling.SJFScheduling;
+import cpu.cpu.scheduling.SchedulingType;
 import cpu.cpu.simulator.Utilities.Duration;
 import cpu.cpu.simulator.Utilities.Process;
 import cpu.cpu.scheduling.Scheduling;
@@ -19,6 +20,7 @@ import cpu.cpu.simulator.Utilities.Process;
 public class SJFScheduling extends Scheduling {
     public SJFScheduling(Vector<Process> ps , int contextSwitch , int quantum){
         super(ps , contextSwitch , quantum);
+        this.schedulingType = SchedulingType.SHORTEST_JOB_FIRST_SCHEDULING;
     }
     @Override
     public void execute() {

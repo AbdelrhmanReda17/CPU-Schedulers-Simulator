@@ -3,11 +3,11 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Other/File.java to edit this template
  */
 package cpu.cpu.scheduling.AGScheduling;
+import cpu.cpu.scheduling.SchedulingType;
 import cpu.cpu.simulator.Utilities.Duration;
 import cpu.cpu.simulator.Utilities.Process;
 import cpu.cpu.scheduling.Scheduling;
 
-import java.sql.Time;
 import java.util.*;
 
 /**
@@ -23,6 +23,7 @@ public class AGScheduling extends Scheduling {
     public AGScheduling(Vector<Process> processes , int contextSwitch , int quantum) {
         super(processes , contextSwitch , quantum);
         this.numberOfProcesses = processes.size();
+        this.schedulingType = SchedulingType.AG_SCHEDULING;
         this.doneProcesses = 0;
         this.currentTime = 0;
         this.readyQueue = new LinkedList<>();
@@ -81,10 +82,8 @@ public class AGScheduling extends Scheduling {
             }else {
                 currentProcess = processesQueue.poll();
             }
-            if(runNonPreemptive(currentProcess)){
-                doneProcesses++;
-            }else if (runPreemptive(currentProcess)){
-                doneProcesses++;
+            if(!runNonPreemptive(currentProcess)){
+                runPreemptive(currentProcess);
             }
         }
         for(Process process : finishedProcesses){
@@ -92,7 +91,7 @@ public class AGScheduling extends Scheduling {
         }
     }
 
-    private boolean runPreemptive(Process currentProcess){
+    private void runPreemptive(Process currentProcess){
         boolean isQuantumFinished = true;
         Process old = currentProcess;
         double quantum = Math.ceil((currentProcess.getQuantum() / 2));
@@ -106,12 +105,10 @@ public class AGScheduling extends Scheduling {
                         currentProcess.setFinishTime(currentTime);
                         currentProcess.setQuantum(0);
                         currentProcess.setRemainingTime(0);
-                        currentProcess.setTurnAroundTime(currentTime - currentProcess.getArrivalTime());
-                        currentProcess.setWaitingTime(currentProcess.getTurnAroundTime() - currentProcess.getBurstTime());
                         currentProcess.addDuration(new Duration(currentTime - 1 , currentTime));
                         readyQueue.remove(currentProcess);
                         finishedProcesses.add(currentProcess);
-                        return true;
+                        return;
                     }
                     currentProcess.setRemainingTime(currentProcess.getRemainingTime() - 1);
                     currentProcess.addDuration(new Duration(currentTime - 1 , currentTime));
@@ -128,12 +125,10 @@ public class AGScheduling extends Scheduling {
                         currentProcess.setFinishTime(currentTime);
                         currentProcess.setQuantum(0);
                         currentProcess.setRemainingTime(0);
-                        currentProcess.setTurnAroundTime(currentTime - currentProcess.getArrivalTime());
-                        currentProcess.setWaitingTime(currentProcess.getTurnAroundTime() - currentProcess.getBurstTime());
                         currentProcess.addDuration(new Duration(currentTime - 1 , currentTime));
                         finishedProcesses.add(currentProcess);
                         readyQueue.remove(currentProcess);
-                        return true;
+                        return;
                     }
                     currentProcess.setRemainingTime(currentProcess.getRemainingTime() - 1);
                     currentProcess.addDuration(new Duration(currentTime - 1 , currentTime));
@@ -149,19 +144,18 @@ public class AGScheduling extends Scheduling {
             getMean(processes);
             old.setQuantum((int) Math.ceil(getMean(processes) + old.getQuantum()));
             processes.get(old.getPid()).setQuantum(old.getQuantum());
+            schedulingData.append("Process ").append(old.getName()).append(" has been preempted at time ").append(currentTime).append(" with quantum ").append(old.getQuantum()).append("\n");
             readyQueue.add(old);
-            return false;
+            return;
         }else{
             old.setQuantum(old.getQuantum() +  ( old.getQuantum() - (int) Math.ceil(quantum) ));
             processes.get(old.getPid()).setQuantum(old.getQuantum());
+            schedulingData.append("Process ").append(old.getName()).append(" has been preempted at time ").append(currentTime).append(" with quantum ").append(old.getQuantum()).append("\n");
             readyQueue.remove(currentProcess);
         }
-        if(runNonPreemptive(currentProcess)){
-            return true;
-        }else if (runPreemptive(currentProcess)){
-            return true;
+        if(!runNonPreemptive(currentProcess)){
+            runPreemptive(currentProcess);
         }
-        return false;
     }
     private boolean runNonPreemptive(Process currentProcess) {
         if((Math.ceil(currentProcess.getQuantum() / 2) ) >= currentProcess.getRemainingTime()){
@@ -170,15 +164,13 @@ public class AGScheduling extends Scheduling {
             currentProcess.setRemainingTime(0);
             currentProcess.setQuantum(0);
             currentProcess.setFinishTime(currentTime);
-            currentProcess.setTurnAroundTime(currentTime - currentProcess.getArrivalTime());
-            currentProcess.setWaitingTime(currentProcess.getTurnAroundTime() - currentProcess.getBurstTime());
             finishedProcesses.add(currentProcess);
             return true;
         }
         else{
             currentProcess.addDuration(new Duration(currentTime , (currentTime + (int) Math.ceil(currentProcess.getQuantum() / 2) )));
             currentTime += (int) Math.ceil(currentProcess.getQuantum() / 2);
-            currentProcess.setRemainingTime(currentProcess.getRemainingTime() - (int) (currentProcess.getQuantum() / 2));
+            currentProcess.setRemainingTime(currentProcess.getRemainingTime() - (int) Math.ceil(currentProcess.getQuantum() / 2));
             return false;
         }
     }

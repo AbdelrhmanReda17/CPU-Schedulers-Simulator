@@ -12,8 +12,9 @@ import java.util.*;
  * @author abdelrahman
  */
 public abstract class Scheduling {
-    StringBuilder stringBuilder;
+    protected StringBuilder schedulingData;
     protected List<Process> processes;
+    protected SchedulingType schedulingType;
     protected List<Process> finishedProcesses;
     protected int quantum = 0;
     protected int contextSwitching = 0;
@@ -21,7 +22,7 @@ public abstract class Scheduling {
     public Scheduling(Vector<Process> ps ,int contextSwitch , int quantum){
         this.finishedProcesses = new LinkedList<>();
         this.processes = new LinkedList<>();
-        stringBuilder = new StringBuilder();
+        schedulingData = new StringBuilder();
         this.quantum = quantum;
         this.currentTime = 0;
         this.contextSwitching = contextSwitch;
@@ -36,8 +37,26 @@ public abstract class Scheduling {
         return processes;
     }
     public abstract void execute();
+    public String getSchedulingType(){
+        return schedulingType.toString();
+    }
     public void simulate(){
         execute();
+        int totalTurnAroundTime = 0;
+        int totalWaitingTime = 0;
+        for(Process p : finishedProcesses){
+            p.calculateTurnAroundTime();
+            p.calculateWaitingTime();
+            totalTurnAroundTime += p.getTurnAroundTime();
+            totalWaitingTime += p.getWaitingTime();
+        }
+        double averageTurnAroundTime = (double) totalTurnAroundTime / finishedProcesses.size();
+        double averageWaitingTime = (double) totalWaitingTime / finishedProcesses.size();
+        schedulingData.append("Average Turnaround Time: ").append(averageTurnAroundTime).append("\n");
+        schedulingData.append("Average Waiting Time: ").append(averageWaitingTime).append("\n");
+        schedulingData.append("CPU Utilization: ").append(getSchedulingType()).append("\n");
+
+        System.out.println(schedulingData.toString());
     }
     public void setQuantum(int quantum){
         this.quantum=quantum;

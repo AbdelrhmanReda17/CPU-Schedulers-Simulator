@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.PriorityQueue;
 import java.util.Vector;
 
+import cpu.cpu.scheduling.SchedulingType;
 import cpu.cpu.simulator.Utilities.Duration;
 import cpu.cpu.simulator.Utilities.Process;
 
@@ -26,6 +27,7 @@ public class SRTFScheduling extends Scheduling {
     public SRTFScheduling(Vector<Process> ps, int contextSwitch, int quantum) {
         super(ps, contextSwitch, quantum);
         shortestProcessPQ = new PriorityQueue<>(Comparator.comparingInt(Process::getRemainingTime));
+        this.schedulingType = SchedulingType.SHORTEST_REMAINING_TIME_FIRST_SCHEDULING;
     }
 
     @Override
@@ -45,6 +47,7 @@ public class SRTFScheduling extends Scheduling {
 
                     shortestProcess.setAge(shortestProcess.getAge() + 1);
                     saveDuration(shortestProcess, startTime, currentTime);
+                    startTime = currentTime;
                     shortestProcessPQ.add(shortestProcess);
                     shortestProcess = shortestProcessPQ.poll();
                 }
@@ -52,6 +55,7 @@ public class SRTFScheduling extends Scheduling {
                 shortestProcess.setRemainingTime(shortestProcess.getRemainingTime() - 1);
                 if (shortestProcess.getRemainingTime() <= 0) {
                     saveDuration(shortestProcess, startTime, currentTime);
+                    startTime = currentTime;
                     finishedProcesses.add(shortestProcess);
                 } else {
                     shortestProcessPQ.add(shortestProcess);

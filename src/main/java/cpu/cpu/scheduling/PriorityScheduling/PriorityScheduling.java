@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Other/File.java to edit this template
  */
 package cpu.cpu.scheduling.PriorityScheduling;
+import cpu.cpu.scheduling.SchedulingType;
 import cpu.cpu.simulator.Utilities.Duration;
 import cpu.cpu.simulator.Utilities.Process;
 
@@ -21,6 +22,7 @@ public class PriorityScheduling extends Scheduling {
     public PriorityScheduling(Vector<Process> ps , int contextSwitch , int quantum){
         super(ps , contextSwitch , quantum);
         queue=new PriorityQueue<>(Comparator.comparingInt(Process::getPriorityNumber));
+        this.schedulingType= SchedulingType.PRIORITY_SCHEDULING;
 
     }
     @Override

@@ -214,6 +214,12 @@ public class Process {
     public void setPriorityNumber(int priorityNumber) {
         PriorityNumber = priorityNumber;
     }
+    public void calculateTurnAroundTime(){
+        this.turnAroundTime = this.finishTime - this.arrivalTime;
+    }
+    public void calculateWaitingTime(){
+        this.waitingTime = this.turnAroundTime - this.burstTime;
+    }
     @Override
     public String toString() {
         String s = "";
