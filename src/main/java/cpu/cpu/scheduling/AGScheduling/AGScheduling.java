@@ -86,11 +86,7 @@ public class AGScheduling extends Scheduling {
                 runPreemptive(currentProcess);
             }
         }
-        for(Process process : finishedProcesses){
-            System.out.println(process);
-        }
     }
-
     private void runPreemptive(Process currentProcess){
         boolean isQuantumFinished = true;
         Process old = currentProcess;

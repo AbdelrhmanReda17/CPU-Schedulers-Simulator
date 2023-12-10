@@ -2,16 +2,22 @@ package cpu.cpu.simulator;
 
 import cpu.cpu.scheduling.Scheduling;
 import cpu.cpu.scheduling.SchedulingFactory;
+import cpu.cpu.simulator.Utilities.Duration;
 import cpu.cpu.simulator.Utilities.Process;
-import java.time.LocalDate;
-import java.time.ZoneOffset;
+
+import java.awt.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Vector;
 import javax.swing.JFrame;  
 import org.jfree.data.category.IntervalCategoryDataset;
 import org.jfree.data.gantt.Task;
 import org.jfree.data.gantt.TaskSeries;
 import org.jfree.data.gantt.TaskSeriesCollection;
+
+
 public class CPUSchedulingSimulator extends javax.swing.JFrame {
     // Scheduling Parameter
     private static JFrame main;
@@ -26,13 +32,18 @@ public class CPUSchedulingSimulator extends javax.swing.JFrame {
         this.setResizable(false);
         this.setLocationRelativeTo(null);
         scheduling.simulate();
+        this.jSchedulingLabel.setText(this.scheduling.getSchedulingType());
         this.jDataArea.setText(CPUSchedulingSimulator.scheduling.getSchedulingData());
         GanttChart chart = new GanttChart();
         IntervalCategoryDataset dataset=getCategoryDataset();
-        String title = "Gantt Chart Example";
-        String x_label = "Software Development Phases";
-        String y_label = "Timeline";
-        chart.setDataset( dataset,title, x_label, y_label);
+        Vector<Color> processesColor = new Vector<>();
+        for(Process process : scheduling.getFinishedProcesses()){
+            processesColor.add(process.getColor());
+        }
+        String title = "CPU Scheduling Gantt Chart";
+        String x_label = "Timeline";
+        String y_label = "Process";
+        chart.setDataset( dataset , processesColor,title, x_label, y_label);
         this.chartPanel.add(chart);
     }
     @SuppressWarnings("unchecked")
@@ -43,6 +54,7 @@ public class CPUSchedulingSimulator extends javax.swing.JFrame {
         dataPanel = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jDataArea = new javax.swing.JTextArea();
+        jSchedulingLabel = new javax.swing.JLabel();
 
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
@@ -57,21 +69,30 @@ public class CPUSchedulingSimulator extends javax.swing.JFrame {
         jDataArea.setRows(5);
         jScrollPane1.setViewportView(jDataArea);
 
+        jSchedulingLabel.setFont(new java.awt.Font("Segoe UI", 3, 18)); // NOI18N
+        jSchedulingLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jSchedulingLabel.setText("CPU SCHEDULING TYPE");
+        jSchedulingLabel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+
         javax.swing.GroupLayout dataPanelLayout = new javax.swing.GroupLayout(dataPanel);
         dataPanel.setLayout(dataPanelLayout);
         dataPanelLayout.setHorizontalGroup(
             dataPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, dataPanelLayout.createSequentialGroup()
+            .addGroup(dataPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 315, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 346, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(dataPanelLayout.createSequentialGroup()
+                .addComponent(jSchedulingLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         dataPanelLayout.setVerticalGroup(
             dataPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(dataPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1)
-                .addContainerGap())
+                .addComponent(jSchedulingLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(107, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -86,8 +107,11 @@ public class CPUSchedulingSimulator extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(chartPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 432, Short.MAX_VALUE)
             .addComponent(dataPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(chartPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
@@ -105,65 +129,54 @@ public class CPUSchedulingSimulator extends javax.swing.JFrame {
             new CPUSchedulingSimulator().setVisible(true);
         });
     }
-    private IntervalCategoryDataset getCategoryDataset() {  
-  
-        TaskSeries series1 = new TaskSeries("Estimated Date"); series1.add(new Task("Requirement",
-        Date.from(LocalDate.of(2017,7,3).atStartOfDay().toInstant(ZoneOffset.UTC)),  
-        Date.from(LocalDate.of(2017, 7,7).atStartOfDay().toInstant(ZoneOffset.UTC))  
-                 ));  
+    private IntervalCategoryDataset getCategoryDataset() {
+        List<Process> processes = scheduling.getFinishedProcesses();
+        TaskSeriesCollection dataset = new TaskSeriesCollection();
 
-         series1.add(new Task("Design",Date.from(LocalDate.of(2017, 7,10).atStartOfDay().toInstant(ZoneOffset.UTC)),  
-         Date.from(LocalDate.of(2017, 7, 14).atStartOfDay().toInstant(ZoneOffset.UTC))  
-                 ));  
-
-         series1.add(new Task("Coding",Date.from(LocalDate.of(2017, 7,17).atStartOfDay().toInstant(ZoneOffset.UTC)),  
-         Date.from(LocalDate.of(2017, 7, 21).atStartOfDay().toInstant(ZoneOffset.UTC))  
-                 ));  
-
-         series1.add(new Task("Testing", Date.from(LocalDate.of(2017, 7,24).atStartOfDay().toInstant(ZoneOffset.UTC)),  
-         Date.from(LocalDate.of(2017, 7, 28).atStartOfDay().toInstant(ZoneOffset.UTC))  
-                 ));  
-
-         series1.add(new Task("Deployment", Date.from(LocalDate.of(2017, 07,31).atStartOfDay().toInstant(ZoneOffset.UTC)),  
-         Date.from(LocalDate.of(2017, 8, 4).atStartOfDay().toInstant(ZoneOffset.UTC))  
-                 ));  
-
-
-        TaskSeries series2 = new TaskSeries("Actual Date");  
-        series2.add(new Task("Requirement",Date.from(LocalDate.of(2017, 7,3).atStartOfDay().toInstant(ZoneOffset.UTC)),  
-        Date.from(LocalDate.of(2017, 7, 05).atStartOfDay().toInstant(ZoneOffset.UTC))  
-                 ));  
-
-         series2.add(new Task("Design",  
-         Date.from(LocalDate.of(2017, 7, 6).atStartOfDay().toInstant(ZoneOffset.UTC)),  
-         Date.from(LocalDate.of(2017, 7, 17).atStartOfDay().toInstant(ZoneOffset.UTC))  
-                 ));  
-
-         series2.add(new Task("Coding",  
-         Date.from(LocalDate.of(2017, 7, 18).atStartOfDay().toInstant(ZoneOffset.UTC)),  
-         Date.from(LocalDate.of(2017, 7, 27).atStartOfDay().toInstant(ZoneOffset.UTC))  
-                 ));  
-
-         series2.add(new Task("Testing",  
-         Date.from(LocalDate.of(2017, 7, 28).atStartOfDay().toInstant(ZoneOffset.UTC)),  
-         Date.from(LocalDate.of(2017, 8, 1).atStartOfDay().toInstant(ZoneOffset.UTC))  
-                 ));  
-
-         series2.add(new Task("Deployment",  
-         Date.from(LocalDate.of(2017, 8, 2).atStartOfDay().toInstant(ZoneOffset.UTC)),  
-         Date.from(LocalDate.of(2017, 8, 4).atStartOfDay().toInstant(ZoneOffset.UTC))  
-                 ));  
-
-         TaskSeriesCollection dataset = new TaskSeriesCollection();  
-         dataset.add(series1);dataset.add(series2);  
-         return dataset;  
+        // Format for the fixed time
+        SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
+        Date fixedTime;
+        try {
+            fixedTime = dateFormat.parse("00:00:00");
+        } catch (ParseException e) {
+            // Handle the exception (unlikely in this case)
+            e.printStackTrace();
+            return dataset;
+        }
+        for (Process process : processes) {
+            TaskSeries series = getTaskSeries(process, fixedTime);
+            dataset.add(series);
+        }
+        return dataset;
+    }
+    private static TaskSeries getTaskSeries(Process process, Date fixedTime) {
+        TaskSeries series = new TaskSeries(process.getName());
+        Date startTime = new Date(fixedTime.getTime() + process.getArrivalTime());
+        Date endTime = new Date(fixedTime.getTime() + process.getFinishTime());
+        Task task = new Task(
+                    process.getName(),
+                    startTime,
+                    endTime
+        );
+        for (Duration duration : process.getDurations()) {
+              task.addSubtask(
+                      new Task(
+                              process.getName(),
+                              new Date(fixedTime.getTime() + duration.getStartTime()),
+                              new Date(fixedTime.getTime() + duration.getEndTime())
+                ));
+        }
+        series.add(task);
+        System.out.println(series.getTasks().size());
+        return series;
     }
 
-   
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel chartPanel;
     private javax.swing.JPanel dataPanel;
     private javax.swing.JTextArea jDataArea;
+    private javax.swing.JLabel jSchedulingLabel;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 }

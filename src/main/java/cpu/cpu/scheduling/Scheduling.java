@@ -6,6 +6,7 @@ package cpu.cpu.scheduling;
 import cpu.cpu.simulator.Utilities.Process;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -40,6 +41,11 @@ public abstract class Scheduling {
     public String getSchedulingType(){
         return schedulingType.toString();
     }
+    public List<Process> getFinishedProcesses() {
+        return finishedProcesses.stream()
+                .sorted(Comparator.comparingInt(Process::getArrivalTime))
+                .collect(Collectors.toList());
+    }
     public void simulate(){
         execute();
         int totalTurnAroundTime = 0;
@@ -47,14 +53,15 @@ public abstract class Scheduling {
         for(Process p : finishedProcesses){
             p.calculateTurnAroundTime();
             p.calculateWaitingTime();
+            p.reCalculateDurations();
             totalTurnAroundTime += p.getTurnAroundTime();
             totalWaitingTime += p.getWaitingTime();
+            System.out.print(p);
         }
         double averageTurnAroundTime = (double) totalTurnAroundTime / finishedProcesses.size();
         double averageWaitingTime = (double) totalWaitingTime / finishedProcesses.size();
         schedulingData.append("Average Turnaround Time: ").append(averageTurnAroundTime).append("\n");
         schedulingData.append("Average Waiting Time: ").append(averageWaitingTime).append("\n");
-        schedulingData.append("CPU Utilization: ").append(getSchedulingType()).append("\n");
     }
     public String getSchedulingData(){
         return schedulingData.toString();

@@ -4,18 +4,21 @@
  */
 package cpu.cpu.simulator;
 
-import java.awt.BorderLayout;
+import java.awt.*;
+import java.text.SimpleDateFormat;
+import java.util.Vector;
 import javax.swing.JPanel;
-import java.time.LocalDate;  
-import java.time.ZoneOffset;  
-import java.util.Date;  
+import javax.swing.Renderer;
 import org.jfree.chart.ChartFactory;  
 import org.jfree.chart.ChartPanel;  
 import org.jfree.chart.JFreeChart;  
+import org.jfree.chart.axis.DateAxis;
+import org.jfree.chart.plot.CategoryPlot;
+import org.jfree.chart.renderer.category.BarRenderer;
+import org.jfree.chart.renderer.category.CategoryItemRenderer;
+import org.jfree.chart.renderer.category.LineAndShapeRenderer;
 import org.jfree.data.category.IntervalCategoryDataset;  
-import org.jfree.data.gantt.Task;  
-import org.jfree.data.gantt.TaskSeries;  
-import org.jfree.data.gantt.TaskSeriesCollection;  
+import org.jfree.data.gantt.TaskSeriesCollection;
 
 public class GanttChart extends JPanel {
 
@@ -23,9 +26,17 @@ public class GanttChart extends JPanel {
         setLayout(new BorderLayout());
     }
 
-    public void setDataset(IntervalCategoryDataset dataset, String title, String x_label, String y_label) {
+    public void setDataset(IntervalCategoryDataset dataset , Vector<Color> processesColor, String title, String x_label, String y_label) {
         removeAll();
-        JFreeChart chart = ChartFactory.createGanttChart(title, y_label, x_label, dataset,false,false,false);
+        JFreeChart chart = ChartFactory.createGanttChart(title, y_label, x_label, dataset,true,true,true);
+        CategoryPlot plot = chart.getCategoryPlot();
+        BarRenderer br = (BarRenderer) plot.getRenderer();
+        br.setItemMargin(-2);
+        for(int i = 0 ; i < processesColor.size() ; i++){
+            br.setSeriesPaint(i , processesColor.get(i));
+        }
+        DateAxis axis = (DateAxis) plot.getRangeAxis();
+        axis.setDateFormatOverride(new SimpleDateFormat("S"));
         ChartPanel panel = new ChartPanel(chart);
         add(panel);
         repaint();

@@ -220,6 +220,40 @@ public class Process {
     public void calculateWaitingTime(){
         this.waitingTime = this.turnAroundTime - this.burstTime;
     }
+    public void reCalculateDurations(){
+         this.durations = mergeIntervals(durations);
+    }
+    public List<Duration> mergeIntervals(List<Duration> intervals) {
+        List<Duration> mergedIntervals = new LinkedList<>();
+
+        if (intervals == null || intervals.isEmpty()) {
+            return mergedIntervals;
+        }
+
+        intervals.sort((a, b) -> Integer.compare(a.getStartTime(), b.getStartTime()));
+
+        Duration currentInterval = intervals.get(0);
+
+        for (int i = 1; i < intervals.size(); i++) {
+            Duration nextInterval = intervals.get(i);
+
+            if (currentInterval.getEndTime() >= nextInterval.getStartTime()) {
+                // Merge overlapping intervals
+                currentInterval = new Duration(currentInterval.getStartTime(),
+                        Math.max(currentInterval.getEndTime(), nextInterval.getEndTime()));
+            } else {
+                // Add non-overlapping interval to the result
+                mergedIntervals.add(currentInterval);
+                currentInterval = nextInterval;
+            }
+        }
+
+        // Add the last interval
+        mergedIntervals.add(currentInterval);
+
+        return mergedIntervals;
+    }
+    
     @Override
     public String toString() {
         String s = "";
