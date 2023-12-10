@@ -55,8 +55,9 @@ public abstract class Scheduling {
         schedulingData.append("Average Turnaround Time: ").append(averageTurnAroundTime).append("\n");
         schedulingData.append("Average Waiting Time: ").append(averageWaitingTime).append("\n");
         schedulingData.append("CPU Utilization: ").append(getSchedulingType()).append("\n");
-
-        System.out.println(schedulingData.toString());
+    }
+    public String getSchedulingData(){
+        return schedulingData.toString();
     }
     public void setQuantum(int quantum){
         this.quantum=quantum;

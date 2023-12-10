@@ -538,12 +538,10 @@ public class main extends javax.swing.JFrame {
             return;
         }
         this.setVisible(false);
-        CPUSchedulingSimulator cpu=new CPUSchedulingSimulator();
-        cpu.StartGUI( this ,(String) jSchedulingChooser.getSelectedItem() , processes ,
+        CPUSchedulingSimulator.StartGUI( this ,(String) jSchedulingChooser.getSelectedItem() , processes ,
                 isContextSwitching ? Integer.parseInt(this.jContextField.getText()) : 0 ,
                 isQuantum ? Integer.parseInt(this.jQuantumField.getText()) : 0  );
         
-        cpu.StartLogic();
     }
     private void jDeleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jDeleteButtonActionPerformed
         int  selectedRow = this.jProcessTable.getSelectedRow();
