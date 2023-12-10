@@ -30,13 +30,13 @@ public class PriorityScheduling extends Scheduling {
             getProcesses(currentTime);
             while (!queue.isEmpty()){
                 Process runningProcess=queue.poll();
-                Time start=new Time(currentTime);
+                int start=(currentTime);
                 while (runningProcess.getRemainingTime()>0){
                     getProcesses(currentTime);
                     currentTime++;
                     runningProcess.setRemainingTime(runningProcess.getRemainingTime()-1);
                 }
-                Time end=new Time(currentTime);
+                int end= (currentTime);
                 runningProcess.addDuration(new Duration(start,end));
                 finishedProcesses.add(runningProcess);
             }

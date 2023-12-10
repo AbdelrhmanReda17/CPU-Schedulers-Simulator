@@ -34,7 +34,7 @@ public class SRTFScheduling extends Scheduling {
             int currentTime = processes.get(0).getArrivalTime();
             shortestProcessPQ.addAll(getAllProcessesAtTime(currentTime));
 
-            Time startTime = new Time(currentTime);
+            int startTime = currentTime;
             while (!shortestProcessPQ.isEmpty()) {
                 Process shortestProcess = shortestProcessPQ.poll();
                 shortestProcessPQ.addAll(getAllProcessesAtTime(currentTime));
@@ -63,7 +63,7 @@ public class SRTFScheduling extends Scheduling {
         for (int i = 0; i < finishedProcesses.size(); i++) {
             System.out.println(finishedProcesses.get(i).getName());
             for (Duration dur:finishedProcesses.get(i).getDurations()) {
-                System.out.println(dur.getStartTime().getTime()+" "+dur.getEndTime().getTime());
+                System.out.println(dur.getStartTime()+" "+dur.getEndTime());
             }
             System.out.println("-------------------");
         }
@@ -82,8 +82,7 @@ public class SRTFScheduling extends Scheduling {
         return foundProcesses;
     }
 
-    private void saveDuration(Process process, Time startTime, int currentTime) {
-        process.addDuration(new Duration(startTime, new Time(currentTime)));
-        startTime = new Time(currentTime);
+    private void saveDuration(Process process, int startTime, int currentTime) {
+        process.addDuration(new Duration(startTime, currentTime));
     }
 }

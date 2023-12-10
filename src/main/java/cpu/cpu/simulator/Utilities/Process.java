@@ -15,13 +15,13 @@ import java.util.Random;
  * @author abdelrahman
  */
 public class Process {
-    private int id = 0;
+    private int pid ;
     private String name;
     private Color color;
     private int arrivalTime;
     private int burstTime;
     private int waitingTime;
-    private int quantum ;
+    private double quantum ;
     private int lastWaitTime;
     private int finishTime;
     private int turnAroundTime;
@@ -68,6 +68,7 @@ public class Process {
         this.turnAroundTime = 0;
     }
     public Process(Process process){
+        this.pid = process.pid;
         this.name = process.name;
         this.color = process.color;
         this.arrivalTime = process.arrivalTime;
@@ -88,7 +89,7 @@ public class Process {
         return random.nextInt(max - min) + min;
     }
     public Process(int id,String name, Color color, int arrivalTime, int burstTime, int priority) {
-        this.id = id;
+        this.pid = id;
         this.name = name;
         this.color = color;
         this.arrivalTime = arrivalTime;
@@ -140,8 +141,8 @@ public class Process {
     public void setFinishTime(int finishTime) {
         this.finishTime = finishTime;
     }
-    public void setId(int id) {
-        this.id = id;
+    public void setPid(int id) {
+        this.pid = id;
     }
     public void setDurations(List<Duration> durations) {
         this.durations = durations;
@@ -156,16 +157,16 @@ public class Process {
     public Color getColor() {
         return color;
     }
-    public int getId() {
-        return id;
+    public int getPid() {
+        return pid;
     }
     public double getAGFactor() {
         return AGFactor;
     }
-    public int getQuantum() {
+    public Double getQuantum() {
         return quantum;
     }
-    public void setQuantum(int quantum) {
+    public void setQuantum(double quantum) {
         this.quantum = quantum;
     }
     public void setAGFactor(double AGFactor) {
@@ -215,14 +216,19 @@ public class Process {
     }
     @Override
     public String toString() {
+        String s = "";
+        for (Duration dur:durations) {
+            s += "{"  + dur.getStartTime()+" "+dur.getEndTime() + "}" ;
+        }
         return "Process {" +
-                "id=" + id +
+                "id=" + pid +
                 ", name='" + name + '\'' +
                 ", color=" + color +
                 ", arrivalTime=" + arrivalTime +
                 ", burstTime=" + burstTime +
                 ", waitingTime=" + waitingTime +
-                ", quantum =" + quantum +
+                ", quantum=" + quantum +
+                ", durations=" + s +
                 ", lastWaitTime=" + lastWaitTime +
                 ", finishTime=" + finishTime +
                 ", remainingTime=" + remainingTime +

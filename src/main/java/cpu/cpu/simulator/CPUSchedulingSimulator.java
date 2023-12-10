@@ -78,10 +78,6 @@ public class CPUSchedulingSimulator extends javax.swing.JFrame {
     public  void StartLogic(){
         scheduling.execute();
          this.setLocationRelativeTo(null);
-         
-        
-
-       
     }
     
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing

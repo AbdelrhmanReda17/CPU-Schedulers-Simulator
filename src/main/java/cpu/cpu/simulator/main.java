@@ -26,16 +26,27 @@ public class main extends javax.swing.JFrame {
         this.setResizable(false);
         this.setLocationRelativeTo(null);
         processes = new Vector<>();
-//        Process a=new Process(1,"a",Color.red,0,11,2);
-//        Process b=new Process(2,"b",Color.green,5,28,0);
-//        Process c=new Process(3,"c",Color.orange,12,2,3);
-//        Process d=new Process(4,"d",Color.pink,3,10,1);
-//        Process e=new Process(5,"e",Color.gray,9,16,4);
-//        processes.add(a);
-//        processes.add(b);
-//        processes.add(c);
-//        processes.add(d);
-//        processes.add(e);
+        Process p1 = new Process(0,"P1", Color.RED, 0, 17, 4);
+        Process p2 = new Process(1,"P2", Color.BLUE, 3, 6, 9);
+        Process p3 = new Process(2,"P3", Color.GREEN, 4, 10, 3);
+        Process p4 = new Process(3,"P4", Color.YELLOW, 29, 4, 2);
+        p1.setAGFactor(20);
+        p2.setAGFactor(17);
+        p3.setAGFactor(16);
+        p4.setAGFactor(43);
+        processes.add(p1);
+        processes.add(p2);
+        processes.add(p3);
+        processes.add(p4);
+        Object[] row1 = {p1.getName(), p1.getArrivalTime(), p1.getPid(), p1.getPriorityNumber()};
+        Object[] row2 = {p2.getName(), p2.getArrivalTime(), p2.getPid(), p2.getPriorityNumber()};
+        Object[] row3 = {p3.getName(), p3.getArrivalTime(), p3.getPid(), p3.getPriorityNumber()};
+        Object[] row4 = {p4.getName(), p4.getArrivalTime(), p4.getPid(), p4.getPriorityNumber()};
+        DefaultTableModel model = (DefaultTableModel) this.jProcessTable.getModel();
+        model.addRow(row1);
+        model.addRow(row2);
+        model.addRow(row3);
+        model.addRow(row4);
     }
     public Process getProcess(Process newProcess) {
         for(Process p : processes) {

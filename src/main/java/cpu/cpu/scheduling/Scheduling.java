@@ -21,6 +21,7 @@ public abstract class Scheduling {
         this.finishedProcesses = new LinkedList<>();
         this.processes = new LinkedList<>();
         this.quantum = quantum;
+        this.currentTime = 0;
         this.contextSwitching = contextSwitch;
         for(Process p : ps){
             Process newProcess = new Process(p);
