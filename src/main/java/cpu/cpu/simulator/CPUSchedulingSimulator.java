@@ -2,6 +2,7 @@ package cpu.cpu.simulator;
 
 import cpu.cpu.scheduling.Scheduling;
 import cpu.cpu.scheduling.SchedulingFactory;
+import cpu.cpu.scheduling.SchedulingType;
 import cpu.cpu.simulator.Utilities.Duration;
 import cpu.cpu.simulator.Utilities.Process;
 import java.awt.*;
@@ -9,6 +10,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.Vector;
 import javax.swing.JFrame;
 import org.jfree.data.category.IntervalCategoryDataset;
@@ -30,7 +32,7 @@ public class CPUSchedulingSimulator extends javax.swing.JFrame {
         this.setResizable(false);
         this.setLocationRelativeTo(null);
         scheduling.simulate();
-        this.jSchedulingLabel.setText(CPUSchedulingSimulator.scheduling.getSchedulingType());
+        this.jSchedulingLabel.setText(getSchedulingType());
         this.jDataArea.setText(CPUSchedulingSimulator.scheduling.getSchedulingData());
         GanttChart chart = new GanttChart();
         IntervalCategoryDataset dataset = getCategoryDataset();
@@ -43,6 +45,18 @@ public class CPUSchedulingSimulator extends javax.swing.JFrame {
         String y_label = "Process";
         chart.setDataset(dataset, processesColor  , title, x_label, y_label);
         this.chartPanel.add(chart);
+    }
+    private String getSchedulingType() {
+        if(Objects.equals(CPUSchedulingSimulator.scheduling.getSchedulingType(), SchedulingType.AG_SCHEDULING.name())){
+            return "AG Scheduling";
+        }else if(Objects.equals(CPUSchedulingSimulator.scheduling.getSchedulingType(), SchedulingType.PRIORITY_SCHEDULING.name())){
+            return "Priority Scheduling";
+        }else if(Objects.equals(CPUSchedulingSimulator.scheduling.getSchedulingType(), SchedulingType.SHORTEST_REMAINING_TIME_FIRST_SCHEDULING.name())){
+            return "SRTF Scheduling";
+        }else if(Objects.equals(CPUSchedulingSimulator.scheduling.getSchedulingType(), SchedulingType.SHORTEST_JOB_FIRST_SCHEDULING.name())) {
+            return "SJF Scheduling";
+        }
+        return "Scheduling";
     }
 
     // <editor-fold defaultstate="collapsed" desc="Generated

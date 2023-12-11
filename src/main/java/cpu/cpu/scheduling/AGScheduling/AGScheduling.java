@@ -27,7 +27,7 @@ public class AGScheduling extends Scheduling {
         this.currentTime = 0;
         this.readyQueue = new LinkedList<>();
         this.finishedProcesses = new LinkedList<>();
-        this.processesQueue = new PriorityQueue<>(Comparator.comparingInt(Process::getArrivalTime));
+        this.processesQueue = new PriorityQueue<>(Comparator.comparingDouble(Process::getAGFactor));
         this.AllProcesses = new LinkedList<>();
         for (Process p : this.processes) {
             Process newProcess = new Process(p);
@@ -54,6 +54,7 @@ public class AGScheduling extends Scheduling {
             }
             return true;
         } else {
+
             return processesQueue.isEmpty() || processesQueue.peek().getAGFactor() > currentProcess.getAGFactor();
         }
     }
@@ -99,12 +100,7 @@ public class AGScheduling extends Scheduling {
                 if (readyQueue.isEmpty() || checkSmallestAG(currentProcess, true)) {
                     currentTime += 1;
                     if (currentProcess.getRemainingTime() == 1) {
-                        currentProcess.setFinishTime(currentTime);
-                        currentProcess.setQuantum(0);
-                        currentProcess.setRemainingTime(0);
-                        currentProcess.addDuration(new Duration(currentTime - 1, currentTime));
-                        readyQueue.remove(currentProcess);
-                        finishedProcesses.add(currentProcess);
+                        processFinished(currentProcess);
                         return;
                     }
                     currentProcess.setRemainingTime(currentProcess.getRemainingTime() - 1);
@@ -119,12 +115,7 @@ public class AGScheduling extends Scheduling {
                 if (checkSmallestAG(currentProcess, false)) {
                     currentTime += 1;
                     if (currentProcess.getRemainingTime() == 1) {
-                        currentProcess.setFinishTime(currentTime);
-                        currentProcess.setQuantum(0);
-                        currentProcess.setRemainingTime(0);
-                        currentProcess.addDuration(new Duration(currentTime - 1, currentTime));
-                        finishedProcesses.add(currentProcess);
-                        readyQueue.remove(currentProcess);
+                        processFinished(currentProcess);
                         return;
                     }
                     currentProcess.setRemainingTime(currentProcess.getRemainingTime() - 1);
@@ -141,14 +132,14 @@ public class AGScheduling extends Scheduling {
             getMean(processes);
             old.setQuantum((int) Math.ceil(getMean(processes) + old.getQuantum()));
             processes.get(old.getPid()).setQuantum(old.getQuantum());
-            schedulingData.append("Process ").append(old.getName()).append(" has been preempted at time ")
+            schedulingData.append("Process ").append(old.getName()).append(" has been updated at time ")
                     .append(currentTime).append(" with quantum ").append(old.getQuantum()).append("\n");
             readyQueue.add(old);
             return;
         } else {
             old.setQuantum(old.getQuantum() + (old.getQuantum() - (int) Math.ceil(quantum)));
             processes.get(old.getPid()).setQuantum(old.getQuantum());
-            schedulingData.append("Process ").append(old.getName()).append(" has been preempted at time ")
+            schedulingData.append("Process ").append(old.getName()).append(" has been updated at time ")
                     .append(currentTime).append(" with quantum ").append(old.getQuantum()).append("\n");
             readyQueue.remove(currentProcess);
         }
@@ -156,12 +147,24 @@ public class AGScheduling extends Scheduling {
             runPreemptive(currentProcess);
         }
     }
+    private void processFinished(Process currentProcess) {
+        currentProcess.setFinishTime(currentTime);
+        currentProcess.setQuantum(0);
+        currentProcess.setRemainingTime(0);
+        currentProcess.addDuration(new Duration(currentTime - 1, currentTime));
+        schedulingData.append("Process ").append(currentProcess.getName()).append(" has been finished at time ")
+                .append(currentTime).append(" with quantum ").append(currentProcess.getQuantum()).append("\n");
+        readyQueue.remove(currentProcess);
+        finishedProcesses.add(currentProcess);
+    }
     private boolean runNonPreemptive(Process currentProcess) {
         if ((Math.ceil(currentProcess.getQuantum() / 2)) >= currentProcess.getRemainingTime()) {
             currentTime += currentProcess.getRemainingTime();
             currentProcess.addDuration(new Duration((currentTime - currentProcess.getRemainingTime()), (currentTime)));
             currentProcess.setRemainingTime(0);
             currentProcess.setQuantum(0);
+            schedulingData.append("Process ").append(currentProcess.getName()).append(" has been finished at time ")
+                    .append(currentTime).append(" with quantum ").append(currentProcess.getQuantum()).append("\n");
             currentProcess.setFinishTime(currentTime);
             finishedProcesses.add(currentProcess);
             return true;

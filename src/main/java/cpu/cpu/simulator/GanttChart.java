@@ -12,8 +12,10 @@ import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.DateAxis;
+import org.jfree.chart.labels.IntervalCategoryToolTipGenerator;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.renderer.category.BarRenderer;
+import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.IntervalCategoryDataset;
 
 public class GanttChart extends JPanel {
@@ -24,7 +26,7 @@ public class GanttChart extends JPanel {
 
     public void setDataset(IntervalCategoryDataset dataset , Vector<Color> processesColor, String title, String x_label, String y_label){
         removeAll();
-        JFreeChart chart = ChartFactory.createGanttChart(title, y_label, x_label, dataset,true,true,true);
+        JFreeChart chart = ChartFactory.createGanttChart(title, y_label, x_label, dataset,true,false,false);
         CategoryPlot plot = chart.getCategoryPlot();
         BarRenderer br = (BarRenderer) plot.getRenderer();
         br.setItemMargin(-2);
@@ -32,8 +34,6 @@ public class GanttChart extends JPanel {
             br.setSeriesPaint(i , processesColor.get(i));
         }
         DateAxis axis = (DateAxis) plot.getRangeAxis();
-        axis.setLowerMargin(0);
-        axis.setUpperMargin(0.15);
         axis.setDateFormatOverride(new SimpleDateFormat("S"));
         ChartPanel panel = new ChartPanel(chart);
         add(panel);
