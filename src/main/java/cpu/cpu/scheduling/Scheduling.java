@@ -5,6 +5,7 @@
 package cpu.cpu.scheduling;
 
 import cpu.cpu.simulator.Utilities.Process;
+import java.awt.Color;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -14,7 +15,6 @@ import java.util.stream.Collectors;
  * @author abdelrahman
  */
 public abstract class Scheduling {
-    protected StringBuilder schedulingData;
     protected List<Process> processes;
     protected SchedulingType schedulingType;
     protected List<Process> finishedProcesses;
@@ -26,8 +26,10 @@ public abstract class Scheduling {
         this.finishedProcesses = new LinkedList<>();
         this.processes = new LinkedList<>();
         this.quantum = quantum;
-        this.schedulingData = new StringBuilder();
         this.currentTime = 0;
+        this.processesColors = new Vector<>();
+        this.quantumRows = new Object[0][];
+        this.processesRows = new Object[ps.size()][];
         this.contextSwitching = contextSwitch;
         for (Process p : ps) {
             Process newProcess = new Process(p);
@@ -36,10 +38,6 @@ public abstract class Scheduling {
             processes.add(newProcess);
         }
         processes.sort(Comparator.comparingInt(Process::getArrivalTime));
-    }
-
-    protected List<Process> getProcesses() {
-        return processes;
     }
 
     public abstract void execute();
@@ -53,37 +51,42 @@ public abstract class Scheduling {
                 .sorted(Comparator.comparingInt(Process::getArrivalTime))
                 .collect(Collectors.toList());
     }
-
+    private float averageTurnAroundTime;
+    private float averageWaitingTime;
+    private final Vector<Color> processesColors;
+    private final Object[][] processesRows;
+    protected Object[][]  quantumRows;
     public void simulate() {
         execute();
         int totalTurnAroundTime = 0;
         int totalWaitingTime = 0;
-        for (Process p : getFinishedProcesses()) {
+        for (int i = 0; i < finishedProcesses.size(); i++) {
+            Process p = finishedProcesses.get(i);
             p.calculateTurnAroundTime();
             p.calculateWaitingTime();
             p.reCalculateDurations();
-            schedulingData.append("Process ").append(p.getName()).append(":\n");
-            schedulingData.append("Turnaround Time = ").append(p.getTurnAroundTime()).append("\n");
-            schedulingData.append("Waiting Time = ").append(p.getWaitingTime()).append("\n");
-            schedulingData.append("------------------------------------\n");
+            Object[] row = {p.getName(), p.getPid(), p.getArrivalTime() , p.getFinishTime()};
+            processesRows[i] = row;
             totalTurnAroundTime += p.getTurnAroundTime();
             totalWaitingTime += p.getWaitingTime();
+            processesColors.add(p.getColor());
         }
-        float averageTurnAroundTime = (float) totalTurnAroundTime / finishedProcesses.size();
-        float averageWaitingTime = (float) totalWaitingTime / finishedProcesses.size();
-        schedulingData.append("Average Turnaround Time: ").append(averageTurnAroundTime).append("\n");
-        schedulingData.append("Average Waiting Time: ").append(averageWaitingTime).append("\n");
+        averageTurnAroundTime = (float) totalTurnAroundTime / finishedProcesses.size();
+        averageWaitingTime = (float) totalWaitingTime / finishedProcesses.size();
     }
-
-    public String getSchedulingData() {
-        return schedulingData.toString();
+    public float getAverageTT(){
+        return averageTurnAroundTime;
     }
-
-    public void setQuantum(int quantum) {
-        this.quantum = quantum;
+    public float getAverageWT(){
+        return averageWaitingTime;
     }
-
-    public void setContextSwitching(int contextSwitching) {
-        this.contextSwitching = contextSwitching;
+    public Object[][] getQuantumRows() {
+        return quantumRows;
+    }
+    public Object[][] getProcessesRows() {
+        return processesRows;
+    }
+    public Vector<Color> getProcessesColors() {
+        return processesColors;
     }
 }

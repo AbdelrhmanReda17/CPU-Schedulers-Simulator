@@ -21,28 +21,40 @@ public class Main extends javax.swing.JFrame {
         this.setResizable(false);
         this.setLocationRelativeTo(null);
         processes = new Vector<>();
-        Process p1 = new Process(0,"P1", Color.RED, 12, 18, 4);
-        Process p2 = new Process(1,"P2", Color.BLUE, 2, 12, 9);
-        Process p3 = new Process(2,"P3", Color.GREEN, 14, 8, 2);
-        Process p4 = new Process(3,"P4", Color.YELLOW, 8, 20, 8);
+        
+        Process p0 = new Process(0,"P0", Color.RED, 19, 9, 4);
+        Process p1 = new Process(1,"P1", Color.BLUE, 18, 9, 9);
+        Process p2 = new Process(2,"P2", Color.GREEN, 20, 6,2);
+        Process p3 = new Process(3,"P3", Color.YELLOW, 6, 9, 8);
+        Process p4 = new Process(4,"P4", Color.ORANGE, 4, 7, 8);
+        Process p5 = new Process(5,"P5", Color.BLACK, 23, 7, 8);
+        Process p6 = new Process(6,"P6", Color.WHITE, 19, 10, 8);
+        Process p7= new Process(7,"P7", Color.CYAN, 0, 9, 8);
+        Process p8 = new Process(8,"P8", Color.GRAY, 4, 10, 8);
+        Process p9 = new Process(9,"P9", Color.MAGENTA, 25, 10, 8);
         //12 => 5
-        p1.setAGFactor(28);
-        p2.setAGFactor(22);
-        p3.setAGFactor(24);
-        p4.setAGFactor(26);
+        p0.setAGFactor(p0.getBurstTime() + p0.getArrivalTime() + 10);
+        p1.setAGFactor(p1.getBurstTime() + p1.getArrivalTime() +10);
+        p2.setAGFactor(p2.getBurstTime() + p2.getArrivalTime() +10);
+        p3.setAGFactor(p3.getBurstTime() + p3.getArrivalTime() +10);
+        p4.setAGFactor(p4.getBurstTime() + p4.getArrivalTime() +10);
+        p5.setAGFactor(p5.getBurstTime() + p5.getArrivalTime() +10);
+        p6.setAGFactor(p6.getBurstTime() + p6.getArrivalTime() +10);
+        p7.setAGFactor(p7.getBurstTime() + p7.getArrivalTime() +10);
+        p8.setAGFactor(p8.getBurstTime() + p8.getArrivalTime() +10);
+        p9.setAGFactor(p9.getBurstTime() + p9.getArrivalTime() +10);
+
         processes.add(p1);
         processes.add(p2);
         processes.add(p3);
         processes.add(p4);
-        Object[] row1 = {p1.getName(), p1.getArrivalTime(), p1.getBurstTime(), p1.getPriorityNumber()};
-        Object[] row2 = {p2.getName(), p2.getArrivalTime(), p2.getBurstTime(), p2.getPriorityNumber()};
-        Object[] row3 = {p3.getName(), p3.getArrivalTime(), p3.getBurstTime(), p3.getPriorityNumber()};
-        Object[] row4 = {p4.getName(), p4.getArrivalTime(), p4.getBurstTime(), p4.getPriorityNumber()};
-        DefaultTableModel model = (DefaultTableModel) this.jProcessTable.getModel();
-        model.addRow(row1);
-        model.addRow(row2);
-        model.addRow(row3);
-        model.addRow(row4);
+        processes.add(p5);
+        processes.add(p6);
+        processes.add(p7);
+        processes.add(p8);
+        processes.add(p9);
+        processes.add(p0);
+        
     }
     public Process getProcess(Process newProcess) {
         for(Process p : processes) {

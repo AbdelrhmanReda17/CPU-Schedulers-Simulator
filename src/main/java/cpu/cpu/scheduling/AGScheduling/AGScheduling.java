@@ -19,6 +19,7 @@ public class AGScheduling extends Scheduling {
     List<Process> readyQueue;
     PriorityQueue<Process> processesQueue;
     List<Process> AllProcesses;
+    private int quatnumCounter = 0;
     private final int numberOfProcesses;
     public AGScheduling(Vector<Process> processes, int contextSwitch, int quantum) {
         super(processes, contextSwitch, quantum);
@@ -86,9 +87,6 @@ public class AGScheduling extends Scheduling {
                 runPreemptive(currentProcess);
             }
         }
-        for(Process p : finishedProcesses) {
-            System.out.println(p);
-        }
     }
     private void runPreemptive(Process currentProcess) {
         Process old = currentProcess;
@@ -130,41 +128,42 @@ public class AGScheduling extends Scheduling {
         }
         if (quantum == (Math.ceil(old.getQuantum()))) {
             getMean(processes);
+            addQuantum(old , getMean(processes) + old.getQuantum() );
             old.setQuantum((int) Math.ceil(getMean(processes) + old.getQuantum()));
             processes.get(old.getPid()).setQuantum(old.getQuantum());
-            schedulingData.append("Process ").append(old.getName()).append(" has been updated at time ")
-                    .append(currentTime).append(" with quantum ").append(old.getQuantum()).append("\n");
             readyQueue.add(old);
             return;
         } else {
             old.setQuantum(old.getQuantum() + (old.getQuantum() - (int) Math.ceil(quantum)));
+            addQuantum(old , old.getQuantum() + (old.getQuantum() - (int) Math.ceil(quantum)) );
             processes.get(old.getPid()).setQuantum(old.getQuantum());
-            schedulingData.append("Process ").append(old.getName()).append(" has been updated at time ")
-                    .append(currentTime).append(" with quantum ").append(old.getQuantum()).append("\n");
             readyQueue.remove(currentProcess);
         }
         if (!runNonPreemptive(currentProcess)) {
             runPreemptive(currentProcess);
         }
     }
+    private void addQuantum(Process p , Double Quantum){
+        quantumRows = Arrays.copyOf(quantumRows, quantumRows.length + 1);
+        Object[] row = {p.getName(), currentTime, p.getQuantum() , Quantum};
+        quantumRows[quatnumCounter++] = row;
+    }
     private void processFinished(Process currentProcess) {
         currentProcess.setFinishTime(currentTime);
+        addQuantum(currentProcess , 0.0 );
         currentProcess.setQuantum(0);
         currentProcess.setRemainingTime(0);
         currentProcess.addDuration(new Duration(currentTime - 1, currentTime));
-        schedulingData.append("Process ").append(currentProcess.getName()).append(" has been finished at time ")
-                .append(currentTime).append(" with quantum ").append(currentProcess.getQuantum()).append("\n");
         readyQueue.remove(currentProcess);
         finishedProcesses.add(currentProcess);
     }
     private boolean runNonPreemptive(Process currentProcess) {
         if ((Math.ceil(currentProcess.getQuantum() / 2)) >= currentProcess.getRemainingTime()) {
+            addQuantum(currentProcess , 0.0 );
             currentTime += currentProcess.getRemainingTime();
             currentProcess.addDuration(new Duration((currentTime - currentProcess.getRemainingTime()), (currentTime)));
             currentProcess.setRemainingTime(0);
             currentProcess.setQuantum(0);
-            schedulingData.append("Process ").append(currentProcess.getName()).append(" has been finished at time ")
-                    .append(currentTime).append(" with quantum ").append(currentProcess.getQuantum()).append("\n");
             currentProcess.setFinishTime(currentTime);
             finishedProcesses.add(currentProcess);
             return true;

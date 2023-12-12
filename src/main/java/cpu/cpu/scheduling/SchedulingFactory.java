@@ -6,7 +6,10 @@ import cpu.cpu.scheduling.PriorityScheduling.PriorityScheduling;
 import cpu.cpu.scheduling.SJFScheduling.SJFScheduling;
 import cpu.cpu.scheduling.SRTFScheduling.SRTFScheduling;
 
+import java.util.Objects;
 import java.util.Vector;
+
+import cpu.cpu.simulator.CPUSchedulingSimulator;
 import cpu.cpu.simulator.Utilities.Process;
 
 /*
@@ -27,5 +30,17 @@ public class SchedulingFactory {
             case "Shortest- Remaining Time First (SRTF)" -> new SRTFScheduling(processes, contextSwitch, quantum);
             default -> null;
         };
+    }
+    public static String getSchedulingType(Scheduling sc) {
+        if(Objects.equals(sc.getSchedulingType(), SchedulingType.AG_SCHEDULING.name())){
+            return "AG Scheduling";
+        }else if(Objects.equals(sc.getSchedulingType(), SchedulingType.PRIORITY_SCHEDULING.name())){
+            return "Priority Scheduling";
+        }else if(Objects.equals(sc.getSchedulingType(), SchedulingType.SHORTEST_REMAINING_TIME_FIRST_SCHEDULING.name())){
+            return "SRTF Scheduling";
+        }else if(Objects.equals(sc.getSchedulingType(), SchedulingType.SHORTEST_JOB_FIRST_SCHEDULING.name())) {
+            return "SJF Scheduling";
+        }
+        return "Scheduling";
     }
 }
