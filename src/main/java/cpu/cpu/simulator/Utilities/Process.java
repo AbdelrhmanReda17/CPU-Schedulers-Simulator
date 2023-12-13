@@ -251,8 +251,9 @@ public class Process {
         PriorityNumber = priorityNumber;
     }
 
-    public void calculateTurnAroundTime() {
-        this.turnAroundTime = this.finishTime - this.arrivalTime;
+    public void calculateTurnAroundTime(int contextSwitch) {
+        this.turnAroundTime = this.finishTime - this.arrivalTime + contextSwitch;
+        System.out.println(contextSwitch);
     } // 5
 
     public void calculateWaitingTime() {
