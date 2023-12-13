@@ -21,40 +21,48 @@ public class Main extends javax.swing.JFrame {
         this.setResizable(false); 
         this.setLocationRelativeTo(null);
         processes = new Vector<>();
-        
-        Process p0 = new Process(0,"P0", Color.RED, 19, 9, 4);
-        Process p1 = new Process(1,"P1", Color.BLUE, 18, 9, 9);
-        Process p2 = new Process(2,"P2", Color.GREEN, 20, 6,2);
-        Process p3 = new Process(3,"P3", Color.YELLOW, 6, 9, 8);
-        Process p4 = new Process(4,"P4", Color.ORANGE, 4, 7, 8);
-        Process p5 = new Process(5,"P5", Color.BLACK, 23, 7, 8);
-        Process p6 = new Process(6,"P6", Color.WHITE, 19, 10, 8);
-        Process p7= new Process(7,"P7", Color.CYAN, 0, 15, 8);
-        Process p8 = new Process(8,"P8", Color.GRAY, 4, 10, 8);
-        Process p9 = new Process(9,"P9", Color.MAGENTA, 25, 10, 8);
-        //12 => 5
-        p0.setAGFactor(p0.getBurstTime() + p0.getArrivalTime() + 10);
-        p1.setAGFactor(p1.getBurstTime() + p1.getArrivalTime() +10);
-        p2.setAGFactor(p2.getBurstTime() + p2.getArrivalTime() +10);
-        p3.setAGFactor(p3.getBurstTime() + p3.getArrivalTime() +10);
-        p4.setAGFactor(p4.getBurstTime() + p4.getArrivalTime() +10);
-        p5.setAGFactor(p5.getBurstTime() + p5.getArrivalTime() +10);
-        p6.setAGFactor(p6.getBurstTime() + p6.getArrivalTime() +10);
-        p7.setAGFactor(p7.getBurstTime() + p7.getArrivalTime() +10);
-        p8.setAGFactor(p8.getBurstTime() + p8.getArrivalTime() +10);
-        p9.setAGFactor(p9.getBurstTime() + p9.getArrivalTime() +10);
+
+        Process p1 = new Process(0,"P1", Color.RED, 0   , 17,4);
+        Process p2 = new Process(1,"P2", Color.BLUE, 3, 6, 9);
+        Process p3 = new Process(2,"P3", Color.GREEN, 4, 10,2);
+        Process p4 = new Process(3,"P4", Color.YELLOW, 29,4, 8);
+        p1.setAGFactor(20);
+        p2.setAGFactor(17);
+        p3.setAGFactor(16);
+        p4.setAGFactor(43);
+
+//        Process p0 = new Process(0,"P0", Color.RED, 0, 8, 49);
+//        Process p1 = new Process(1,"P1", Color.BLUE, 17, 5, 24);
+//        Process p2 = new Process(2,"P2", Color.GREEN, 22, 8,32);
+//        Process p3 = new Process(3,"P3", Color.YELLOW, 7, 6, 5);
+//        Process p4 = new Process(4,"P4", Color.ORANGE, 10, 9, 72);
+//        Process p5 = new Process(5,"P5", Color.BLACK, 25, 9, 87);
+//        Process p6 = new Process(6,"P6", Color.WHITE, 10, 7, 126);
+//        Process p7= new Process(7,"P7", Color.CYAN, 26, 7, 42);
+//        Process p8 = new Process(8,"P8", Color.GRAY, 3, 10, 71);
+//        Process p9 = new Process(9,"P9", Color.MAGENTA, 3, 10, 24);
+//
+//        p0.setAGFactor(p0.getBurstTime() + p0.getArrivalTime() + 10 ); // 38
+//        p1.setAGFactor(p1.getBurstTime() + p1.getArrivalTime() + 10 ); // 37
+//        p2.setAGFactor(p2.getBurstTime() + p2.getArrivalTime() + 10 ); // 36
+//        p3.setAGFactor(p3.getBurstTime() + p3.getArrivalTime() + 10 ); // 25
+//        p4.setAGFactor(p4.getBurstTime() + p4.getArrivalTime() + 10 ); // 21
+//        p5.setAGFactor(p5.getBurstTime() + p5.getArrivalTime() + 10 ); // 40
+//        p6.setAGFactor(p6.getBurstTime() + p6.getArrivalTime() + 10 ); // 39
+//        p7.setAGFactor(p7.getBurstTime() + p7.getArrivalTime() + 10 ); // 19
+//        p8.setAGFactor(p8.getBurstTime() + p8.getArrivalTime() + 10 ); // 24
+//        p9.setAGFactor(p9.getBurstTime() + p9.getArrivalTime() + 10 ); // 45
 
         processes.add(p1);
         processes.add(p2);
         processes.add(p3);
         processes.add(p4);
-        processes.add(p5);
-        processes.add(p6);
-        processes.add(p7);
-        processes.add(p8);
-        processes.add(p9);
-        processes.add(p0);
-        
+//        processes.add(p5);
+//        processes.add(p6);
+//        processes.add(p7);
+//        processes.add(p8);
+//        processes.add(p9);
+//        processes.add(p0);
     }
     public Process getProcess(Process newProcess) {
         for(Process p : processes) {
@@ -68,6 +76,7 @@ public class Main extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
@@ -96,6 +105,8 @@ public class Main extends javax.swing.JFrame {
         jContextLabel = new javax.swing.JLabel();
         jQuantumLabel = new javax.swing.JLabel();
         jQuantumField = new javax.swing.JTextField();
+        jAgeLabel = new javax.swing.JLabel();
+        jAgeField = new javax.swing.JTextField();
         jProcessPanel = new javax.swing.JPanel();
         jProcessPane = new javax.swing.JScrollPane();
         jProcessTable = new javax.swing.JTable();
@@ -108,7 +119,7 @@ public class Main extends javax.swing.JFrame {
         jLabel1.setText("CPU Scheduling Simulator");
 
         jSchedulingChooser.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jSchedulingChooser.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Priority Scheduling", "AG Scheduling", "Shortest- Job First(SJF)", "Shortest- Remaining Time First (SRTF)" }));
+        jSchedulingChooser.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Priority Scheduling", "AG Scheduling", "Shortest - Job First(SJF)", "Shortest - Remaining Time First (SRTF)" }));
         jSchedulingChooser.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 jSchedulingChooserItemStateChanged(evt);
@@ -357,6 +368,17 @@ public class Main extends javax.swing.JFrame {
             }
         });
 
+        jAgeLabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jAgeLabel.setText("Process Age");
+        jAgeLabel.setEnabled(false);
+
+        jAgeField.setEnabled(false);
+        jAgeField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jAgeFieldjFieldKeyTyped(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -365,11 +387,14 @@ public class Main extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jContextLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jQuantumLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jQuantumLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jAgeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 66, Short.MAX_VALUE)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jContextField, javax.swing.GroupLayout.DEFAULT_SIZE, 189, Short.MAX_VALUE)
-                    .addComponent(jQuantumField))
+                    .addComponent(jAgeField, javax.swing.GroupLayout.DEFAULT_SIZE, 189, Short.MAX_VALUE)
+                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jContextField, javax.swing.GroupLayout.DEFAULT_SIZE, 189, Short.MAX_VALUE)
+                        .addComponent(jQuantumField)))
                 .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
@@ -383,7 +408,11 @@ public class Main extends javax.swing.JFrame {
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jQuantumLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jQuantumField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jAgeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jAgeField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -411,7 +440,7 @@ public class Main extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jAddProcessButton, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(7, 7, 7))
@@ -428,11 +457,11 @@ public class Main extends javax.swing.JFrame {
                 "Process Name", "Arrival Time", "Brust Time", "Priority Number"
             }
         ) {
-            Class<Integer>[] types = new Class [] {
+            Class[] types = new Class [] {
                 java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class
             };
 
-            public Class<Integer> getColumnClass(int columnIndex) {
+            public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
             }
         });
@@ -533,8 +562,8 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_jAddProcessButtonActionPerformed
 
     private void jStartSimulateActionPerformed(java.awt.event.ActionEvent evt) {
-        boolean isContextSwitching = false , isQuantum = false;
-        if(Objects.equals((String) jSchedulingChooser.getSelectedItem(), "Shortest- Job First(SJF)") ){
+        boolean isContextSwitching = false , isQuantum = false , isAge = false;
+        if(Objects.equals((String) jSchedulingChooser.getSelectedItem(), "Shortest - Job First(SJF)") ){
             if("".equals(this.jContextField.getText())){
                 JOptionPane.showMessageDialog(this, "Please enter Context Switching" , "ERROR", JOptionPane.ERROR_MESSAGE);
                 return;
@@ -550,6 +579,14 @@ public class Main extends javax.swing.JFrame {
                 isQuantum = true;
             }
         }
+        if(Objects.equals((String) jSchedulingChooser.getSelectedItem(), "Shortest - Remaining Time First (SRTF)") ){
+            if("".equals(this.jAgeField.getText())){
+                JOptionPane.showMessageDialog(this, "Please enter Age", "ERROR", JOptionPane.ERROR_MESSAGE );
+                return;
+            }else{
+                isAge = true;
+            }
+        }
         if(processes.isEmpty()){
             JOptionPane.showMessageDialog(this, "Please add processes", "ERROR", JOptionPane.ERROR_MESSAGE );
             return;
@@ -557,9 +594,12 @@ public class Main extends javax.swing.JFrame {
         this.setVisible(false);
         CPUSchedulingSimulator.StartGUI( this ,(String) jSchedulingChooser.getSelectedItem() , processes ,
                 isContextSwitching ? Integer.parseInt(this.jContextField.getText()) : 0 ,
-                isQuantum ? Integer.parseInt(this.jQuantumField.getText()) : 0  );
+                isQuantum ? Integer.parseInt(this.jQuantumField.getText()) : 0,
+                isAge ? Integer.parseInt(this.jAgeField.getText()) : 0
+                );
         this.jQuantumField.setText("");
         this.jContextField.setText("");
+        this.jAgeField.setText("");
     }
     private void jDeleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jDeleteButtonActionPerformed
         int  selectedRow = this.jProcessTable.getSelectedRow();
@@ -582,23 +622,36 @@ public class Main extends javax.swing.JFrame {
     
     private void jSchedulingChooserItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jSchedulingChooserItemStateChanged
         if (evt.getStateChange() == ItemEvent.SELECTED) {
-            if(evt.getItem().toString() == "Shortest- Job First(SJF)"){
+            if("Shortest - Job First(SJF)".equals(evt.getItem().toString())){
                 this.jContextField.setEnabled(true);
                 this.jContextLabel.setEnabled(true);
                 this.jQuantumField.setEnabled(false);
                 this.jQuantumLabel.setEnabled(false);
+                this.jAgeField.setEnabled(false);
+                this.jAgeLabel.setEnabled(false);
 
-            }else if(evt.getItem().toString() == "AG Scheduling"){
+            }else if("AG Scheduling".equals(evt.getItem().toString())){
                 this.jQuantumField.setEnabled(true);
                 this.jQuantumLabel.setEnabled(true);
                 this.jContextField.setEnabled(false);
                 this.jContextLabel.setEnabled(false);
-            }else{
+                this.jAgeField.setEnabled(false);
+                this.jAgeLabel.setEnabled(false);
+            }else if("Shortest - Remaining Time First (SRTF)".equals(evt.getItem().toString())){
                 this.jQuantumField.setEnabled(false);
                 this.jQuantumLabel.setEnabled(false);
                 this.jContextField.setEnabled(false);
                 this.jContextLabel.setEnabled(false);
-
+                this.jAgeField.setEnabled(true);
+                this.jAgeLabel.setEnabled(true);
+            }
+            else{
+                this.jQuantumField.setEnabled(false);
+                this.jQuantumLabel.setEnabled(false);
+                this.jContextField.setEnabled(false);
+                this.jContextLabel.setEnabled(false);
+                this.jAgeField.setEnabled(false);
+                this.jAgeLabel.setEnabled(false);
             }
         }
     }//GEN-LAST:event_jSchedulingChooserItemStateChanged
@@ -607,6 +660,10 @@ public class Main extends javax.swing.JFrame {
         
     }//GEN-LAST:event_jSchedulingChooserActionPerformed
 
+    private void jAgeFieldjFieldKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jAgeFieldjFieldKeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jAgeFieldjFieldKeyTyped
+
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(() -> {
             new Main().setVisible(true);
@@ -614,6 +671,8 @@ public class Main extends javax.swing.JFrame {
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jAddProcessButton;
+    private javax.swing.JTextField jAgeField;
+    private javax.swing.JLabel jAgeLabel;
     private javax.swing.JTextField jArrivalField;
     private javax.swing.JLabel jArrivalLabel;
     private javax.swing.JPanel jArrivalPanel;

@@ -19,10 +19,11 @@ public class AGScheduling extends Scheduling {
     List<Process> readyQueue;
     PriorityQueue<Process> processesQueue;
     List<Process> AllProcesses;
+    boolean isProcessFinished = false;
     private int quantumCounter = 0;
     private final int numberOfProcesses;
-    public AGScheduling(Vector<Process> processes, int contextSwitch, int quantum) {
-        super(processes, contextSwitch, quantum);
+    public AGScheduling(Vector<Process> processes, int contextSwitch, int quantum , int age) {
+        super(processes, contextSwitch, quantum , age);
         this.numberOfProcesses = processes.size();
         this.schedulingType = SchedulingType.AG_SCHEDULING;
         this.currentTime = 0;
@@ -36,6 +37,15 @@ public class AGScheduling extends Scheduling {
             AllProcesses.add(newProcess);
         }
     }
+    private Process getSmallestArrival() {
+        Process smallestArrival = processesQueue.peek();
+        for (Process process : processesQueue) {
+            if (process.getArrivalTime() < smallestArrival.getArrivalTime()) {
+                smallestArrival = process;
+            }
+        }
+        return smallestArrival;
+    }
     private double getMean(List<Process> processes) {
         double sum = 0;
         for (Process process : processes) {
@@ -43,8 +53,8 @@ public class AGScheduling extends Scheduling {
         }
         return (sum / processes.size()) * 0.1;
     }
-    private boolean checkSmallestAG(Process currentProcess, boolean isReadyQueue) {
-        if (isReadyQueue) {
+    private boolean checkSmallestAG(Process currentProcess, boolean isAG) {
+        if (isAG) {
             if (readyQueue.isEmpty()) {
                 return true;
             }
@@ -54,9 +64,16 @@ public class AGScheduling extends Scheduling {
                 }
             }
             return true;
-        } else {
-
-            return processesQueue.isEmpty() || processesQueue.peek().getAGFactor() > currentProcess.getAGFactor();
+        }else{
+            if (readyQueue.isEmpty()) {
+                return true;
+            }
+            for (Process process : readyQueue) {
+                if (process.getArrivalTime() < currentProcess.getArrivalTime()) {
+                    return false;
+                }
+            }
+            return true;
         }
     }
     private Process getSmallestAG() {
@@ -72,16 +89,18 @@ public class AGScheduling extends Scheduling {
     public void execute() {
         while (finishedProcesses.size() < numberOfProcesses) {
             remakeProcessesQueue();
-            if (processesQueue.isEmpty() && !AllProcesses.isEmpty() && readyQueue.isEmpty()) {
+            if (readyQueue.isEmpty() && !AllProcesses.isEmpty()) {
                 currentTime++;
                 continue;
             }
             Process currentProcess = null;
-            if (processesQueue.isEmpty()) {
+            if(isProcessFinished){
                 currentProcess = readyQueue.get(0);
                 readyQueue.remove(0);
-            } else {
-                currentProcess = processesQueue.poll();
+                isProcessFinished = false;
+            }else{
+                currentProcess = getSmallestAG();
+                readyQueue.remove(currentProcess);
             }
             if (!runNonPreemptive(currentProcess)) {
                 runPreemptive(currentProcess);
@@ -94,7 +113,6 @@ public class AGScheduling extends Scheduling {
         int ct = this.currentTime;
         while (currentTime < ct + Math.floor(old.getQuantum() / 2) && old.getRemainingTime() > 0) {
             remakeProcessesQueue();
-            if (processesQueue.isEmpty()) {
                 if (readyQueue.isEmpty() || checkSmallestAG(currentProcess, true)) {
                     currentTime += 1;
                     if (currentProcess.getRemainingTime() == 1) {
@@ -109,22 +127,6 @@ public class AGScheduling extends Scheduling {
                     currentProcess = getSmallestAG();
                     break;
                 }
-            } else {
-                if (checkSmallestAG(currentProcess, false)) {
-                    currentTime += 1;
-                    if (currentProcess.getRemainingTime() == 1) {
-                        processFinished(currentProcess);
-                        return;
-                    }
-                    currentProcess.setRemainingTime(currentProcess.getRemainingTime() - 1);
-                    currentProcess.addDuration(new Duration(currentTime - 1, currentTime));
-                    quantum++;
-                } else {
-                    readyQueue.add(currentProcess);
-                    currentProcess = processesQueue.poll();
-                    break;
-                }
-            }
         }
         if (quantum == (Math.ceil(old.getQuantum()))) {
             getMean(processes);
@@ -132,6 +134,7 @@ public class AGScheduling extends Scheduling {
             old.setQuantum((int) Math.ceil(getMean(processes) + old.getQuantum()));
             processes.get(old.getPid()).setQuantum(old.getQuantum());
             readyQueue.add(old);
+            isProcessFinished = true;
             return;
         } else {
             old.setQuantum(old.getQuantum() + (old.getQuantum() - (int) Math.ceil(quantum)));
@@ -145,13 +148,14 @@ public class AGScheduling extends Scheduling {
     }
     private void addQuantum(Process p , Double Quantum){
         quantumRows = Arrays.copyOf(quantumRows, quantumRows.length + 1);
-        Object[] row = {p.getName(), currentTime, p.getQuantum() , Quantum};
+        Object[] row = {p.getName(), currentTime, p.getQuantum() , Math.ceil(Quantum)};
         quantumRows[quantumCounter++] = row;
     }
     private void processFinished(Process currentProcess) {
         currentProcess.setFinishTime(currentTime);
         addQuantum(currentProcess , 0.0 );
         currentProcess.setQuantum(0);
+        isProcessFinished = true;
         currentProcess.setRemainingTime(0);
         currentProcess.addDuration(new Duration(currentTime - 1, currentTime));
         readyQueue.remove(currentProcess);
@@ -160,6 +164,7 @@ public class AGScheduling extends Scheduling {
     private boolean runNonPreemptive(Process currentProcess) {
         if ((Math.ceil(currentProcess.getQuantum() / 2)) >= currentProcess.getRemainingTime()) {
             addQuantum(currentProcess , 0.0 );
+            isProcessFinished = true;
             currentTime += currentProcess.getRemainingTime();
             currentProcess.addDuration(new Duration((currentTime - currentProcess.getRemainingTime()), (currentTime)));
             currentProcess.setRemainingTime(0);
@@ -178,7 +183,7 @@ public class AGScheduling extends Scheduling {
     }
     private void remakeProcessesQueue() {
         while (!AllProcesses.isEmpty() && AllProcesses.get(0).getArrivalTime() <= currentTime) {
-            processesQueue.add(AllProcesses.get(0));
+            readyQueue.add(AllProcesses.get(0));
             AllProcesses.remove(AllProcesses.get(0));
         }
     }

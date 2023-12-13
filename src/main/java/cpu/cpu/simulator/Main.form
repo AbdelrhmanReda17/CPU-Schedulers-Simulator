@@ -74,7 +74,7 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jAddProcessButton" min="-2" pref="34" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jPanel4" min="-2" pref="66" max="-2" attributes="0"/>
+                  <Component id="jPanel4" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jPanel2" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="7" max="-2" attributes="0"/>
@@ -133,8 +133,8 @@
                   <StringArray count="4">
                     <StringItem index="0" value="Priority Scheduling"/>
                     <StringItem index="1" value="AG Scheduling"/>
-                    <StringItem index="2" value="Shortest- Job First(SJF)"/>
-                    <StringItem index="3" value="Shortest- Remaining Time First (SRTF)"/>
+                    <StringItem index="2" value="Shortest - Job First(SJF)"/>
+                    <StringItem index="3" value="Shortest - Remaining Time First (SRTF)"/>
                   </StringArray>
                 </Property>
               </Properties>
@@ -437,16 +437,20 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
+                  <Group type="102" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="jContextLabel" min="-2" pref="152" max="-2" attributes="0"/>
                           <Component id="jQuantumLabel" alignment="0" min="-2" pref="145" max="-2" attributes="0"/>
+                          <Component id="jAgeLabel" alignment="0" min="-2" pref="145" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace pref="66" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="jContextField" pref="189" max="32767" attributes="0"/>
-                          <Component id="jQuantumField" max="32767" attributes="0"/>
+                          <Component id="jAgeField" pref="189" max="32767" attributes="0"/>
+                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                              <Component id="jContextField" pref="189" max="32767" attributes="0"/>
+                              <Component id="jQuantumField" max="32767" attributes="0"/>
+                          </Group>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
@@ -466,6 +470,11 @@
                           <Component id="jQuantumField" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="32767" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="jAgeLabel" alignment="0" min="-2" pref="23" max="-2" attributes="0"/>
+                          <Component id="jAgeField" alignment="0" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -503,6 +512,23 @@
               </Properties>
               <Events>
                 <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jFieldKeyTyped"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JLabel" name="jAgeLabel">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Segoe UI" size="14" style="1"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Process Age"/>
+                <Property name="enabled" type="boolean" value="false"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JTextField" name="jAgeField">
+              <Properties>
+                <Property name="enabled" type="boolean" value="false"/>
+              </Properties>
+              <Events>
+                <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jAgeFieldjFieldKeyTyped"/>
               </Events>
             </Component>
           </SubComponents>

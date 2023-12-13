@@ -16,15 +16,12 @@ import cpu.cpu.scheduling.SchedulingType;
 import cpu.cpu.simulator.Utilities.Duration;
 import cpu.cpu.simulator.Utilities.Process;
 
-/**
- *
- * @author abdelrahman
- */
+
 public class SRTFScheduling extends Scheduling {
     private PriorityQueue<Process> shortestProcessPQ;
 
-    public SRTFScheduling(Vector<Process> ps, int contextSwitch, int quantum) {
-        super(ps, contextSwitch, quantum);
+    public SRTFScheduling(Vector<Process> ps, int contextSwitch, int quantum , int age) {
+        super(ps, contextSwitch, quantum , age);
         shortestProcessPQ = new PriorityQueue<>(Comparator.comparingInt(Process::getRemainingTime));
         this.schedulingType = SchedulingType.SHORTEST_REMAINING_TIME_FIRST_SCHEDULING;
     }
@@ -42,7 +39,7 @@ public class SRTFScheduling extends Scheduling {
 
                 if (!shortestProcessPQ.isEmpty()
                         && shortestProcessPQ.peek().getRemainingTime() < shortestProcess.getRemainingTime()
-                        && shortestProcess.getAge() < shortestProcess.getMaxAge()) {
+                        && shortestProcess.getAge() < processMaxAge ) {
 
                     shortestProcess.setAge(shortestProcess.getAge() + 1);
                     if (startTime < currentTime) {

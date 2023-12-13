@@ -25,7 +25,6 @@ public class Process {
     private int finishTime;
     private int turnAroundTime;
     private int age;
-    private int maxAge;
     private List<Duration> durations;
     private int remainingTime;
     private double AGFactor;
@@ -42,7 +41,6 @@ public class Process {
         this.durations = new LinkedList<>();
         this.turnAroundTime = 0;
         this.age = 0;
-        this.maxAge = 3;
         this.quantum = 0;
         this.remainingTime = 0;
         this.finishTime = 0;
@@ -60,7 +58,6 @@ public class Process {
         this.quantum = 0;
         this.durations = new LinkedList<>();
         this.age = 0;
-        this.maxAge = 3;
         this.turnAroundTime = 0;
         this.remainingTime = 0;
         this.AGFactor = 0;
@@ -79,7 +76,6 @@ public class Process {
         this.quantum = process.quantum;
         this.durations = process.durations;
         this.age = process.age;
-        this.maxAge = process.maxAge;
         this.turnAroundTime = process.turnAroundTime;
         this.remainingTime = process.remainingTime;
         this.AGFactor = process.AGFactor;
@@ -104,7 +100,6 @@ public class Process {
         this.turnAroundTime = 0;
         this.remainingTime = burstTime;
         this.age = 0;
-        this.maxAge = 3;
         this.quantum = 0;
         this.AGFactor = arrivalTime + burstTime;
         this.finishTime = 0;
@@ -127,13 +122,6 @@ public class Process {
         this.age = age;
     }
 
-    public int getMaxAge() {
-        return maxAge;
-    }
-
-    public void setMaxAge(int maxAge) {
-        this.maxAge = maxAge;
-    }
 
     public int getTurnAroundTime() {
         return turnAroundTime;

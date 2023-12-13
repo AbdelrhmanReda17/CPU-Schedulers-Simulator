@@ -35,8 +35,8 @@ public class CPUSchedulingSimulator extends javax.swing.JFrame {
         this.jSchedulingLabel.setText(SchedulingFactory.getSchedulingType(scheduling));
         this.jScrollPane2.setVisible(Objects.equals(scheduling.getSchedulingType(), SchedulingType.AG_SCHEDULING.name()));
         this.jTable2.setVisible(Objects.equals(scheduling.getSchedulingType(), SchedulingType.AG_SCHEDULING.name()));
-        this.jLabel1.setText(String.valueOf(CPUSchedulingSimulator.scheduling.getAverageTT()));
-        this.jLabel2.setText(String.valueOf(CPUSchedulingSimulator.scheduling.getAverageWT()));
+        this.jTurnLabel.setText(String.valueOf(CPUSchedulingSimulator.scheduling.getAverageTT()));
+        this.jWaitingLabel.setText(String.valueOf(CPUSchedulingSimulator.scheduling.getAverageWT()));
         GanttChart chart = new GanttChart();
         IntervalCategoryDataset dataset = getCategoryDataset();
         this.jTable1.setModel(new DefaultTableModel(
@@ -67,8 +67,8 @@ public class CPUSchedulingSimulator extends javax.swing.JFrame {
         chartPanel = new javax.swing.JPanel();
         dataPanel = new javax.swing.JPanel();
         jSchedulingLabel = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        jTurnLabel = new javax.swing.JLabel();
+        jWaitingLabel = new javax.swing.JLabel();
         jOverheadLabel = new javax.swing.JLabel();
         jTurnaroundLabel = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
@@ -91,15 +91,15 @@ public class CPUSchedulingSimulator extends javax.swing.JFrame {
         jSchedulingLabel.setText("CPU SCHEDULING TYPE");
         jSchedulingLabel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
-        jLabel1.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("30");
+        jTurnLabel.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
+        jTurnLabel.setForeground(new java.awt.Color(0, 0, 0));
+        jTurnLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jTurnLabel.setText("30");
 
-        jLabel2.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("40");
+        jWaitingLabel.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
+        jWaitingLabel.setForeground(new java.awt.Color(0, 0, 0));
+        jWaitingLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jWaitingLabel.setText("40");
 
         jOverheadLabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jOverheadLabel.setForeground(new java.awt.Color(0, 0, 0));
@@ -195,8 +195,8 @@ public class CPUSchedulingSimulator extends javax.swing.JFrame {
                                     .addComponent(jOverheadLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(dataPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(jWaitingLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jTurnLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addComponent(jSchedulingLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
@@ -210,10 +210,10 @@ public class CPUSchedulingSimulator extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(dataPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTurnaroundLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jTurnLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGroup(dataPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jOverheadLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jWaitingLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -246,9 +246,9 @@ public class CPUSchedulingSimulator extends javax.swing.JFrame {
     }// GEN-LAST:event_formWindowClosing
 
     public static void StartGUI(JFrame frame, String SchedulingName, Vector<Process> processes,
-            int ContextSwitchingTime, int QuantumTime) {
+            int ContextSwitchingTime, int QuantumTime , int ProcessAge) {
         main = frame;
-        scheduling = SchedulingFactory.createScheduling(SchedulingName, processes, ContextSwitchingTime, QuantumTime);
+        scheduling = SchedulingFactory.createScheduling(SchedulingName, processes, ContextSwitchingTime, QuantumTime , ProcessAge);
         // Call the Factor with the Scheduling Name
         java.awt.EventQueue.invokeLater(() -> {
             new CPUSchedulingSimulator().setVisible(true);
@@ -298,8 +298,6 @@ public class CPUSchedulingSimulator extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel chartPanel;
     private javax.swing.JPanel dataPanel;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jOverheadLabel;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel jSchedulingLabel;
@@ -307,7 +305,9 @@ public class CPUSchedulingSimulator extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
+    private javax.swing.JLabel jTurnLabel;
     private javax.swing.JLabel jTurnaroundLabel;
+    private javax.swing.JLabel jWaitingLabel;
     // End of variables declaration//GEN-END:variables
 
 }

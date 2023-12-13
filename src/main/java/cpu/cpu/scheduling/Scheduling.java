@@ -21,12 +21,14 @@ public abstract class Scheduling {
     protected int quantum = 0;
     protected int contextSwitching = 0;
     protected int currentTime;
+    protected int processMaxAge;
 
-    public Scheduling(Vector<Process> ps, int contextSwitch, int quantum) {
+    public Scheduling(Vector<Process> ps, int contextSwitch, int quantum , int age) {
         this.finishedProcesses = new LinkedList<>();
         this.processes = new LinkedList<>();
         this.quantum = quantum;
         this.currentTime = 0;
+        this.processMaxAge = age;
         this.processesColors = new Vector<>();
         this.quantumRows = new Object[0][];
         this.processesRows = new Object[ps.size()][];
@@ -51,8 +53,8 @@ public abstract class Scheduling {
                 .sorted(Comparator.comparingInt(Process::getArrivalTime))
                 .collect(Collectors.toList());
     }
-    private float averageTurnAroundTime;
-    private float averageWaitingTime;
+    private float averageTurnAroundTime = 0;
+    private float averageWaitingTime = 0;
     private final Vector<Color> processesColors;
     private final Object[][] processesRows;
     protected Object[][]  quantumRows;

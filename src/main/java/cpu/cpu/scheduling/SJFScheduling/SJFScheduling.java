@@ -16,8 +16,8 @@ import java.util.*;
  * @author abdelrahman
  */
 public class SJFScheduling extends Scheduling {
-    public SJFScheduling(Vector<Process> ps , int contextSwitch , int quantum){
-        super(ps , contextSwitch , quantum);
+    public SJFScheduling(Vector<Process> ps , int contextSwitch , int quantum , int age){
+        super(ps , contextSwitch , quantum ,age);
         this.schedulingType = SchedulingType.SHORTEST_JOB_FIRST_SCHEDULING;
     }
     @Override
@@ -28,12 +28,6 @@ public class SJFScheduling extends Scheduling {
         int processArrivalTimeSetSize = processArrivalTimeSet.size();
         PriorityQueue<Process> processQueue = new PriorityQueue<>(Comparator.comparing(Process::getBurstTime));
         Process currentlyRunningProcess = null;
-
-//        for (Process process : processArrivalTimeSet) {
-//            process.setBurstTime(process.getBurstTime() + contextSwitching);
-//            process.setRemainingTime(process.getRemainingTime() + contextSwitching);
-//
-//        }
 
         while (finishedProcesses.size() != processArrivalTimeSetSize) {
             boolean isFinished = false;

@@ -18,8 +18,8 @@ public class PriorityScheduling extends Scheduling {
     final int  agingThreshold = 8;
     private PriorityQueue<Process> queue;
 
-    public PriorityScheduling(Vector<Process> ps, int contextSwitch, int quantum) {
-        super(ps, contextSwitch, quantum);
+    public PriorityScheduling(Vector<Process> ps, int contextSwitch, int quantum , int age) {
+        super(ps, contextSwitch, quantum ,age);
         queue = new PriorityQueue<>(Comparator.comparingInt(Process::getPriorityNumber));
         this.schedulingType = SchedulingType.PRIORITY_SCHEDULING;
 
