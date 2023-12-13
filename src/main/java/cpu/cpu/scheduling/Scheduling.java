@@ -65,7 +65,7 @@ public abstract class Scheduling {
             p.calculateTurnAroundTime(contextSwitching);
             p.calculateWaitingTime();
             p.reCalculateDurations();
-            Object[] row = {p.getName(), p.getPid(), p.getArrivalTime() , p.getFinishTime()};
+            Object[] row = {p.getName(), p.getPid(), p.getArrivalTime() , p.getFinishTime() , p.getTurnAroundTime() , p.getWaitingTime()};
             processesRows[i] = row;
             totalTurnAroundTime += p.getTurnAroundTime();
             totalWaitingTime += p.getWaitingTime();

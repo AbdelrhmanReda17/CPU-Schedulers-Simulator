@@ -253,8 +253,7 @@ public class Process {
 
     public void calculateTurnAroundTime(int contextSwitch) {
         this.turnAroundTime = this.finishTime - this.arrivalTime + contextSwitch;
-        System.out.println(contextSwitch);
-    } // 5
+    }
 
     public void calculateWaitingTime() {
         this.waitingTime = this.turnAroundTime - this.burstTime;

@@ -42,7 +42,7 @@ public class CPUSchedulingSimulator extends javax.swing.JFrame {
         this.jTable1.setModel(new DefaultTableModel(
                 CPUSchedulingSimulator.scheduling.getProcessesRows(),
                 new String [] {
-                        "Process", "PID", "Arrival Time", "Finish TIme"
+                        "Process", "PID", "ArrivalT", "FinishT" , "TurnaroundT" , "WaitingT"
                 }
         ));
         this.jTable1.setShowGrid(true);
@@ -114,7 +114,7 @@ public class CPUSchedulingSimulator extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Process", "Current Time", "Arrival Time", "Finish TIme"
+                "Process", "Current Time", "Quantum Before", "Quantum After"
             }
         ) {
             Class[] types = new Class [] {
@@ -133,15 +133,22 @@ public class CPUSchedulingSimulator extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Process", "PID", "Arrival Time", "Finish TIme"
+                "Process", "PID", "Arrival", "Finish", "TurnaroundT", "Waiting"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
+                java.lang.String.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
             }
         });
         jTable1.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
@@ -156,8 +163,10 @@ public class CPUSchedulingSimulator extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 420, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 475, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane2))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(

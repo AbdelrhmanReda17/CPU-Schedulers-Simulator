@@ -18,7 +18,7 @@ public class Main extends javax.swing.JFrame {
     Color selectedColor;
     public Main() {
         initComponents();
-        this.setResizable(false);
+        this.setResizable(false); 
         this.setLocationRelativeTo(null);
         processes = new Vector<>();
         
@@ -29,7 +29,7 @@ public class Main extends javax.swing.JFrame {
         Process p4 = new Process(4,"P4", Color.ORANGE, 4, 7, 8);
         Process p5 = new Process(5,"P5", Color.BLACK, 23, 7, 8);
         Process p6 = new Process(6,"P6", Color.WHITE, 19, 10, 8);
-        Process p7= new Process(7,"P7", Color.CYAN, 0, 9, 8);
+        Process p7= new Process(7,"P7", Color.CYAN, 0, 15, 8);
         Process p8 = new Process(8,"P8", Color.GRAY, 4, 10, 8);
         Process p9 = new Process(9,"P9", Color.MAGENTA, 25, 10, 8);
         //12 => 5
