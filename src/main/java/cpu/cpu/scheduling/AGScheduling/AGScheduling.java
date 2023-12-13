@@ -19,7 +19,7 @@ public class AGScheduling extends Scheduling {
     List<Process> readyQueue;
     PriorityQueue<Process> processesQueue;
     List<Process> AllProcesses;
-    private int quatnumCounter = 0;
+    private int quantumCounter = 0;
     private final int numberOfProcesses;
     public AGScheduling(Vector<Process> processes, int contextSwitch, int quantum) {
         super(processes, contextSwitch, quantum);
@@ -146,7 +146,7 @@ public class AGScheduling extends Scheduling {
     private void addQuantum(Process p , Double Quantum){
         quantumRows = Arrays.copyOf(quantumRows, quantumRows.length + 1);
         Object[] row = {p.getName(), currentTime, p.getQuantum() , Quantum};
-        quantumRows[quatnumCounter++] = row;
+        quantumRows[quantumCounter++] = row;
     }
     private void processFinished(Process currentProcess) {
         currentProcess.setFinishTime(currentTime);
