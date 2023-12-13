@@ -62,7 +62,7 @@ public abstract class Scheduling {
         int totalWaitingTime = 0;
         for (int i = 0; i < finishedProcesses.size(); i++) {
             Process p = finishedProcesses.get(i);
-            p.calculateTurnAroundTime();
+            p.calculateTurnAroundTime(contextSwitching);
             p.calculateWaitingTime();
             p.reCalculateDurations();
             Object[] row = {p.getName(), p.getPid(), p.getArrivalTime() , p.getFinishTime()};

@@ -28,7 +28,15 @@ public class SJFScheduling extends Scheduling {
         int processArrivalTimeSetSize = processArrivalTimeSet.size();
         PriorityQueue<Process> processQueue = new PriorityQueue<>(Comparator.comparing(Process::getBurstTime));
         Process currentlyRunningProcess = null;
+
+//        for (Process process : processArrivalTimeSet) {
+//            process.setBurstTime(process.getBurstTime() + contextSwitching);
+//            process.setRemainingTime(process.getRemainingTime() + contextSwitching);
+//
+//        }
+
         while (finishedProcesses.size() != processArrivalTimeSetSize) {
+            boolean isFinished = false;
             Iterator<Process> iterator = processArrivalTimeSet.iterator();
             while(iterator.hasNext()) {
                 //search if there are processes arrived every unit time.
@@ -39,44 +47,31 @@ public class SJFScheduling extends Scheduling {
                     iterator.remove();
                 }
             }
-            if (!processQueue.isEmpty() || finishedProcesses.size() == processArrivalTimeSetSize - 1) {
-                if (currentlyRunningProcess == null ) {
-                    //first process has started executing.
 
-                    startTime = currentTime;
-                    currentlyRunningProcess = processQueue.peek();
-                    processQueue.poll();
-                }
-                assert currentlyRunningProcess != null;
+            if (!processQueue.isEmpty() && currentlyRunningProcess == null) {
+                currentlyRunningProcess = processQueue.poll();
+                startTime = currentTime;
+            }
+            else if (currentlyRunningProcess != null) {
                 currentlyRunningProcess.setRemainingTime(currentlyRunningProcess.getRemainingTime() - 1);
-                currentTime++;
-
                 if (currentlyRunningProcess.getRemainingTime() == 0) {
                     //a process has finished executing.
-
-                    calculateFinishedProcessTiming(currentlyRunningProcess,processArrivalTimeSetSize,startTime);
-
-                    //set the next Process start Time.
-
-                    startTime = currentTime;
-
-                    //pull the next Process to execute.
-
-                    currentlyRunningProcess = processQueue.peek();
-                    processQueue.poll();
+                    isFinished = true;
+                    calculateFinishedProcessTiming(currentlyRunningProcess,startTime);
+                    currentlyRunningProcess = null;
+                    currentTime += contextSwitching;
                 }
-            } else {
+            }
+            if (!isFinished) {
                 currentTime++;
             }
         }
     }
 
-    private void calculateFinishedProcessTiming(Process currentlyRunningProcess,int processArrivalTimeSetSize,int startTime) {
-        if (finishedProcesses.size() != processArrivalTimeSetSize - 1) {
-            currentTime += contextSwitching;
-        }
+    private void calculateFinishedProcessTiming(Process currentlyRunningProcess,int startTime) {
         currentlyRunningProcess.setFinishTime(currentTime);
         int endTime = currentTime;
+
         finishedProcesses.add(currentlyRunningProcess);
         Duration processDuration = new Duration(startTime,endTime);
         currentlyRunningProcess.addDuration(processDuration);
