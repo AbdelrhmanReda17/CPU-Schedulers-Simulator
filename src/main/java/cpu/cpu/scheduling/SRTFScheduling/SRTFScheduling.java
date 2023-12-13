@@ -45,8 +45,10 @@ public class SRTFScheduling extends Scheduling {
                         && shortestProcess.getAge() < shortestProcess.getMaxAge()) {
 
                     shortestProcess.setAge(shortestProcess.getAge() + 1);
-                    saveDuration(shortestProcess, startTime, currentTime);
-                    startTime = currentTime;
+                    if (startTime < currentTime) {
+                        saveDuration(shortestProcess, startTime, currentTime);
+                        startTime = currentTime;
+                    }
                     shortestProcessPQ.add(shortestProcess);
                     shortestProcess = shortestProcessPQ.poll();
                 }
