@@ -8,10 +8,8 @@ import cpu.cpu.simulator.Utilities.Process;
 import java.awt.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.*;
 import java.util.List;
-import java.util.Objects;
-import java.util.Vector;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTable;
@@ -250,8 +248,8 @@ public class CPUSchedulingSimulator extends javax.swing.JFrame {
 
     private IntervalCategoryDataset getCategoryDataset() {
         List<Process> processes = scheduling.getFinishedProcesses();
+        processes.sort(Comparator.comparingInt(Process::getFinishTime));
         TaskSeriesCollection dataset = new TaskSeriesCollection();
-
         // Format for the fixed time
         SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
         Date fixedTime;

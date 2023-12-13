@@ -523,6 +523,12 @@ public class Main extends javax.swing.JFrame {
             for (int i = 0; i < model.getColumnCount(); i++) {
                 this.jProcessTable.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
             }
+            this.jArrivalField.setText("");
+            this.jBurstField.setText("");
+            this.jNameField.setText("");
+            this.jPriorityField.setText("");
+            this.jShowColorLabel.setBackground(null);
+            selectedColor = null;
         }
     }//GEN-LAST:event_jAddProcessButtonActionPerformed
 
@@ -552,7 +558,8 @@ public class Main extends javax.swing.JFrame {
         CPUSchedulingSimulator.StartGUI( this ,(String) jSchedulingChooser.getSelectedItem() , processes ,
                 isContextSwitching ? Integer.parseInt(this.jContextField.getText()) : 0 ,
                 isQuantum ? Integer.parseInt(this.jQuantumField.getText()) : 0  );
-        
+        this.jQuantumField.setText("");
+        this.jContextField.setText("");
     }
     private void jDeleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jDeleteButtonActionPerformed
         int  selectedRow = this.jProcessTable.getSelectedRow();
