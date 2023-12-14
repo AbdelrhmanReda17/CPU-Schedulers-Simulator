@@ -257,7 +257,6 @@ public class CPUSchedulingSimulator extends javax.swing.JFrame {
 
     private IntervalCategoryDataset getCategoryDataset() {
         List<Process> processes = scheduling.getFinishedProcesses();
-        processes.sort(Comparator.comparingInt(Process::getFinishTime));
         TaskSeriesCollection dataset = new TaskSeriesCollection();
         // Format for the fixed time
         SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");

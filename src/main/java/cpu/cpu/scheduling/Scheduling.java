@@ -4,6 +4,7 @@
  */
 package cpu.cpu.scheduling;
 
+import cpu.cpu.simulator.Utilities.Duration;
 import cpu.cpu.simulator.Utilities.Process;
 import java.awt.Color;
 
@@ -49,9 +50,7 @@ public abstract class Scheduling {
     }
 
     public List<Process> getFinishedProcesses() {
-        return finishedProcesses.stream()
-                .sorted(Comparator.comparingInt(Process::getArrivalTime))
-                .collect(Collectors.toList());
+        return finishedProcesses;
     }
     private float averageTurnAroundTime = 0;
     private float averageWaitingTime = 0;
@@ -62,6 +61,13 @@ public abstract class Scheduling {
         execute();
         int totalTurnAroundTime = 0;
         int totalWaitingTime = 0;
+        finishedProcesses.sort(
+                Comparator.comparingInt(
+                        (Process p) -> p.getDurations().stream().mapToInt(Duration::getStartTime).min().orElse(0)
+                ).thenComparing(
+                        Process::getArrivalTime
+                )
+        );
         for (int i = 0; i < finishedProcesses.size(); i++) {
             Process p = finishedProcesses.get(i);
             p.calculateTurnAroundTime(contextSwitching);

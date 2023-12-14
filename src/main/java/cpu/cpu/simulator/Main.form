@@ -447,10 +447,8 @@
                       <EmptySpace pref="66" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Component id="jAgeField" pref="189" max="32767" attributes="0"/>
-                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                              <Component id="jContextField" pref="189" max="32767" attributes="0"/>
-                              <Component id="jQuantumField" max="32767" attributes="0"/>
-                          </Group>
+                          <Component id="jContextField" pref="189" max="32767" attributes="0"/>
+                          <Component id="jQuantumField" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
@@ -528,7 +526,7 @@
                 <Property name="enabled" type="boolean" value="false"/>
               </Properties>
               <Events>
-                <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jAgeFieldjFieldKeyTyped"/>
+                <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jFieldKeyTyped"/>
               </Events>
             </Component>
           </SubComponents>
@@ -584,11 +582,12 @@
                   <Font name="Segoe UI" size="12" style="1"/>
                 </Property>
                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                  <Table columnCount="4" rowCount="0">
-                    <Column editable="true" title="Process Name" type="java.lang.Integer"/>
+                  <Table columnCount="5" rowCount="0">
+                    <Column editable="false" title="Process Name" type="java.lang.String"/>
                     <Column editable="true" title="Arrival Time" type="java.lang.Integer"/>
                     <Column editable="true" title="Brust Time" type="java.lang.Integer"/>
                     <Column editable="true" title="Priority Number" type="java.lang.Integer"/>
+                    <Column editable="true" title="AG Factor" type="java.lang.Double"/>
                   </Table>
                 </Property>
                 <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">

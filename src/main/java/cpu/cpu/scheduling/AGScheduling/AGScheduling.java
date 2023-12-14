@@ -37,15 +37,6 @@ public class AGScheduling extends Scheduling {
             AllProcesses.add(newProcess);
         }
     }
-    private Process getSmallestArrival() {
-        Process smallestArrival = processesQueue.peek();
-        for (Process process : processesQueue) {
-            if (process.getArrivalTime() < smallestArrival.getArrivalTime()) {
-                smallestArrival = process;
-            }
-        }
-        return smallestArrival;
-    }
     private double getMean(List<Process> processes) {
         double sum = 0;
         for (Process process : processes) {
@@ -53,8 +44,7 @@ public class AGScheduling extends Scheduling {
         }
         return (sum / processes.size()) * 0.1;
     }
-    private boolean checkSmallestAG(Process currentProcess, boolean isAG) {
-        if (isAG) {
+    private boolean checkSmallestAG(Process currentProcess) {
             if (readyQueue.isEmpty()) {
                 return true;
             }
@@ -64,17 +54,6 @@ public class AGScheduling extends Scheduling {
                 }
             }
             return true;
-        }else{
-            if (readyQueue.isEmpty()) {
-                return true;
-            }
-            for (Process process : readyQueue) {
-                if (process.getArrivalTime() < currentProcess.getArrivalTime()) {
-                    return false;
-                }
-            }
-            return true;
-        }
     }
     private Process getSmallestAG() {
         Process smallestAG = readyQueue.get(0);
@@ -108,12 +87,11 @@ public class AGScheduling extends Scheduling {
         }
     }
     private void runPreemptive(Process currentProcess) {
-        Process old = currentProcess;
         double quantum = Math.ceil((currentProcess.getQuantum() / 2));
         int ct = this.currentTime;
-        while (currentTime < ct + Math.floor(old.getQuantum() / 2) && old.getRemainingTime() > 0) {
+        while (currentTime < ct + Math.floor(currentProcess.getQuantum() / 2) && currentProcess.getRemainingTime() > 0) {
             remakeProcessesQueue();
-                if (readyQueue.isEmpty() || checkSmallestAG(currentProcess, true)) {
+            if (readyQueue.isEmpty() || checkSmallestAG(currentProcess)) {
                     currentTime += 1;
                     if (currentProcess.getRemainingTime() == 1) {
                         processFinished(currentProcess);
@@ -122,28 +100,21 @@ public class AGScheduling extends Scheduling {
                     currentProcess.setRemainingTime(currentProcess.getRemainingTime() - 1);
                     currentProcess.addDuration(new Duration(currentTime - 1, currentTime));
                     quantum++;
-                } else {
+            } else {
                     readyQueue.add(currentProcess);
-                    currentProcess = getSmallestAG();
                     break;
-                }
+            }
         }
-        if (quantum == (Math.ceil(old.getQuantum()))) {
-            getMean(processes);
-            addQuantum(old , getMean(processes) + old.getQuantum() );
-            old.setQuantum((int) Math.ceil(getMean(processes) + old.getQuantum()));
-            processes.get(old.getPid()).setQuantum(old.getQuantum());
-            readyQueue.add(old);
+        if (quantum == (Math.ceil(currentProcess.getQuantum()))) {
+            addQuantum(currentProcess, getMean(processes) + currentProcess.getQuantum() );
+            currentProcess.setQuantum((int) Math.ceil(getMean(processes) + currentProcess.getQuantum()));
+            processes.get(currentProcess.getPid()).setQuantum(currentProcess.getQuantum()); // update quantum in process to use it in mean
+            readyQueue.add(currentProcess);
             isProcessFinished = true;
-            return;
         } else {
-            old.setQuantum(old.getQuantum() + (old.getQuantum() - (int) Math.ceil(quantum)));
-            addQuantum(old , old.getQuantum() + (old.getQuantum() - (int) Math.ceil(quantum)) );
-            processes.get(old.getPid()).setQuantum(old.getQuantum());
-            readyQueue.remove(currentProcess);
-        }
-        if (!runNonPreemptive(currentProcess)) {
-            runPreemptive(currentProcess);
+            addQuantum(currentProcess, currentProcess.getQuantum() + (currentProcess.getQuantum() - (int) Math.ceil(quantum)) );
+            currentProcess.setQuantum(currentProcess.getQuantum() + (currentProcess.getQuantum() - (int) Math.ceil(quantum)));
+            processes.get(currentProcess.getPid()).setQuantum(currentProcess.getQuantum()); // update quantum in process to use it in mean
         }
     }
     private void addQuantum(Process p , Double Quantum){

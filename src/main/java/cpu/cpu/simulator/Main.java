@@ -6,6 +6,8 @@ import java.util.Vector;
 import javax.swing.JColorChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
@@ -22,48 +24,101 @@ public class Main extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         processes = new Vector<>();
 
-        Process p1 = new Process(0,"P1", Color.RED, 0   , 17,4);
-        Process p2 = new Process(1,"P2", Color.BLUE, 3, 6, 9);
-        Process p3 = new Process(2,"P3", Color.GREEN, 4, 10,2);
-        Process p4 = new Process(3,"P4", Color.YELLOW, 29,4, 8);
-        p1.setAGFactor(20);
-        p2.setAGFactor(17);
-        p3.setAGFactor(16);
-        p4.setAGFactor(43);
+//        Process p1 = new Process(0,"P1", Color.RED, 0   , 17,4);
+//        Process p2 = new Process(1,"P2", Color.BLUE, 3, 6, 9);
+//        Process p3 = new Process(2,"P3", Color.GREEN, 4, 10,2);
+//        Process p4 = new Process(3,"P4", Color.YELLOW, 29,4, 8);
+//        p1.setAGFactor(20);
+//        p2.setAGFactor(17);
+//        p3.setAGFactor(16);
+//        p4.setAGFactor(43);
 
-//        Process p0 = new Process(0,"P0", Color.RED, 0, 8, 49);
-//        Process p1 = new Process(1,"P1", Color.BLUE, 17, 5, 24);
-//        Process p2 = new Process(2,"P2", Color.GREEN, 22, 8,32);
-//        Process p3 = new Process(3,"P3", Color.YELLOW, 7, 6, 5);
-//        Process p4 = new Process(4,"P4", Color.ORANGE, 10, 9, 72);
-//        Process p5 = new Process(5,"P5", Color.BLACK, 25, 9, 87);
-//        Process p6 = new Process(6,"P6", Color.WHITE, 10, 7, 126);
-//        Process p7= new Process(7,"P7", Color.CYAN, 26, 7, 42);
-//        Process p8 = new Process(8,"P8", Color.GRAY, 3, 10, 71);
-//        Process p9 = new Process(9,"P9", Color.MAGENTA, 3, 10, 24);
-//
-//        p0.setAGFactor(p0.getBurstTime() + p0.getArrivalTime() + 10 ); // 38
-//        p1.setAGFactor(p1.getBurstTime() + p1.getArrivalTime() + 10 ); // 37
-//        p2.setAGFactor(p2.getBurstTime() + p2.getArrivalTime() + 10 ); // 36
-//        p3.setAGFactor(p3.getBurstTime() + p3.getArrivalTime() + 10 ); // 25
-//        p4.setAGFactor(p4.getBurstTime() + p4.getArrivalTime() + 10 ); // 21
-//        p5.setAGFactor(p5.getBurstTime() + p5.getArrivalTime() + 10 ); // 40
-//        p6.setAGFactor(p6.getBurstTime() + p6.getArrivalTime() + 10 ); // 39
-//        p7.setAGFactor(p7.getBurstTime() + p7.getArrivalTime() + 10 ); // 19
-//        p8.setAGFactor(p8.getBurstTime() + p8.getArrivalTime() + 10 ); // 24
-//        p9.setAGFactor(p9.getBurstTime() + p9.getArrivalTime() + 10 ); // 45
+        Process p0 = new Process(0,"P0", Color.RED, 0, 8, 49);
+        Process p1 = new Process(1,"P1", Color.BLUE, 17, 5, 24);
+        Process p2 = new Process(2,"P2", Color.GREEN, 22, 8,32);
+        Process p3 = new Process(3,"P3", Color.YELLOW, 7, 6, 5);
+        Process p4 = new Process(4,"P4", Color.ORANGE, 10, 9, 72);
+        Process p5 = new Process(5,"P5", Color.BLACK, 25, 9, 87);
+        Process p6 = new Process(6,"P6", Color.WHITE, 10, 7, 126);
+        Process p7= new Process(7,"P7", Color.CYAN, 26, 7, 42);
+        Process p8 = new Process(8,"P8", Color.GRAY, 3, 10, 71);
+        Process p9 = new Process(9,"P9", Color.MAGENTA, 3, 10, 24);
 
+        p0.setAGFactor(p0.getBurstTime() + p0.getArrivalTime() + 10 ); // 38
+        p1.setAGFactor(p1.getBurstTime() + p1.getArrivalTime() + 10 ); // 37
+        p2.setAGFactor(p2.getBurstTime() + p2.getArrivalTime() + 10 ); // 36
+        p3.setAGFactor(p3.getBurstTime() + p3.getArrivalTime() + 10 ); // 25
+        p4.setAGFactor(p4.getBurstTime() + p4.getArrivalTime() + 10 ); // 21
+        p5.setAGFactor(p5.getBurstTime() + p5.getArrivalTime() + 10 ); // 40
+        p6.setAGFactor(p6.getBurstTime() + p6.getArrivalTime() + 10 ); // 39
+        p7.setAGFactor(p7.getBurstTime() + p7.getArrivalTime() + 10 ); // 19
+        p8.setAGFactor(p8.getBurstTime() + p8.getArrivalTime() + 10 ); // 24
+        p9.setAGFactor(p9.getBurstTime() + p9.getArrivalTime() + 10 ); // 45
         processes.add(p1);
         processes.add(p2);
         processes.add(p3);
         processes.add(p4);
-//        processes.add(p5);
-//        processes.add(p6);
-//        processes.add(p7);
-//        processes.add(p8);
-//        processes.add(p9);
-//        processes.add(p0);
+        processes.add(p5);
+        processes.add(p6);
+        processes.add(p7);
+        processes.add(p8);
+        processes.add(p9);
+        processes.add(p0);
+
+        Object[][] rows = new Object[processes.size()][5];
+        for (int i = 0; i < processes.size(); i++) {
+            Process p = processes.get(i);
+            rows[i][0] = p.getName();
+            rows[i][1] = p.getArrivalTime();
+            rows[i][2] = p.getBurstTime();
+            rows[i][3] = p.getPriorityNumber();
+            rows[i][4] = p.getAGFactor();
+        }
+        DefaultTableModel model = (DefaultTableModel) this.jProcessTable.getModel();
+        model.setDataVector(rows, new Object[]{"Process Name", "Arrival Time", "Brust Time", "Priority Number", "AG Factor"});
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+        for (int i = 0; i < model.getColumnCount(); i++) {
+            this.jProcessTable.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+        }
+
+        this.jProcessTable.getModel().addTableModelListener(new TableModelListener() {
+            @Override
+            public void tableChanged(TableModelEvent e) {
+                if (e.getType() == TableModelEvent.UPDATE) {
+                    int row = e.getFirstRow();
+                    int column = e.getColumn();
+                    this.tableChanged(row , column);
+                }
+            }
+
+            private void tableChanged(int row, int column) {
+                if(jProcessTable.getModel().getValueAt(row, column).equals("")) return;
+                switch (column) {
+                    case 0:
+                        processes.get(row).setName((String) jProcessTable.getModel().getValueAt(row, column));
+                        break;
+                    case 1:
+                        processes.get(row).setArrivalTime(Integer.parseInt(jProcessTable.getModel().getValueAt(row, column).toString()));
+                        break;
+                    case 2:
+                        processes.get(row).setBurstTime(Integer.parseInt(jProcessTable.getModel().getValueAt(row, column).toString()));
+                        processes.get(row).setRemainingTime(Integer.parseInt(jProcessTable.getModel().getValueAt(row, column).toString()));
+                        break;
+                    case 3:
+                        processes.get(row).setPriorityNumber(Integer.parseInt( jProcessTable.getModel().getValueAt(row, column).toString()));
+                        break;
+                    case 4:
+                        processes.get(row).setAGFactor(Double.parseDouble( jProcessTable.getModel().getValueAt(row, column).toString()));
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
+
     }
+   
     public Process getProcess(Process newProcess) {
         for(Process p : processes) {
                 if (p.getColor().equals(newProcess.getColor()) || p.getName().equals(newProcess.getName())) {
@@ -375,7 +430,7 @@ public class Main extends javax.swing.JFrame {
         jAgeField.setEnabled(false);
         jAgeField.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                jAgeFieldjFieldKeyTyped(evt);
+                jFieldKeyTyped(evt);
             }
         });
 
@@ -392,9 +447,8 @@ public class Main extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 66, Short.MAX_VALUE)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jAgeField, javax.swing.GroupLayout.DEFAULT_SIZE, 189, Short.MAX_VALUE)
-                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jContextField, javax.swing.GroupLayout.DEFAULT_SIZE, 189, Short.MAX_VALUE)
-                        .addComponent(jQuantumField)))
+                    .addComponent(jContextField, javax.swing.GroupLayout.DEFAULT_SIZE, 189, Short.MAX_VALUE)
+                    .addComponent(jQuantumField))
                 .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
@@ -454,15 +508,22 @@ public class Main extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Process Name", "Arrival Time", "Brust Time", "Priority Number"
+                "Process Name", "Arrival Time", "Brust Time", "Priority Number", "AG Factor"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class
+                java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Double.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, true, true, true, true
             };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
             }
         });
         jProcessPane.setViewportView(jProcessTable);
@@ -544,7 +605,7 @@ public class Main extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(rootPane, "Cannot add process with the same Color/Name!", "ERROR", JOptionPane.ERROR_MESSAGE);
                 return;
             }
-            Object[] row = {p.getName(), p.getArrivalTime(), p.getBurstTime(), p.getPriorityNumber()};
+            Object[] row = {p.getName(), p.getArrivalTime(), p.getBurstTime(), p.getPriorityNumber() , p.getAGFactor()};
             DefaultTableModel model = (DefaultTableModel) this.jProcessTable.getModel();
             model.addRow(row);
             DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
@@ -618,7 +679,7 @@ public class Main extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(this, message);
         ((DefaultTableModel) this.jProcessTable.getModel()).removeRow(selectedRow);
     }
-    
+
     
     private void jSchedulingChooserItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jSchedulingChooserItemStateChanged
         if (evt.getStateChange() == ItemEvent.SELECTED) {
@@ -659,10 +720,6 @@ public class Main extends javax.swing.JFrame {
     private void jSchedulingChooserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jSchedulingChooserActionPerformed
         
     }//GEN-LAST:event_jSchedulingChooserActionPerformed
-
-    private void jAgeFieldjFieldKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jAgeFieldjFieldKeyTyped
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jAgeFieldjFieldKeyTyped
 
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(() -> {
